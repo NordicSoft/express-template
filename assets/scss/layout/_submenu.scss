@@ -1,0 +1,57 @@
+/*
+/* Submenu
+/*************************************************************/
+
+#submenu {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: rgba(250, 250, 250, 0.96);
+    margin-top: 50px;
+
+    html.app & {
+        padding: 0;
+        position: fixed;
+        left: 0;
+        right: 0;
+        z-index: 1029;
+    }
+
+    @media (max-width: 379px) {
+        h1 small {
+            display: none;
+        }
+    }
+
+    .nav {
+        padding-bottom: 12px;
+        
+        > li {
+            margin-right: 3px;
+            position: relative;
+
+            > a {                
+                font-family: 'Roboto Condensed', sans-serif;
+                padding: 8px;
+                color: #333;
+                line-height: 1.1rem;
+                border-radius: 4px;
+            }
+        }
+    }
+
+    .nav-pills {
+
+        .nav-item {
+            .nav-link.active,
+            .nav-link.active:hover,
+            .nav-link.active:focus {
+                color: #fff;
+                background-color: #444;
+            }
+        
+            &:hover {
+                background: #eee;
+                border-radius: 4px;
+            }
+        }
+    }
+}

@@ -1,0 +1,37 @@
+/*
+/* Goals
+/*************************************************************/
+
+.goals {
+    margin-right: -10px;
+}
+
+    .goals .goal,
+    .goals .add-goal {
+        width: 180px;
+        margin: 0 10px 10px 0;
+        float: left;
+        text-align: center;
+    }
+
+    .goals .add-goal {
+        height: 232px;
+    }
+
+        .goals .goal i,
+        .goals .add-goal i {
+            display: block;
+            color: #3cb371;
+            font-size: 100px;
+            margin: 0 auto;
+            padding: 6px 0 0;
+        }
+
+        .goals .add-goal i {
+            padding: 65px 0;
+            color: #ddd;
+        }
+
+    .goals .goal .title {
+    }
+

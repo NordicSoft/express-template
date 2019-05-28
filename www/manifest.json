@@ -1,0 +1,22 @@
+{
+  "short_name": "Express",
+  "name": "Express Template",
+  "icons": [
+    {
+      "src": "/android-chrome-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/android-chrome-256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    }
+  ],
+  "start_url": "/signin",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "theme_color": "#ffffff"
+}

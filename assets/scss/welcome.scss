@@ -1,0 +1,38 @@
+﻿/*
+/* Vendor
+/*************************************************************/
+@import "node_modules/bootstrap/scss/bootstrap";
+@import "vendor/font-awesome";
+
+/*
+/* Base Styles
+/*************************************************************/
+@import "utils/variables";
+@import "utils/mixins";
+@import "utils/utilites";
+@import "base/general";
+@import "base/animations";
+@import "base/bootstrap";
+
+/*
+/* Layout
+/*************************************************************/
+@import "layout/wrapper";
+@import "layout/header";
+@import "layout/submenu";
+@import "layout/sidebar";
+@import "layout/footer";
+@import "layout/welcome";
+
+/*
+/* Components
+/*************************************************************/
+@import "components/loader";
+@import "components/signin";
+@import "components/register";
+
+/*
+/* Pages
+/*************************************************************/
+@import "pages/welcome/homepage";
+@import "pages/welcome/policies";

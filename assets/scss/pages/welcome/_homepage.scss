@@ -1,0 +1,38 @@
+/*
+/* 5.1. Welcome page
+/*************************************************************/
+
+.homepage {
+
+    @media (max-width: 379px) {
+        h1 small {
+            display: block !important;
+            padding-top: 10px;
+        }
+    }
+
+    .welcome {
+        .try-buton-wrap {
+            margin: 20px 0;
+        }
+
+        .try-buton-wrap a {
+            padding: 10px 30px;
+            font-size: 18px;
+        }
+
+        .social-links {
+            text-align: center;
+        }
+
+        .social-links a {
+            font-size: 40px;
+            margin: 0 10px;
+        }
+
+        .fb-like-wrap {
+            margin: 40px auto 10px;
+            width: 320px;	
+        }
+    }
+}

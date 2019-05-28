@@ -1,0 +1,44 @@
+﻿/*
+/* Variables
+/*************************************************************/
+
+$debug: false;
+
+$img-path: "https://xxx.cloudfront.net";
+
+@if ($debug==true) {
+    $img-path: "/img"
+}
+
+$popper-z-index: 100000;
+$overlay-z-index: 100001;
+
+$popper-width: 280px;
+$popper-arrow-size: 10px;
+$popper-border-color: $gray-400;
+$popper-background: #fff;
+$popper-header-background: $gray-100;
+$popper-footer-background: $gray-100;
+$popper-border-radius: 5px;
+
+// xxs
+$xxs-max:  399px;
+
+// xs
+$xs-min:  400px;
+$xs-max:  575px;
+
+// sm
+$sm-min:  576px;
+$sm-max:  767px;
+
+// md
+$md-min:  768px;
+$md-max:  991px;
+
+// lg
+$lg-min:  992px;
+$lg-max:  1199px;
+
+// xl
+$xl-min:  1200px;

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Express Template</title>
+    <meta name="description" content="Express Template" />
+    <meta name="keywords" content="express template" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <style type="text/css">
+        
+        html, body {
+            height: 100%;
+        }
+        
+        body {
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        main {
+            flex: 1 0 auto;
+        }
+        
+        header {
+            padding: 60px 0 65px;
+            height: 0;
+            position: relative;
+            background: #fff;
+        }
+        
+        header nav {
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.13);
+            background: #fff !important;
+            border: none;
+        }
+
+        header nav .container {
+            text-align: center;
+        }
+
+        header nav .navbar-brand {
+            margin: 0 auto;
+            float: none;
+            font-size: 25px;
+            line-height: 50px;
+            color: #000;
+        }
+                
+        #content {
+            min-height: 200px;
+        }
+        
+        footer {
+            background-color: rgba(250, 250, 250, 0.96);
+            box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+            padding: 10px 0 10px;
+            line-height: 12px;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        
+        footer .copyright {
+            float: left;
+            width: 50%;
+            color: #888;
+        }
+        
+        footer .contacts {
+            float: right;
+            width: 50%;
+            text-align: right;
+        }
+        
+        footer a:hover {
+            text-decoration: none;
+        }
+        
+        .welcome .social-links {
+            text-align: center;
+        }
+        
+        .welcome .social-links a {
+            font-size: 40px;
+            margin: 0 10px;
+        }
+        
+        .welcome .fb-like-wrap {
+            margin: 40px auto 10px;
+            width: 320px;
+        }
+        
+        .maintenance-logo {
+            font-size: 200px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+    <header>
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <div class="container">
+                <a class="navbar-brand" href="/">Express Template</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <div id="content" class="content">
+                <div class="welcome text-center">
+                    <div class="maintenance-logo"><i class="fa fa-wrench"></i></div>
+                    <p><strong>Express Template</strong> is under maintenance.</p>
+                    <p>Follow us to know latest news:</p>
+                    <div class="social-links">
+                        <a target="_blank" title="Facebook" href="https://www.facebook.com/NordicSoft.net/"><i class="fa fa-facebook"></i></a>
+                        <a target="_blank" title="Twitter" href="https://twitter.com/NordicSoft_net"><i class="fa fa-twitter"></i></a>
+                    </div>
+                    <div class="fb-like-wrap">
+                        <div class="fb-like" data-share="true" data-width="450" data-show-faces="true"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container clearfix">
+            <div class="copyright">© 2019 <a href="https://nordicsoft.net" target="_blank">NordicSoft</a></div>
+            <div class="contacts"><a href="mailto:info@nordicsoft.net"><i class="fa fa-envelope"></i> info@nordicsoft.net</a></div>
+        </div>
+    </footer>
+</body>
+</html>

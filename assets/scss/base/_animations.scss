@@ -1,0 +1,23 @@
+/*
+/* Animations
+/*************************************************************/
+
+@keyframes flipInY {
+    0% {
+        opacity: 0;
+        transform-origin: 50% 0%;
+        transform: perspective(600px) rotateX(-80deg);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform-origin: 50% 0%;
+        transform: perspective(600px) rotateX(20deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform-origin: 50% 0%;
+        transform: perspective(600px) rotateX(0deg);
+    }
+}

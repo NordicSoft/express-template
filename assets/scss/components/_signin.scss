@@ -1,0 +1,56 @@
+/*
+/* Sign In
+/*************************************************************/
+#signin-popup {
+    .modal-dialog {
+        width: 350px;
+        left: 50%;
+        margin-left: -175px;
+        margin-top: -170px;
+        position: absolute;
+        top: 50%;
+    }
+
+    form {
+        margin: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+}
+
+form.signin {
+    max-width: 320px;
+    margin: 20px auto;
+
+
+    .form-group {
+        position: relative
+    }
+    
+    .alert {
+        margin-bottom: 10px;
+        font-size: 13px;
+        padding: 5px 10px;
+        
+        p {
+            margin: 0;
+        }
+    }
+        
+    .input-group .input-group-text i {
+        width: 15px;
+    }
+    
+    .checkbox {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    
+    .note {
+        color: #aaa;
+        font-family: sans-serif;
+        font-size: 12px;
+        line-height: 12px;
+        text-align: center;
+        margin: 6px auto 15px;
+    }
+}

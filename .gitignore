@@ -1,0 +1,8 @@
+node_modules
+*.log
+/www/service-worker.js
+/www/css/dashboard.css
+/www/css/welcome.css
+/www/js/dashboard.js
+/www/js/welcome.js
+package-lock.json

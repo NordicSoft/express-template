@@ -1,0 +1,56 @@
+﻿/*
+/* Vendor
+/*************************************************************/
+//@import "node_modules/bootstrap/scss/bootstrap";
+//@import "node_modules/bootstrap-vue/src/index.scss";
+//@import "vendor/bootstrap-fs-modal";
+@import "node_modules/vuetify/dist/vuetify";
+//@import "vendor/font-awesome";
+//@import "vendor/fonts";
+
+/*!
+ * NordicSoft Express 4 Template https://nordicsoft.net
+ * Copyright 2019 NordicSoft.
+ */
+
+/*
+/* Utils
+/*************************************************************/
+//@import "utils/variables";
+//@import "utils/mixins";
+//@import "utils/utilites";
+
+/*
+/* Base Styles
+/*************************************************************/
+//@import "base/general";
+//@import "base/animations";
+//@import "base/bootstrap";
+
+/*
+/* Layout
+/*************************************************************/
+//@import "layout/wrapper";
+//@import "layout/header";
+//@import "layout/submenu";
+//@import "layout/sidebar";
+//@import "layout/footer";
+
+/*
+/* Components
+/*************************************************************/
+//@import "components/loader";
+//@import "components/typeahead";
+//@import "components/spinner";
+//@import "components/popper";
+//@import "components/modals";
+
+/*
+/* Pages
+/*************************************************************/
+//@import "pages/app/homepage";
+//@import "pages/app/accounts";
+//@import "pages/app/goals";
+//@import "pages/app/settings";
+
+@import "vue-components";

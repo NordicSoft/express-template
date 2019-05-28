@@ -1,0 +1,100 @@
+/*
+/* Header
+/*************************************************************/
+
+header {
+    
+    html.app & {
+        min-height: 50px;
+    }
+
+    nav {
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.13);
+        background: #fff;
+        padding: 0;
+        border: none;
+        height: 50px;
+    
+        .nav-link {
+            padding: 1rem;
+        }
+    }
+
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+
+    @media (min-width: $sm-min) {
+        padding: 0;
+    }
+}
+
+.navbar-toggler {
+    float: left;
+    font-size: 18px;
+    border: none;
+    padding: 10px 12px;
+    border: 1px solid transparent !important;
+    color: $gray-600;
+}
+
+.navbar-toggler:active {
+    background: $gray-300;
+    color: $gray-700;
+}
+
+.navbar-toggler:focus {
+    border: 1px solid $gray-300;
+    background: transparent;
+}
+
+.navbar-brand {
+    // position: relative;
+    // padding: 10px 10px 10px 45px;
+    color: #777 !important;
+
+    img {
+        position: absolute;
+        top: 5px;
+        left: 0;
+        opacity: 0.8;
+        max-height: 40px;
+    }
+
+    &:hover {
+        color: #222 !important;
+    }
+
+    &:hover img {
+        opacity: 1;
+    }
+}
+
+
+@media (max-width: $xs-max) {
+    #menu {
+        background: #fafafa;
+        margin-left: -15px !important;
+        margin-right: -15px !important;
+        padding-left: 15px;
+        padding-right: 15px;
+        border-bottom: 1px solid #f0f0f0;
+        position: relative;
+        top: 3px;
+    }
+}
+.navbar-nav {
+
+    > li.active {
+        > a {
+            background: rgb(228,228,228);
+            background: linear-gradient(to bottom, rgba(228,228,228,1) 0%,rgba(232,232,232,1) 100%);
+        }
+    }
+}

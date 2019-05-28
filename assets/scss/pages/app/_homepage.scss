@@ -1,0 +1,181 @@
+/*
+/* Homepage
+/*************************************************************/
+
+html.homepage {
+    .card.chart {
+        height: auto;
+        margin-bottom: 20px;
+        
+        @media (max-width: $sm-max) {
+            border: none;
+        }
+
+        .card-body {
+            padding: 0;
+            height: calc(100% - 38px);
+        }
+
+        .card-header {
+
+            @media (max-width: $sm-max) {
+                background: none;
+                padding: 5px 0;
+            }
+
+            .card-title {
+                    
+                @media (max-width: $sm-max) {
+                    padding-left: 0;
+                }
+            }
+
+            .selected-dates {
+                text-align: center;
+                margin: 0 5px;
+                float: right;
+                background: $gray-600;
+                color: #fff;
+                border-radius: 4px;
+                padding: 9px 8px 8px;
+                line-height: 0.9rem;
+                
+                @media (max-width: $xs-max) {
+                    display: none !important;
+                }
+            }
+        }
+
+        select {
+            width: 200px;
+            margin: 3px 5px 3px 0;
+            padding: 4px 12px;
+            height: 30px;
+        }
+
+
+        .btn-compress {
+            display: none;
+        }
+
+        .btn-expand,
+        .btn-compress {
+            margin-right: 0;
+                
+            i {
+                margin: 0;
+            }
+        }
+
+        &.expanded {
+            bottom: 0;
+            left: 0;
+            position: fixed;
+            right: 0;
+            top: 0;
+            z-index: 10000;
+            margin: 0;
+            border-radius: 0;
+            border: none;
+
+            .card-header {
+                @media (max-width: $sm-max) {
+                    background-color: rgba(0, 0, 0, 0.03);
+                    padding: 5px 10px;
+                }
+            }
+
+            .panel-body,
+            #chart,
+            #chart-pie {
+                height: 100%;
+            }
+
+            .panel-body {
+                padding-top: 37px;
+                margin-top: -37px;
+            }
+                
+            .btn-expand {
+                display: none;
+            }
+
+            .btn-compress {
+                display: inline-block;
+            }
+        }
+    }
+}
+
+#chart {
+    height: 500px;
+}
+/*
+#chart.has-data {
+    margin-right: 220px;
+}
+*/
+#chart.no-data,
+#chart-pie.no-data {
+    margin: 0;
+    position: relative;
+}
+
+#chart .no-data-warning,
+#chart-pie .no-data-warning {
+    display: none;
+}
+
+#chart.no-data .no-data-warning,
+#chart-pie.no-data .no-data-warning {    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -26px;
+    margin-left: -115px;
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    display: block
+}
+
+#chart-info {
+    margin-top: 20px;
+}
+
+#chart-legend {
+    position: relative;
+}
+
+#chart-stat {
+    //width: 220px;
+    margin-top: 18px;
+}
+
+    #chart-stat .title {
+        flex: 0 0 100px;
+    }
+
+    #chart-stat .value {
+        flex-grow: 1;
+        text-align: right;
+        padding-right: 20px;
+
+        @media (max-width: $sm-max) {
+            flex-grow: 0;
+        }        
+    }
+
+    #chart-stat .income {
+        display: flex;
+        color: #006400;
+    }
+
+    #chart-stat .expense {
+        display: flex;
+        color: #8b0000;
+    }
+
+#chart-pie {
+    height: 500px;
+}

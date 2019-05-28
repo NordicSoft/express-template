@@ -1,0 +1,166 @@
+/*
+/* Popper
+/*************************************************************/
+
+.popper {
+    display: none;
+    position: absolute;
+    background: $popper-background;
+    width: $popper-width;
+    border-radius: $popper-border-radius;
+    border: 1px solid $popper-border-color;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    z-index: $popper-z-index;
+
+    &[x-placement] {
+        display: block;
+    }
+
+    .popper-header {
+        padding: 8px 12px;
+        border-radius: $popper-border-radius $popper-border-radius 0 0;
+        border-bottom: solid 1px $popper-border-color;
+        background: $popper-header-background;
+
+        .popper-title {
+            font-size: 1.1rem;
+            display: inline;
+        }
+        
+        .btn {
+            padding: 2.5px 10px;
+            margin: -5px 0 -10px 5px;
+            background: #fff;
+            border: 1px solid #ddd;
+            position: relative;
+            top: -1px;
+
+            i {
+                margin: 0;
+                position: relative;
+                top: -1px;
+            }
+        }
+    }
+
+    .popper-body {
+        padding: 8px 12px;
+    }
+
+    .popper-footer {
+        padding: 8px 12px;
+        border-radius: 0 0 $popper-border-radius $popper-border-radius;
+        border-top: solid 1px $popper-border-color;
+        background: $popper-header-background;
+
+        .btn {
+            margin: 0 2px;
+        }
+    }
+
+    // if footer placed inside body
+    .popper-body .popper-footer {
+        margin: 0 -12px -8px;
+    }
+
+    .popper-arrow {
+        position: absolute;
+        width: 0;
+        height: 0;
+        margin: 5px;
+        border-style: solid;
+        border-color: transparent;
+
+        &::before{
+            position: absolute;
+            display: block;
+            content: "";
+            border-style: solid;
+            border-color: transparent;
+        }
+    }
+
+    &[x-placement^="bottom"] {
+        margin-top: $popper-arrow-size;
+
+        .popper-arrow,
+        .popper-arrow::before {
+            border-width: 0 $popper-arrow-size $popper-arrow-size $popper-arrow-size;
+            border-bottom-color: $popper-border-color;
+            top: -$popper-arrow-size;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        
+        .popper-arrow::before {
+            top: 1px;
+            left: -$popper-arrow-size;
+            border-bottom-color: $popper-background;
+        }
+    }
+
+    &[x-placement^="top"] {
+        margin-bottom: $popper-arrow-size;
+
+        .popper-arrow,
+        .popper-arrow::before {
+            border-width: $popper-arrow-size $popper-arrow-size 0 $popper-arrow-size;
+            border-top-color: $popper-border-color;
+            bottom: -$popper-arrow-size;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        
+        .popper-arrow::before {
+            bottom: 1px;
+            left: -$popper-arrow-size;
+            border-top-color: $popper-background;
+        }
+    }
+
+    &[x-placement^="right"] {
+        margin-left: $popper-arrow-size;
+
+        .popper-arrow,
+        .popper-arrow::before {
+            border-width: $popper-arrow-size $popper-arrow-size $popper-arrow-size 0;
+            border-right-color: $popper-border-color;
+            left: -$popper-arrow-size;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .popper-arrow::before {
+            left: 1px;
+            top: -$popper-arrow-size;
+            border-right-color: $popper-background;
+        }
+    }
+
+    &[x-placement^="left"] {
+        margin-right: $popper-arrow-size;
+
+        .popper-arrow,
+        .popper-arrow::before {
+            border-width: $popper-arrow-size 0 $popper-arrow-size $popper-arrow-size;
+            border-left-color: $popper-border-color;
+            right: -$popper-arrow-size;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .popper-arrow::before {
+            right: 1px;
+            top: -$popper-arrow-size;
+            border-left-color: $popper-background;
+        }
+    }
+
+    &.popper-has-header[x-placement^="bottom"] .popper-arrow::before {
+        border-bottom-color: $popper-header-background;
+    }
+
+    &.popper-has-footer[x-placement^="top"] .popper-arrow::before {
+        border-top-color: $popper-footer-background;
+    }
+}
