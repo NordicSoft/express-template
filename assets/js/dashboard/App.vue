@@ -1,5 +1,5 @@
 <template>
-    <v-app id="express-template">
+    <v-app id="express-template" class="dashboard">
         <Navbar/>
         <v-content>
             <v-container fill-height>
@@ -24,13 +24,7 @@ export default {
 </script>
 
 <style lang="scss">
-.app {
-    padding: 10px;
-    background: #eee;
-
-    .alert {
-        margin: 10px;
-    }
+.dashboard {
 }
 </style>
 
