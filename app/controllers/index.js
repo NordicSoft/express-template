@@ -3,6 +3,7 @@ var controller = require("express").Router(),
     logger = require("./../lib/logger"),
     store = require("./../store");
 
+
 function signin(req, res) {
     req.signin(function (err, user, info) {
         if (user) {

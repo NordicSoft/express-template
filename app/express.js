@@ -20,12 +20,12 @@ module.exports = function(config) {
     app.set("env", config.env);
     app.set("port", config.port);
     app.set("x-powered-by", false);
-    app.set("layout", "_layout");
-    app.set("partials", config.partials);
     app.set("view cache", true);
+
     // on production app is behind a front-facing proxy, so use X-Forwarded-* header to determine client's IP
     app.set("trust proxy", "production" === config.env);
 
+    // enable CORS
     app.use(cors());
 
     // setup Handlebars view engine (express-hbs)
@@ -53,11 +53,14 @@ module.exports = function(config) {
 
     // init cookie parser
     app.use(cookieParser());
+
     // init Gzip compression
     app.use(compression({level: 2}));
-    // pull information from html in POST
+
+    // parse incoming request body
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
+
     // simulate DELETE and PUT
     app.use(methodOverride());
 
@@ -66,7 +69,7 @@ module.exports = function(config) {
         // init error handler
         app.use(errorHandler());
     }
-    
+
 
     // add Response extensions
     app.use(function (req, res, next) {   

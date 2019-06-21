@@ -8,9 +8,6 @@
     "debugEnabled": true,
     "logFilesPath": "./logs/",
     "passwordHashAlgorithm": "md5", // bcrypt is also available with additional dependency - https://www.npmjs.com/package/bcrypt
-    "partials": {
-        //"templates": "_templates"
-    },
     "facebookAuth": {
         "clientID": "your-secret-clientID-here",
         "clientSecret": "your-client-secret-here",

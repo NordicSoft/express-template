@@ -33,7 +33,7 @@ module.exports = function(io, socket) {
 
         callback(null, `Hello ${name}!`);
 
-        // sending to all clients except sender
+        // send to all clients except sender
         socket.broadcast.emit("hello", `Hello from ${name}!`);
     });
 };

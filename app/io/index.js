@@ -72,8 +72,12 @@ module.exports.init = function (server, session) {
             }
         });
 
+        // activate socket.io handlers
         require("./hello")(io, socket);
+
         logger.debug(socket.user._id);
+
+        // join `user id` room
         socket.join(socket.user._id);
 
         socket.on("error", function (error) {
