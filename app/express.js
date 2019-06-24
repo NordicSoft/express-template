@@ -46,7 +46,7 @@ module.exports = function(config) {
 
     // log every request to the console and forever's log
     morgan.token("user", function (req) {
-        return req.user ? req.user.id.toString() : "?";
+        return req.user ? req.user._id.toString() : "?";
     });
     morgan.format("production", ":date[iso] :method :url :status - :res[content-length]bytes :response-time[3]ms ip=:remote-addr user=:user referrer=:referrer agent=:user-agent");
     app.use(morgan("production" === config.env ? "production" : "dev"));
