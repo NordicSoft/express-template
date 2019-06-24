@@ -24,7 +24,7 @@
         "callbackURL": "http://localhost:8080/auth/google/callback"
     },
     "session": {
-        "store": "redis",
+        "store": "memory",
         "key": "sid",
         "secret": "sessionsecretkey"
     },
