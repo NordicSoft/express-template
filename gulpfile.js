@@ -5,7 +5,6 @@ let gulp = require("gulp"),
     uglify = require("gulp-uglify-es").default,
     postcss = require("gulp-postcss"),
     autoprefixer = require("autoprefixer"),
-    mqpacker = require("css-mqpacker"),
     cssnano = require("cssnano"),
     touch = require("gulp-touch-fd"),
     browserSync = require("browser-sync").create();
@@ -28,14 +27,12 @@ function browserSyncInit(callback) {
 /**
  * Compiles SCSS, applies required PostCSS plugins:
  * Autoprefixer - https://www.npmjs.com/package/autoprefixer
- * MQPacker - https://www.npmjs.com/package/css-mqpacker
  * 
  * output: www/css/welcome.css & www/css/dashboard.css
 */
 function cssBundle() {
     let postcssPlugins = [
-        autoprefixer({ browsers: ["last 3 version"] }),
-        mqpacker(),
+        autoprefixer({ browsers: ["last 3 version"] })
     ];
 
     return gulp.src(["assets/scss/dashboard.scss", "assets/scss/welcome.scss"])
