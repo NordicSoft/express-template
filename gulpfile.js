@@ -25,6 +25,16 @@ function browserSyncInit(callback) {
 }
 
 /**
+ * Copies Font Awesome fonts from node_modules to www/fonts
+ * 
+ * output: www/css/welcome.css & www/css/dashboard.css
+*/
+function fontAwesome() {
+    return gulp.src(["node_modules/@fortawesome/fontawesome-free/webfonts/**/*"])
+        .pipe(gulp.dest("www/fonts/fontawesome"));
+}
+
+/**
  * Compiles SCSS, applies required PostCSS plugins:
  * Autoprefixer - https://www.npmjs.com/package/autoprefixer
  * 
@@ -32,7 +42,7 @@ function browserSyncInit(callback) {
 */
 function cssBundle() {
     let postcssPlugins = [
-        autoprefixer({ browsers: ["last 3 version"] })
+        autoprefixer()
     ];
 
     return gulp.src(["assets/scss/dashboard.scss", "assets/scss/welcome.scss"])
@@ -255,7 +265,7 @@ function deploy() {
 
 // default task is for development purposes
 exports.default = gulp.series(
-    gulp.parallel(jsWelcomeRollup(true), jsDashboardRollup(true), jsServiceWorker, watch),
+    gulp.parallel(jsWelcomeRollup(true), jsDashboardRollup(true), jsServiceWorker, fontAwesome, watch),
     cssBundle, // cssBundle is after jsDashboardRollup because of extracted Vue Single File Component styles (vue-components.scss)
     browserSyncInit
 );
@@ -263,7 +273,7 @@ exports.default = gulp.series(
 
 // concatenates and minifies all styles and scripts
 exports.build = gulp.series(
-    gulp.parallel(cssBundle, jsWelcomeRollup(false), jsDashboardRollup(false)),
+    gulp.parallel(fontAwesome, cssBundle, jsWelcomeRollup(false), jsDashboardRollup(false)),
     gulp.parallel(cssMinify, jsWelcomeMinify, jsDashboardMinify)
 );
 

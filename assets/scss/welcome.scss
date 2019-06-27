@@ -1,8 +1,16 @@
 ﻿/*
 /* Vendor
 /*************************************************************/
+
+// Twitter Bootstrap
 @import "node_modules/bootstrap/scss/bootstrap";
-@import "vendor/font-awesome";
+
+// Font Awesome
+$fa-font-path: "../fonts/fontawesome";
+@import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "node_modules/@fortawesome/fontawesome-free/scss/brands";
+@import "node_modules/@fortawesome/fontawesome-free/scss/regular";
+@import "node_modules/@fortawesome/fontawesome-free/scss/solid";
 
 /*
 /* Base Styles
