@@ -1,0 +1,28 @@
+/*
+/* Wrapper
+/*************************************************************/
+
+main {
+    flex: 1 0 auto;
+    padding: 20px 0;
+
+    h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        padding: 0.3rem 0 1.5rem;
+        position: relative;
+        margin-bottom: 2rem;
+
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0;
+            border: 0;
+            height: 1px;
+            right: 0;
+            left: 0;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+        }
+    }
+}

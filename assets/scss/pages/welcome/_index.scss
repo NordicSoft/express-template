@@ -1,0 +1,28 @@
+/*
+/* 5.1. Welcome page
+/*************************************************************/
+
+.homepage {
+    .benefits {
+        margin: 1rem 0;
+
+        .benefit-icon {
+            i {
+                font-size: 4rem;
+                color: $gray-600;
+            }
+        }
+
+        .benefit-title {
+            font-size: 1.2rem;
+            padding-top: 1rem;
+        }
+
+        .benefit-details {
+            color: $gray-600;
+        }
+    }
+
+    .features {
+    }
+}

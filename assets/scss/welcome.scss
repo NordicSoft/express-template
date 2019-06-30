@@ -25,12 +25,10 @@ $fa-font-path: "../fonts/fontawesome";
 /*
 /* Layout
 /*************************************************************/
-@import "layout/wrapper";
 @import "layout/header";
-@import "layout/submenu";
-@import "layout/sidebar";
+@import "layout/main";
 @import "layout/footer";
-@import "layout/welcome";
+@import "layout/sidebar";
 
 /*
 /* Components
@@ -42,5 +40,4 @@ $fa-font-path: "../fonts/fontawesome";
 /*
 /* Pages
 /*************************************************************/
-@import "pages/welcome/homepage";
-@import "pages/welcome/policies";
+@import "pages/welcome/index";

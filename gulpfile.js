@@ -49,7 +49,8 @@ function cssBundle() {
         .pipe(sass().on("error", sass.logError))
         .pipe(postcss(postcssPlugins))
         .pipe(gulp.dest("www/css"))
-        .pipe(touch());
+        .pipe(touch())
+        .pipe(browserSync.stream());
 }
 
 /**

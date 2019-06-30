@@ -3,98 +3,135 @@
 /*************************************************************/
 
 header {
-    
-    html.app & {
-        min-height: 50px;
-    }
+    background: url(/img/header.jpg) no-repeat center center;
+    background-size: cover;
+    min-height: 600px;
+    position: relative;
+
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid $white;
 
     nav {
-        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.13);
-        background: #fff;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(to bottom, rgba(50, 81, 153, 0.9), rgba(75, 107, 183, 0.9));;
+        //border-bottom: 3px rgba(255, 255, 255, 0.3) solid;
         padding: 0;
-        border: none;
-        height: 50px;
-    
+
+        // to make it on top of absolute-positioned .promo on small devices
+        position: relative;
+        z-index: 1000;
+
         .nav-link {
-            padding: 1rem;
+            padding: 1.1rem 1.2rem;
+            font-size: 1.1rem;
+            //line-height: 1rem;
+            color: $gray-100;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.3);
+                color: $white;
+            }
         }
     }
 
     .container {
-        padding-left: 15px;
+        padding-left: 0;
         padding-right: 15px;
-    }
-}
-
-.navbar {
-    padding-top: 0;
-    padding-bottom: 0;
-
-    @media (min-width: $sm-min) {
-        padding: 0;
-    }
-}
-
-.navbar-toggler {
-    float: left;
-    font-size: 18px;
-    border: none;
-    padding: 10px 12px;
-    border: 1px solid transparent !important;
-    color: $gray-600;
-}
-
-.navbar-toggler:active {
-    background: $gray-300;
-    color: $gray-700;
-}
-
-.navbar-toggler:focus {
-    border: 1px solid $gray-300;
-    background: transparent;
-}
-
-.navbar-brand {
-    // position: relative;
-    // padding: 10px 10px 10px 45px;
-    color: #777 !important;
-
-    img {
-        position: absolute;
-        top: 5px;
-        left: 0;
-        opacity: 0.8;
-        max-height: 40px;
-    }
-
-    &:hover {
-        color: #222 !important;
-    }
-
-    &:hover img {
-        opacity: 1;
-    }
-}
-
-
-@media (max-width: $xs-max) {
-    #menu {
-        background: #fafafa;
-        margin-left: -15px !important;
-        margin-right: -15px !important;
-        padding-left: 15px;
-        padding-right: 15px;
-        border-bottom: 1px solid #f0f0f0;
         position: relative;
-        top: 3px;
     }
-}
-.navbar-nav {
 
-    > li.active {
-        > a {
-            background: rgb(228,228,228);
-            background: linear-gradient(to bottom, rgba(228,228,228,1) 0%,rgba(232,232,232,1) 100%);
+    .navbar {
+        padding-top: 0;
+        padding-bottom: 0;
+        padding: 0;
+
+        .nav-link {
+            @media (max-width: $xs-max) {
+                padding: 1rem 2rem;
+            }
+        }
+    }
+
+    .navbar-brand {
+        color: $gray-200;
+        padding-left: 3.3rem;
+        font-size: 1.5rem;
+        margin-left: 15px;
+
+        img {
+            position: absolute;
+            top: 5px;
+            left: 15px;
+            opacity: 0.9;
+            max-height: 40px;
+        }
+
+        &:hover {
+            color: $white;
+        }
+
+        &:hover img {
+            opacity: 1;
+        }
+    }
+
+    .navbar-toggler {
+        padding: 1.1rem 1.5rem;
+        font-size: 1.6rem;
+        color: $gray-300;
+        border: none;
+
+        &:hover {
+            color: $white;
+        }
+    }
+
+    .promo {
+        position: absolute;
+        top: 120px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+
+        .h1 {
+            font-size: 8rem;
+            line-height: 10rem;
+            font-weight: bold;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.3);
+            display: inline-block;
+            width: auto;
+            padding: 0 1rem;
+        }
+
+        .social {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 22px;
+            text-align: center;
+
+            a {
+                font-size: 1.5rem;
+                margin: 0.7rem;
+                color: $white;
+                opacity: 0.75;
+                transition: opacity 250ms;
+
+                i {
+                    transition: transform 250ms;
+                }
+
+                &:hover {
+                    opacity: 1;
+
+                    i {
+                        transform: scale(1.2);
+                    }
+                }
+            }
         }
     }
 }

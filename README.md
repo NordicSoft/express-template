@@ -32,7 +32,7 @@ Basic website template (skeleton) based on Express.js 4 with some preconfigured 
 
 * [HTML5 Boilerplate](https://html5boilerplate.com/)
 * [Bootstrap 4](https://getbootstrap.com)
-* [Font Awesome 4](https://fontawesome.com/v4.7.0/)
+* [Font Awesome 5](https://fontawesome.com)
 * [jQuery 3](https://jquery.com/)
 * [AOS](https://github.com/michalsnik/aos)
 

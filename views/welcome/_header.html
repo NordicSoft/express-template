@@ -1,9 +1,18 @@
 <header>
-	<nav class="navbar navbar-expand-sm navbar-light bg-light">
+	<nav class="navbar navbar-expand-sm">
 		<div class="container">
-			<a class="navbar-brand" href="/">NordicSoft</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
+			<a class="navbar-brand" href="/">
+				<picture>
+					<source srcset="/img/logo-2x.png"
+						media="(max-width:600px),(min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx)">
+					<source srcset="/img/logo.png">
+					<img src="/img/logo.png" alt="Express Template Logo" title="Home" />
+				</picture>
+				Express
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<i class="fas fa-bars"></i>
 			</button>
 			<div class="collapse navbar-collapse" id="menu">
 				<ul class="navbar-nav ml-auto">
@@ -12,7 +21,7 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/contacts">Contacts</a>
-					</li>				
+					</li>
 					{{#if isAuthenticated}}
 					<li class="nav-item">
 						<a class="nav-link" href="/dashboard">Dashboard</a>
@@ -29,4 +38,17 @@
 			</div>
 		</div>
 	</nav>
+	<div class="promo">
+		<div>
+			<div class="h1">Express.js</div>
+		</div>
+		<div>
+			<div class="h1">Template</div>
+		</div>
+		<div class="social">
+			<a href="https://github.com/NordicSoft/express-template" target="_blank" class="github"><i class="fab fa-github"></i></a>
+			<a href="https://fb.com/NordicSoft.net" target="_blank" class="fb"><i class="fab fa-facebook"></i></a>
+			<a href="https://twitter.com/NordicSoft_net" target="_blank" class="twitter"><i class="fab fa-twitter"></i></a>
+		</div>
+	</div>
 </header>
