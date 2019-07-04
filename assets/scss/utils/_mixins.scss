@@ -14,14 +14,44 @@
     @return $pixels / $context * 1rem;
 }
 
-@mixin size($width,$height: $width) {
+@mixin size($width, $height: $width) {
     width: $width;
     height: $height;
 }
 
 @mixin placeholder {
-    ::-webkit-input-placeholder {@content}
-    :-moz-placeholder           {@content}
-    ::-moz-placeholder          {@content}
-    :-ms-input-placeholder      {@content}
+    ::-webkit-input-placeholder {
+        @content;
+    }
+    :-moz-placeholder {
+        @content;
+    }
+    ::-moz-placeholder {
+        @content;
+    }
+    :-ms-input-placeholder {
+        @content;
+    }
 }
+
+@mixin background-2x($path, $ext: "png", $x: 0, $y: 0, $repeat: no-repeat) {
+    $at1x_path: "#{$path}.#{$ext}";
+    $at2x_path: "#{$path}-2x.#{$ext}";
+
+    background-image: url("#{$at1x_path}");
+    background-size: cover;
+    background-position: $x $y;
+    background-repeat: $repeat;
+
+    @media all and (-webkit-min-device-pixel-ratio: 1.5),
+        all and (-o-min-device-pixel-ratio: 3/2),
+        all and (min--moz-device-pixel-ratio: 1.5),
+        all and (min-device-pixel-ratio: 1.5) {
+        background-image: url("#{$at2x_path}");
+    }
+}
+
+@mixin features-sprite($y: 0) {
+    @include background-2x("/img/features", $y: $y);
+}
+

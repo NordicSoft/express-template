@@ -24,5 +24,130 @@
     }
 
     .features {
+        //text-align: center;
+        
+        h3 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            padding: 0.7rem 2rem;
+            background: rgba(30, 160, 240, 0.2);
+            color: $gray-800;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        ul {
+            list-style: none;
+            margin: 0 auto;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+
+            li {
+                padding: 15px;
+
+                &:hover {
+                    box-shadow: 0 0 3px rgba(30, 160, 240, 0.7);
+                }
+            }
+        }
+
+        .feature {
+            display: block;
+            height: 50px;
+            width: 250px;
+            text-indent: -9999px;
+        }
+
+        .feature-node {
+            @include features-sprite(0);
+        }
+
+        .feature-express {
+            @include features-sprite(-50px);
+        }
+
+        .feature-mongodb {
+            @include features-sprite(-100px);
+        }
+
+        .feature-handlebars {
+            @include features-sprite(-150px);
+        }
+
+        .feature-socketio {
+            @include features-sprite(-200px);
+        }
+
+        .feature-passport {
+            @include features-sprite(-250px);
+        }
+
+        .feature-winston {
+            @include features-sprite(-300px);
+        }
+
+        .feature-morgan {
+            @include features-sprite(-350px);
+        }
+
+        .feature-sass-skeleton {
+            @include features-sprite(-400px);
+        }
+
+        .feature-js-skeleton {
+            @include features-sprite(-450px);
+        }
+
+        .feature-js-css-minification {
+            @include features-sprite(-500px);
+        }
+
+        .feature-html5-boilerplate {
+            @include features-sprite(-550px);
+        }
+
+        .feature-jquery {
+            @include features-sprite(-600px);
+        }
+
+        .feature-bootstrap {
+            @include features-sprite(-650px);
+        }
+
+        .feature-aos {
+            @include features-sprite(-700px);
+        }
+
+        .feature-font-awesome {
+            @include features-sprite(-750px);
+        }
+
+        .feature-fastify {
+            @include features-sprite(-800px);
+        }
+
+        .feature-vue {
+            @include features-sprite(-850px);
+        }
+
+        .feature-vuetify {
+            @include features-sprite(-900px);
+        }
+
+        .feature-gulp {
+            @include features-sprite(-950px);
+        }
+
+        .feature-babel {
+            @include features-sprite(-1000px);
+        }
+
+        .feature-rollup {
+            @include features-sprite(-1050px);
+        }
+
+        .feature-aws {
+            @include features-sprite(-1100px);
+        }
     }
 }

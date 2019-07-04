@@ -2,24 +2,6 @@
 /* Bootstrap Customization
 /*************************************************************/
 
-@media (min-width: $sm-min) {
-    .container {
-        max-width: none;
-    }
-}
-
-@media (min-width: $md-min) {
-    .container {
-        width: 758px;
-    }
-}
-
-@media (min-width: $lg-min) {
-    .container {
-        width: 982px;
-    }
-}
-
 .modal-footer {
     margin-top: 0;
 }
