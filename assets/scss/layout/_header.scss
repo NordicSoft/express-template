@@ -3,21 +3,23 @@
 /*************************************************************/
 
 header {
-    background: url(/img/header.jpg) no-repeat center center;
-    background-size: cover;
     min-height: 600px;
     position: relative;
 
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid $white;
 
+    @include media-breakpoint-down(sm) {
+        min-height: 400px;
+    }
+
     nav {
         box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
-        background: linear-gradient(to bottom, rgba(50, 81, 153, 0.9), rgba(75, 107, 183, 0.9));;
+        background: linear-gradient(to bottom, rgba(50, 81, 153, 0.9), rgba(75, 107, 183, 0.9));
         //border-bottom: 3px rgba(255, 255, 255, 0.3) solid;
         padding: 0;
 
-        // to make it on top of absolute-positioned .promo on small devices
+        // to make it on top of absolute-positioned .slideshow on small devices
         position: relative;
         z-index: 1000;
 
@@ -86,17 +88,15 @@ header {
         }
     }
 
-    .promo {
+    .slideshow {
         position: absolute;
-        top: 120px;
+        top: 0;
         bottom: 0;
         left: 0;
         right: 0;
         text-align: center;
 
-        .h1 {
-            font-size: 8rem;
-            line-height: 10rem;
+        .h1, .h2 {
             font-weight: bold;
             text-align: center;
             color: rgba(255, 255, 255, 0.9);
@@ -106,30 +106,99 @@ header {
             padding: 0 1rem;
         }
 
-        .social {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 22px;
-            text-align: center;
+        .h1 {
+            font-size: 8rem;
+            line-height: 10rem;
 
-            a {
-                font-size: 1.5rem;
-                margin: 0.7rem;
-                color: $white;
-                opacity: 0.75;
-                transition: opacity 250ms;
+            @include media-breakpoint-down(sm) {
+                font-size: 5rem;
+                line-height: 7rem;
+            }
+
+            @media (max-width: 449px) {
+                font-size: 3.3rem;
+                line-height: 5rem;
+            }
+        }
+
+        .h2 {
+            font-size: 4rem;
+            line-height: 5rem;
+
+            @include media-breakpoint-down(sm) {
+                font-size: 2.5rem;
+                line-height: 3.3rem;
+            }
+
+            @media (max-width: 449px) {
+                font-size: 2rem;
+                line-height: 3rem;
+            }
+        }
+
+        .slide {
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            height: 600px;
+            padding-top: 120px;
+            display: none;
+
+            @include media-breakpoint-down(sm) {
+                height: 400px;
+                padding-top: 85px;
+            }
+
+            @media (max-width: 449px) {
+                padding-top: 120px;
+            }
+        }
+
+        .slide-1 {
+            background-image: url(/img/header.jpg);
+            display: block;
+        }
+
+        .slide-2 {
+            background-image: url(/img/header-2.jpg);
+
+            @media (max-width: 449px) {
+                padding-top: 100px;
+            }
+        }
+
+        .slide-3 {
+            background-image: url(/img/header-3.jpg);
+        }
+    }
+
+    .social {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 22px;
+        text-align: center;
+
+        @include media-breakpoint-down(sm) {
+            bottom: 10px;
+        }
+
+        a {
+            font-size: 1.5rem;
+            margin: 0.7rem;
+            color: $white;
+            opacity: 0.75;
+            transition: opacity 250ms;
+
+            i {
+                transition: transform 250ms;
+            }
+
+            &:hover {
+                opacity: 1;
 
                 i {
-                    transition: transform 250ms;
-                }
-
-                &:hover {
-                    opacity: 1;
-
-                    i {
-                        transform: scale(1.2);
-                    }
+                    transform: scale(1.2);
                 }
             }
         }

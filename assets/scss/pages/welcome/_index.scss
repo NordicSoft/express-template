@@ -149,5 +149,13 @@
         .feature-aws {
             @include features-sprite(-1100px);
         }
+
+        .feature-slick {
+            @include features-sprite(-1150px);
+        }
+
+        .feature-animate {
+            @include features-sprite(-1200px);
+        }
     }
 }

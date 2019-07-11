@@ -2,6 +2,11 @@
 
 ## **0.0.3** - *2019-xx-xx* - **_[next]_**
 *******************************************************************************
+* facade - header slideshow added;
+* `Animate.css` added;
+* `Slick` carousel added;
+* `Policies` page added;
+* `Homepage` redesigned;
 * `Font Awesome` updated to v5.9;
 * `Welcome Pages` redesigned;
 
