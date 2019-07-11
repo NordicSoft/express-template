@@ -1,14 +1,19 @@
 # Changelog
 
-## **0.0.3** - *2019-xx-xx* - **_[next]_**
+## **0.0.4** - *2019-xx-xx* - **_[next]_**
 *******************************************************************************
+
+
+## **0.0.3** - *2019-07-11*
+*******************************************************************************
+* `Welcome` part renamed to `Facade`;
 * facade - header slideshow added;
 * `Animate.css` added;
 * `Slick` carousel added;
 * `Policies` page added;
 * `Homepage` redesigned;
 * `Font Awesome` updated to v5.9;
-* `Welcome Pages` redesigned;
+* `Facade Pages` redesigned;
 
 
 ## **0.0.2** - *2019-06-27*

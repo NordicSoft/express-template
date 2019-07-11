@@ -2,7 +2,7 @@ node_modules
 *.log
 /www/service-worker.js
 /www/css/dashboard.css
-/www/css/welcome.css
+/www/css/facade.css
 /www/js/dashboard.js
-/www/js/welcome.js
+/www/js/facade.js
 package-lock.json

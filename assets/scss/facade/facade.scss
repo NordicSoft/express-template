@@ -25,9 +25,9 @@ $fa-font-path: "../fonts/fontawesome";
 /*
 /* Base Styles
 /*************************************************************/
-@import "utils/variables";
-@import "utils/mixins";
-@import "utils/utilites";
+@import "../common/variables";
+@import "../common/mixins";
+@import "../common/utilites";
 @import "base/general";
 @import "base/animations";
 @import "base/bootstrap";
@@ -50,4 +50,4 @@ $fa-font-path: "../fonts/fontawesome";
 /*
 /* Pages
 /*************************************************************/
-@import "pages/welcome/index";
+@import "pages/index";

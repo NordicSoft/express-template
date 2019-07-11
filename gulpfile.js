@@ -26,8 +26,6 @@ function browserSyncInit(callback) {
 
 /**
  * Copies Font Awesome fonts from node_modules to www/fonts
- * 
- * output: www/css/welcome.css & www/css/dashboard.css
 */
 function fontAwesome() {
     return gulp.src(["node_modules/@fortawesome/fontawesome-free/webfonts/**/*"])
@@ -38,14 +36,14 @@ function fontAwesome() {
  * Compiles SCSS, applies required PostCSS plugins:
  * Autoprefixer - https://www.npmjs.com/package/autoprefixer
  * 
- * output: www/css/welcome.css & www/css/dashboard.css
+ * output: www/css/facade.css & www/css/dashboard.css
 */
 function cssBundle() {
     let postcssPlugins = [
         autoprefixer()
     ];
 
-    return gulp.src(["assets/scss/dashboard.scss", "assets/scss/welcome.scss"])
+    return gulp.src(["assets/scss/dashboard/dashboard.scss", "assets/scss/facade/facade.scss"])
         .pipe(sass().on("error", sass.logError))
         .pipe(postcss(postcssPlugins))
         .pipe(gulp.dest("www/css"))
@@ -55,10 +53,10 @@ function cssBundle() {
 
 /**
  * Minifies CSS with cssnano - https://cssnano.co/
- * output: minified www/css/welcome.css & www/css/dashboard.css
+ * output: minified www/css/facade.css & www/css/dashboard.css
  */
 function cssMinify() {
-    return gulp.src(["www/css/welcome.css", "www/css/dashboard.css"])
+    return gulp.src(["www/css/facade.css", "www/css/dashboard.css"])
         .pipe(postcss([
             cssnano()
         ]))
@@ -122,7 +120,7 @@ async function rollup(input, output, watch, callback) {
             commonjs(),
             noderesolve({ extensions: [".js", ".json", ".vue"] }),
             sass(),
-            css({ output: "assets/scss/vue-components.scss" }),
+            css({ output: "assets/scss/dashboard/vue-components.scss" }),
             vue({ css: false })
         ]
     };
@@ -172,16 +170,16 @@ async function rollup(input, output, watch, callback) {
     });
 }
 
-// rollups Welcome scripts
-function jsWelcomeRollup(watch) {
-    return function jsWelcomeRollup(callback) {
-        rollup("assets/js/welcome/index.js", "www/js/welcome.js", watch, callback);
+// rollups Facade scripts
+function jsFacadeRollup(watch) {
+    return function jsFacadeRollup(callback) {
+        rollup("assets/js/facade/index.js", "www/js/facade.js", watch, callback);
     };
 }
 
-// minifies Welcome scripts
-function jsWelcomeMinify() {
-    return gulp.src("www/js/welcome.js")
+// minifies Facade scripts
+function jsFacadeMinify() {
+    return gulp.src("www/js/facade.js")
         .pipe(uglify())
         .pipe(gulp.dest("www/js"))
         .pipe(touch());
@@ -226,7 +224,7 @@ function watch(callback) {
     gulp.watch(["assets/scss/**/*.scss"], cssBundle);
     gulp.watch(["assets/js/service-worker.js"], jsServiceWorker);
 
-    // NOTE: native rollup.watch() is used to watch on welcome & dashboard JS file changes
+    // NOTE: native rollup.watch() is used to watch on facade & dashboard JS file changes
 
     callback();
 }
@@ -266,7 +264,7 @@ function deploy() {
 
 // default task is for development purposes
 exports.default = gulp.series(
-    gulp.parallel(jsWelcomeRollup(true), jsDashboardRollup(true), jsServiceWorker, fontAwesome, watch),
+    gulp.parallel(jsFacadeRollup(true), jsDashboardRollup(true), jsServiceWorker, fontAwesome, watch),
     cssBundle, // cssBundle is after jsDashboardRollup because of extracted Vue Single File Component styles (vue-components.scss)
     browserSyncInit
 );
@@ -274,8 +272,8 @@ exports.default = gulp.series(
 
 // concatenates and minifies all styles and scripts
 exports.build = gulp.series(
-    gulp.parallel(fontAwesome, cssBundle, jsWelcomeRollup(false), jsDashboardRollup(false)),
-    gulp.parallel(cssMinify, jsWelcomeMinify, jsDashboardMinify)
+    gulp.parallel(fontAwesome, cssBundle, jsFacadeRollup(false), jsDashboardRollup(false)),
+    gulp.parallel(cssMinify, jsFacadeMinify, jsDashboardMinify)
 );
 
 

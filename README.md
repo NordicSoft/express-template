@@ -6,17 +6,25 @@ Basic website template (skeleton) based on Express.js 4 with some preconfigured 
 
 ## Structure
 
-* Welcome Pages:
+* Facade Pages:
     * Homepage
     * About
     * Contacts
-* Dashboard
+    * Policies
+    * Sign In
+    * Register
+* Dashboard Pages
+    * Homepage
+    * Profile
+    * Users
 
 ## Backend Features
 
+* [Node.js](https://nodejs.org/)
+* [MongoDB](https://www.mongodb.com/)
+* [AWS](https://aws.amazon.com/)
 * [Express.js 4](https://expressjs.com/)
 * [Handlebars Template Engine](https://www.npmjs.com/package/express-hbs) 
-* [MongoDB](https://www.mongodb.com/)
 * [Socket.io](https://socket.io/)
 * [Passport](http://www.passportjs.org/)
 * [Winston](https://www.npmjs.com/package/winston)
@@ -28,13 +36,15 @@ Basic website template (skeleton) based on Express.js 4 with some preconfigured 
 * JS skeleton
 * JS & CSS minification
 
-### Welcome Pages
+### Facade
 
 * [HTML5 Boilerplate](https://html5boilerplate.com/)
-* [Bootstrap 4](https://getbootstrap.com)
-* [Font Awesome 5](https://fontawesome.com)
 * [jQuery 3](https://jquery.com/)
+* [Bootstrap 4](https://getbootstrap.com)
 * [AOS](https://github.com/michalsnik/aos)
+* [Slick](https://kenwheeler.github.io/slick)
+* [Animate.css](https://daneden.github.io/animate.css)
+* [Font Awesome 5](https://fontawesome.com)
 
 ### Dashboard
 

@@ -18,7 +18,7 @@ controller.get("/", function (req, res) {
     res.locals.model = {
         isAuthenticated: req.isAuthenticated()
     };
-    return res.render("welcome/index");
+    return res.render("facade/index");
 });
 
 controller.get("/signin", function (req, res) {
@@ -29,7 +29,7 @@ controller.get("/signin", function (req, res) {
         return res.error(404);
     } else {
         //return res.render('signin', { layout: false });
-        return res.render("welcome/signin");
+        return res.render("facade/signin");
     }
 });
 
@@ -40,7 +40,7 @@ controller.get("/register", function (req, res) {
     if (req.xhr) {
         return res.error(404);
     } else {
-        return res.render("welcome/register");
+        return res.render("facade/register");
     }
 });
 
@@ -109,7 +109,7 @@ controller.get("/signout", function (req, res) {
 });
 
 controller.get("/*", function (req, res) {
-    var view = "welcome/" + req.url,
+    var view = "facade/" + req.url,
         options = {};
 
     var renderCallback = function (err, html) {

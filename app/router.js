@@ -39,7 +39,7 @@ module.exports = function (express) {
     express.use(function (req, res) {
         var options = {};
         if (!req.isAuthenticated()) {
-            options.layout = "welcome/_layout";
+            options.layout = "facade/_layout";
         }
         return res.error(404, options);
     });
@@ -51,7 +51,7 @@ module.exports = function (express) {
 
         var options = {};
         /*if (!req.isAuthenticated()) {
-            options.layout = "welcome/_layout";
+            options.layout = "facade/_layout";
         }*/
 
         if (err.code == "MODULE_NOT_FOUND") {

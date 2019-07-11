@@ -32,7 +32,7 @@ module.exports = function(config) {
     app.engine("html", hbs.express4({
         partialsDir: process.cwd() + "/views",
         layoutsDir: process.cwd() + "/views",
-        defaultLayout: process.cwd() + "/views/welcome/_layout",
+        defaultLayout: process.cwd() + "/views/facade/_layout",
         extname: ".html",
     }));
     app.set("view engine", "html");

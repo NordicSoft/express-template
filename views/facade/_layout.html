@@ -27,24 +27,24 @@
         <link rel="canonical" href="{{canonical}}"/>
         {{/if}}
         
-        <link rel="stylesheet" href="/css/welcome.css">
+        <link rel="stylesheet" href="/css/facade.css">
     </head>
     <body>
         <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
 
-        {{> welcome/_header this}}
+        {{> facade/_header this}}
         <main>
             <div class="container">
                 {{{body}}}
             </div>
         </main>
-        {{> welcome/_footer}}
+        {{> facade/_footer}}
 
         <div id="loader" class="loader" style="display: none;"><span></span></div>
 
-        <script src="/js/welcome.js"></script>
+        <script src="/js/facade.js"></script>
 
         {{#production}}
         <!-- GA -->
