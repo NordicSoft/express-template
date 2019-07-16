@@ -1,9 +1,9 @@
 <template>
-    <div>Users</div>
+    <div>
+        <h1>Users</h1>
+    </div>
 </template>
 
 <script>
-export default {
-    
-}
+export default {};
 </script>

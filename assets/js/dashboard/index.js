@@ -1,9 +1,9 @@
 import "babel-polyfill";
 import Vue from "vue";
-//import BootstrapVue from "bootstrap-vue";
-//import Vuetify from "vuetify";
-//import "node_modules/vuetify/dist/vuetify.css";
 import Vuetify from "vuetify";
+import colors from "vuetify/es5/util/colors"
+import axios from "axios";
+//import BootstrapVue from "bootstrap-vue";
 
 import { log } from "core";
 import options from "options";
@@ -11,16 +11,15 @@ import App from "./App";
 import router from "./router"
 import store from "./store"
 
+Vue.use(Vuetify);
 //Vue.use(BootstrapVue);
 
-Vue.use(Vuetify);
-
-//Vue.options.delimiters = ["[[","]]"];
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 var app = new Vue({
     el: "#app",
     router,
-    //store,
+    store,
     components: { App },
     template: "<App/>"
 });

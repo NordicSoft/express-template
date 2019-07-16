@@ -1,4 +1,4 @@
-var controller = require("express").Router(),
+var router = require("express").Router(),
     config = require("./../lib/config"),
     logger = require("./../lib/logger"),
     store = require("./../store");
@@ -14,14 +14,14 @@ function signin(req, res) {
     });
 }
 
-controller.get("/", function (req, res) {
+router.get("/", function (req, res) {
     res.locals.model = {
         isAuthenticated: req.isAuthenticated()
     };
     return res.render("facade/index");
 });
 
-controller.get("/signin", function (req, res) {
+router.get("/signin", function (req, res) {
     if (req.isAuthenticated()) {
         return res.redirect("/dashboard");
     }
@@ -33,7 +33,7 @@ controller.get("/signin", function (req, res) {
     }
 });
 
-controller.get("/register", function (req, res) {
+router.get("/register", function (req, res) {
     if (req.isAuthenticated()) {
         return res.redirect("/dashboard");
     }
@@ -44,7 +44,7 @@ controller.get("/register", function (req, res) {
     }
 });
 
-controller.get("/check-email", async function (req, res) {
+router.get("/check-email", async function (req, res) {
     if (req.xhr) {
         var email = req.query.email,
             user = await store.getUserByEmail(email);
@@ -54,9 +54,9 @@ controller.get("/check-email", async function (req, res) {
     }
 });
 
-controller.post("/signin", signin);
+router.post("/signin", signin);
 
-controller.post("/register", async function (req, res) {
+router.post("/register", async function (req, res) {
     if (req.isAuthenticated()) {
         return res.redirect("/dashboard");
     }
@@ -103,12 +103,12 @@ controller.post("/register", async function (req, res) {
     }
 });
 
-controller.get("/signout", function (req, res) {
+router.get("/signout", function (req, res) {
     req.signout();
     return res.redirect("/");
 });
 
-controller.get("/*", function (req, res) {
+router.get("/*", function (req, res) {
     var view = "facade/" + req.url,
         options = {};
 
@@ -125,4 +125,4 @@ controller.get("/*", function (req, res) {
     return res.renderPage(view, options, renderCallback);
 });
 
-module.exports = controller;
+module.exports = router;

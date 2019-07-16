@@ -31,9 +31,9 @@ module.exports = function (express) {
         next();
     };
 
-    express.use("/api", signinRequired, xhrOnly, require("./controllers/api"));
-    express.use("/dashboard", signinRequired, require("./controllers/dashboard"));
-    express.use("/", require("./controllers/index"));
+    express.use("/api", signinRequired, xhrOnly, require("./routes/api"));
+    express.use("/dashboard", signinRequired, require("./routes/dashboard"));
+    express.use("/", require("./routes/facade"));
 
     // handle 404
     express.use(function (req, res) {

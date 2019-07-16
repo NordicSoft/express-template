@@ -1,7 +1,7 @@
 var mongodb = require("mongodb")
-    config = require("./../lib/config");
+config = require("./../lib/config");
 
-async function connect(){
+async function connect() {
     let client = new mongodb.MongoClient(
         config.mongo.connectionString,
         { useNewUrlParser: true }
@@ -17,16 +17,23 @@ async function getUsersCollections() {
 
 module.exports = {
     getUsers: getUsersCollections,
-    getUserById: async function(id) {
+    getUserById: async function (id) {
         let usersCollection = await getUsersCollections();
-        return await usersCollection.findOne({_id: mongodb.ObjectID(id)});
+        return await usersCollection.findOne({ _id: mongodb.ObjectID(id) });
     },
-    getUserByEmail: async function(email) {
+    getUserByEmail: async function (email) {
         let usersCollection = await getUsersCollections();
-        return await usersCollection.findOne({email: email});
+        return await usersCollection.findOne({ email: email });
     },
-    getUser: async function(query) {
+    getUser: async function (query) {
         let usersCollection = await getUsersCollections();
         return await usersCollection.findOne(query);
+    },
+    updateUser: async function (user) {
+        let usersCollection = await getUsersCollections();
+        return await usersCollection.updateOne(
+            { _id: mongodb.ObjectID(user._id) },
+            { $set: { name: user.name, email: user.email } }
+        );
     }
 };

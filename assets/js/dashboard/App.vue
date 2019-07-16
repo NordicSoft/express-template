@@ -1,11 +1,11 @@
 <template>
     <v-app id="express-template" class="dashboard">
-        <Navbar/>
+        <Navbar />
         <v-content>
             <v-container fill-height>
                 <v-layout justify-center>
                     <v-flex>
-                      <router-view></router-view> 
+                        <router-view></router-view>
                     </v-flex>
                 </v-layout>
             </v-container>
@@ -24,7 +24,17 @@ export default {
 </script>
 
 <style lang="scss">
-.dashboard {
+* {
+    text-transform: initial;
+}
+
+.application.dashboard {
+    background: #f7f7f7;
+}
+
+h1 {
+    text-align: center;
+    margin: 1rem auto 2rem;
 }
 </style>
 
