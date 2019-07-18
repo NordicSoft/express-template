@@ -21,9 +21,14 @@ export default new Router({
             component: Users
         },
         {
-            path: '/profile',
+            path: '/profile/:initTab',
             name: 'profile',
-            component: Profile
+            component: Profile,
+            props: true
+        },
+        {
+            path: '/profile',
+            redirect: '/profile/general'
         }
     ]
 }) 

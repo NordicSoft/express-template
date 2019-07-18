@@ -51,9 +51,6 @@ export default {
             ];
         }
     },
-    async mounted() {
-        console.log("mounted");
-    },
     methods: {
         async save() {
             if (this.$refs.form.validate()) {

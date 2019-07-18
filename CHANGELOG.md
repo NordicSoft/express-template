@@ -1,17 +1,17 @@
 # Changelog
 
 ## **0.0.5** - *2019-xx-xx* - **_[next]_**
-*******************************************************************************
+* Dashboard/Profile page - separate route (URL) for each tab;
+
 
 ## **0.0.4** - *2019-07-18*
-*******************************************************************************
 * global error handing;
 * `Toast` Vue plugin added;
 * Dashboard/Profile page - base implementation;
 * data access layer (store) refactored;
 
+
 ## **0.0.3** - *2019-07-11*
-*******************************************************************************
 * `Welcome` part renamed to `Facade`;
 * facade - header slideshow added;
 * `Animate.css` added;
@@ -23,7 +23,6 @@
 
 
 ## **0.0.2** - *2019-06-27*
-*******************************************************************************
 * `CSS MQPacker` PostCSS plugin removed due to problems on big projects;
 * npm packages updated;
 * use memory session store instead of redis by default;
@@ -33,5 +32,4 @@
 
 
 ## **0.0.1** - *2019-05-28*
-*******************************************************************************
 * initial release

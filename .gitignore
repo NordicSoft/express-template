@@ -1,5 +1,6 @@
 node_modules
 *.log
+/assets/scss/dashboard/vue-components.scss
 /www/service-worker.js
 /www/css/dashboard.css
 /www/css/facade.css

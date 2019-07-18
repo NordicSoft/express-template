@@ -2,17 +2,15 @@
     <div>
         <h1>Profile</h1>
 
-        <v-tabs centered color="blue-grey lighten-5">
-            <v-tab href="#tab-1">
-                <v-icon class="mr-2">person</v-icon>
-                General
+        <v-tabs v-model="tab" centered color="blue-grey lighten-5" @change="tabChanged">
+            <v-tab href="#general">
+                <v-icon class="mr-2">person</v-icon>General
             </v-tab>
-            <v-tab href="#tab-2">
-                <v-icon class="mr-2">lock</v-icon>
-                Security
+            <v-tab href="#security">
+                <v-icon class="mr-2">lock</v-icon>Security
             </v-tab>
 
-            <v-tab-item value="tab-1">
+            <v-tab-item value="general">
                 <v-card flat>
                     <v-card-text>
                         <general />
@@ -20,7 +18,7 @@
                 </v-card>
             </v-tab-item>
 
-            <v-tab-item value="tab-2">
+            <v-tab-item value="security">
                 <v-card flat>
                     <v-card-text>
                         <security />
@@ -28,7 +26,6 @@
                 </v-card>
             </v-tab-item>
         </v-tabs>
-        
     </div>
 </template>
 
@@ -37,9 +34,20 @@ import General from "./../components/Profile/General";
 import Security from "./../components/Profile/Security";
 
 export default {
+    props: ["initTab"],
+    data() {
+        return {
+            tab: this.initTab
+        };
+    },
     components: {
         General,
         Security
+    },
+    methods: {
+        tabChanged(tab) {
+            this.$router.push("/profile/" + tab);
+        }
     }
 };
 </script>
