@@ -32,7 +32,7 @@ var security = require("./security"),
                     // find a user
                     let user;
                     try {
-                        user = await store.getUserByEmail(username);
+                        user = await store.users.getByEmail(username);
                         logger.dir(user);
                     } catch (err) {
                         logger.error(err);

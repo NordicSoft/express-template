@@ -1,8 +1,22 @@
 <template>
     <v-form ref="form" lazy-validation>
         <v-snackbar v-model="snackbar">Saved</v-snackbar>
-        <v-text-field v-model="name" prepend-icon="person" :counter="50" :rules="nameRules" label="Name" required></v-text-field>
-        <v-text-field v-model="email" prepend-icon="email" maxlength="254" :rules="emailRules" label="E-mail" required></v-text-field>
+        <v-text-field
+            v-model="name"
+            prepend-icon="person"
+            :counter="50"
+            :rules="nameRules"
+            label="Name"
+            required
+        ></v-text-field>
+        <v-text-field
+            v-model="email"
+            prepend-icon="email"
+            maxlength="254"
+            :rules="emailRules"
+            label="E-mail"
+            required
+        ></v-text-field>
         <v-btn color="success" @click="save">
             <v-icon class="mr-2">done</v-icon>Save
         </v-btn>
@@ -42,6 +56,8 @@ export default {
                         email: this.email
                     },
                     response = await axios.post("/api/profile", profile);
+
+                this.$toast.success("Profile saved");
             }
         }
     }

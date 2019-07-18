@@ -2,7 +2,10 @@
 
 ## **0.0.4** - *2019-xx-xx* - **_[next]_**
 *******************************************************************************
-
+* global error handing;
+* `Toast` Vue plugin added;
+* Dashboard/Profile page - base implementation;
+* data access layer (store) refactored;
 
 ## **0.0.3** - *2019-07-11*
 *******************************************************************************

@@ -47,7 +47,7 @@ router.get("/register", function (req, res) {
 router.get("/check-email", async function (req, res) {
     if (req.xhr) {
         var email = req.query.email,
-            user = await store.getUserByEmail(email);
+            user = await store.users.getByEmail(email);
         res.send(!user);
     } else {
         return res.error(404);
@@ -73,11 +73,11 @@ router.post("/register", async function (req, res) {
     }
 
     // check username
-    if (await store.getUserByEmail(email)) {
+    if (await store.users.getByEmail(email)) {
         return res.error(400, { json: { message: "This email is already taken" } });
     }
 
-    let usersCollection = await store.getUsers();
+    let usersCollection = await store.users.getCollection();
     let security = require("./../lib/security");
     let user = {
         name,

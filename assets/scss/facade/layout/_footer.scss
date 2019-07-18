@@ -4,7 +4,7 @@
 
 footer {
     background: linear-gradient(to bottom, #cce7f7, #a2ddf8);
-    
+
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
     border-top: 1px solid $white;
     width: 100%;
@@ -20,6 +20,10 @@ footer {
 
             &:hover {
                 opacity: 1;
+            }
+
+            img {
+                max-height: 40px;
             }
         }
     }

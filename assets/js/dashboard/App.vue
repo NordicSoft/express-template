@@ -1,5 +1,5 @@
 <template>
-    <v-app id="express-template" class="dashboard">
+    <v-app class="dashboard">
         <Navbar />
         <v-content>
             <v-container fill-height>

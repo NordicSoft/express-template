@@ -14,8 +14,8 @@
             </v-list>
         </v-navigation-drawer>
         <v-toolbar dark color="primary" dense fixed clipped-left app>
-            <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-            <v-toolbar-title class="mr-5">
+            <v-toolbar-side-icon @click.stop="drawer = !drawer" class="mr-0"></v-toolbar-side-icon>
+            <v-toolbar-title class="mr-5 ml-0">
                 <v-btn flat to="/">
                     <v-icon class="mr-2">dashboard</v-icon>
                     <span class="title">Dashboard</span>
