@@ -272,7 +272,8 @@ exports.default = gulp.series(
 
 // concatenates and minifies all styles and scripts
 exports.build = gulp.series(
-    gulp.parallel(fontAwesome, cssBundle, jsFacadeRollup(false), jsDashboardRollup(false)),
+    gulp.parallel(fontAwesome, jsFacadeRollup(false), jsDashboardRollup(false)),
+    cssBundle, // cssBundle is after jsDashboardRollup because of extracted Vue Single File Component styles (vue-components.scss)
     gulp.parallel(cssMinify, jsFacadeMinify, jsDashboardMinify)
 );
 
