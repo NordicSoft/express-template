@@ -28,19 +28,19 @@ var expressSession = require("express-session");
 var sessionStore;
 
 switch (config.session.store) {
-case "memory":
-    // leave sessionStore undefined
-    break;
-case "redis":
-    var RedisStore = require("connect-redis")(expressSession);
-    sessionStore = new RedisStore(config.redis);
-    break;
+    case "memory":
+        // leave sessionStore undefined
+        break;
+    case "redis":
+        var RedisStore = require("connect-redis")(expressSession);
+        sessionStore = new RedisStore(config.redis);
+        break;
 }
 
 var session = expressSession({
     secret: config.session.secret,
     key: config.session.key,
-    resave: false, 
+    resave: false,
     saveUninitialized: false,
     store: sessionStore,
 });
@@ -77,18 +77,18 @@ require("./app/router")(express);
 // start HTTP-server
 server.listen(config.port);
 server.on("listening", function () {
-    logger.info("Express server listening on port " + config.port);    
+    logger.info("Express server listening on port " + config.port);
 });
 
-process.on("uncaughtException", function(error) {
+process.on("uncaughtException", function (error) {
     logger.error("uncaughtException");
     logger.error(error);
     /*errorManagement.handler.handleError(error);
     if(!errorManagement.handler.isTrustedError(error))
         process.exit(1);*/
 });
-   
-process.on("unhandledRejection", function(reason, p){
+
+process.on("unhandledRejection", function (reason, p) {
     logger.error("unhandledRejection");
     logger.error(reason);
     logger.error(p);

@@ -2,16 +2,15 @@ import "babel-polyfill";
 import Vue from "vue";
 import Vuetify from "vuetify";
 import Toast from "./plugins/toast";
-import colors from "vuetify/es5/util/colors"
 import axios from "axios";
 //import BootstrapVue from "bootstrap-vue";
 
 import { log } from "core";
 import options from "options";
 import App from "./App";
-import router from "./router"
-import errorHandler from "./error-handler"
-import store from "./store"
+import router from "./router";
+import errorHandler from "./error-handler";
+import store from "./store";
 
 // register Vuetify
 Vue.use(Vuetify);
@@ -22,7 +21,7 @@ Vue.use(Toast);
 //Vue.use(BootstrapVue);
 
 // set axios defaults
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 var app = new Vue({
     el: "#app",

@@ -52,11 +52,11 @@ export default {
         async save() {
             if (this.$refs.form.validate()) {
                 let profile = {
-                        name: this.name,
-                        email: this.email
-                    },
-                    response = await axios.post("/api/profile", profile);
+                    name: this.name,
+                    email: this.email
+                };
 
+                await axios.post("/api/profile", profile);
                 this.$toast.success("Profile saved");
             }
         }

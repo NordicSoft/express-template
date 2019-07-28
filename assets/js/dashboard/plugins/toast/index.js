@@ -1,6 +1,6 @@
 // Inspired by https://github.com/eolant/vuetify-toast-snackbar
 
-import Toast from './Toast.vue'
+import Toast from "./Toast.vue";
 
 class ToastPlugin {
     constructor() {
@@ -12,30 +12,30 @@ class ToastPlugin {
             container: ".application",  // default container to place toasts in
             property: "$toast",         // Vue instance property name
             queue: true                 // if queue is false then next toast will immediately close previous
-        }
+        };
     }
 
     createVueComponent(options) {
         // prepare toast
-        this.vueComponent = new this.Vue(Toast)
+        this.vueComponent = new this.Vue(Toast);
         Object.assign(this.vueComponent, this.Vue.prototype[this.options.property].options, options);
         let el = this.vueComponent.$mount().$el;
         // add toast in DOM
         document.querySelectorAll(this.options.container)[0].appendChild(el);
 
         // on current toast hide
-        this.vueComponent.$on('hidden', () => {
+        this.vueComponent.$on("hidden", () => {
             // clear current toast
-            this.vueComponent = null
+            this.vueComponent = null;
 
             // if there are pending toasts
             if (this.queue.length) {
                 // get next toast from queue
-                let toast = this.queue.shift()
+                let toast = this.queue.shift();
                 // show next toast
-                this.showToast(toast.message, toast.options)
+                this.showToast(toast.message, toast.options);
             }
-        })
+        });
     }
 
     showToast(message, options = {}) {
@@ -58,8 +58,8 @@ class ToastPlugin {
         }
 
         // show new toast
-        options.message = message
-        this.createVueComponent(options)
+        options.message = message;
+        this.createVueComponent(options);
     }
 
     install(Vue, options = {}) {
@@ -80,7 +80,7 @@ class ToastPlugin {
             vueInstanceMethod[method.name] = (message, options) => {
                 let o = Object.assign({}, method.options, this.options, options);
                 this.showToast(message, o);
-            }
+            };
         });
 
         vueInstanceMethod.options = this.options;

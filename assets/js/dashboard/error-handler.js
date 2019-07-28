@@ -32,7 +32,7 @@ export default function (vueApp) {
             console.log(vm);
             console.log(info);
         }
-    }
+    };
 
     window.onerror = function (msg, url, line, col, error) {
         vueApp.$toast.error("Unknown error occurred");
@@ -44,7 +44,7 @@ export default function (vueApp) {
             console.log(col);
             console.log(error);
         }
-    }
+    };
 
     window.addEventListener("unhandledrejection", function (event) {
         vueApp.$toast.error("Unknown error occurred");

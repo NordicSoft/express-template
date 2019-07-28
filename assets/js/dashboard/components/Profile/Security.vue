@@ -55,10 +55,11 @@ export default {
         async save() {
             if (this.$refs.form.validate()) {
                 let data = {
-                        password: this.password,
-                        newPassword: this.newPassword
-                    },
-                    response = await axios.post("/api/change-password", data);
+                    password: this.password,
+                    newPassword: this.newPassword
+                };
+
+                await axios.post("/api/change-password", data);
 
                 this.$toast.success("Password changed");
             }
