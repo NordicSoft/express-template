@@ -1,6 +1,9 @@
 // change process' current dir
 process.chdir(__dirname);
 
+// load environment variables from `.env`
+require("dotenv-defaults").config();
+
 // init config
 var config = require("./app/lib/config");
 

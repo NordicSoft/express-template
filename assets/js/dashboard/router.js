@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./pages/Home";
 import Users from "./pages/Users";
+import SendEmail from "./pages/SendEmail";
 import Profile from "./pages/Profile";
 
 Vue.use(Router);
@@ -19,6 +20,11 @@ export default new Router({
             path: "/users",
             name: "users",
             component: Users
+        },
+        {
+            path: "/send-email",
+            name: "sendEmail",
+            component: SendEmail
         },
         {
             path: "/profile/:initTab",

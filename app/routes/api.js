@@ -27,7 +27,12 @@ router.post("/profile", async function (req, res) {
     }
 
     await store.users.update(req.user._id, changes);
-    res.sendStatus(200);
+
+    // update current user info in session
+    // see https://github.com/jaredhanson/passport/issues/208
+    req.login(Object.assign(req.user, changes), function () {
+        res.sendStatus(200);
+    });
 });
 
 router.post("/change-password", async function (req, res) {
@@ -47,7 +52,7 @@ router.post("/change-password", async function (req, res) {
         user = await store.users.getById(req.user._id);
 
     switch (config.passwordHashAlgorithm) {
-        case "md5":
+        case "md5": {
             if (security.md5(password) !== user.password) {
                 return res.status(400).send("Current password is incorrect");
             }
@@ -55,7 +60,8 @@ router.post("/change-password", async function (req, res) {
             let changes = { password: security.md5(newPassword) };
             await store.users.update(req.user._id, changes);
             return res.sendStatus(200);
-        case "bcrypt":
+        }
+        case "bcrypt": {
             security.bcryptCheck(password, user.password, function (err, result) {
                 if (err) {
                     logger.error("password check failed", err);
@@ -73,10 +79,22 @@ router.post("/change-password", async function (req, res) {
                     return res.sendStatus(200);
                 });
             });
+            break;
+        }
         default:
             logger.error("Incorrect passwordHashAlgorithm specified in config.json");
             return res.sendStatus(500);
     }
+});
+
+
+router.post("/send-email", async function (req, res) {
+    let subject = req.body.subject,
+        message = req.body.message;
+
+    const mailer = require("./../lib/mailer");
+    await mailer.send(req.user.email, subject, message);
+    return res.sendStatus(200);
 });
 
 module.exports = router;

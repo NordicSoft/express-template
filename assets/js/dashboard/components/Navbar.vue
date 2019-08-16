@@ -11,6 +11,14 @@
                         <v-list-tile-title>Users</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
+                <v-list-tile to="/send-email">
+                    <v-list-tile-action>
+                        <v-icon>email</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Send Email</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
             </v-list>
         </v-navigation-drawer>
         <v-toolbar dark color="primary" dense fixed clipped-left app>

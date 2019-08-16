@@ -7,3 +7,4 @@ node_modules
 /www/js/dashboard.js
 /www/js/facade.js
 package-lock.json
+.env

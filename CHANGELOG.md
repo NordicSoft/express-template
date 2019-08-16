@@ -1,7 +1,10 @@
 # Changelog
 
 ## **0.0.5** - *2019-xx-xx* - **_[next]_**
-* Dashboard/Profile page - separate route (URL) for each tab;
+* `Dashboard/Profile` page - separate route (URL) for each tab;
+* `dotenv-defaults` added;
+* `aws-sdk` added;
+* `Dashboard/Send Email` page added (uses Amazon SES);
 
 
 ## **0.0.4** - *2019-07-18*

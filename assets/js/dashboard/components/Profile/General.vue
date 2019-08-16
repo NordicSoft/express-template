@@ -1,6 +1,5 @@
 <template>
     <v-form ref="form" lazy-validation>
-        <v-snackbar v-model="snackbar">Saved</v-snackbar>
         <v-text-field
             v-model="name"
             prepend-icon="person"
@@ -28,7 +27,6 @@ import axios from "axios";
 
 export default {
     data: () => ({
-        snackbar: false,
         name: "",
         nameRules: [
             v => !!v || "Please provide your name",
