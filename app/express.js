@@ -9,10 +9,10 @@ var express = require("express"),
     hbs = require("express-hbs"),
     cors = require('cors'),
     compression = require("compression");
-    //router = require('./router');
-    //langs = require('./langs');
+//router = require('./router');
+//langs = require('./langs');
 
-module.exports = function(config) {
+module.exports = function (config) {
 
     var app = express();
 
@@ -55,7 +55,7 @@ module.exports = function(config) {
     app.use(cookieParser());
 
     // init Gzip compression
-    app.use(compression({level: 2}));
+    app.use(compression({ level: 2 }));
 
     // parse incoming request body
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -71,47 +71,8 @@ module.exports = function(config) {
     }
 
 
-    // add Response extensions
-    app.use(function (req, res, next) {   
-
-        res.renderPartial = function (view, options, callback) {
-            if (!options) options = {};
-
-            if (typeof options == "function") {
-                callback = options;
-                options = {};
-            }
-
-            options.layout = false;
-            res.render(view, options, function (err, str, yields) {
-                if (err) {
-                    if (typeof callback == "function") {
-                        callback(err);
-                    }
-                    return req.next(err);
-                }
-                var json = {
-                    data: str,
-                    yields: yields
-                };
-                if (typeof callback == "function") {
-                    return callback(null, json);
-                }
-                return res.json(json);
-            });
-        };
-
-        res.renderPage = function (view, options, callback) {
-            if (typeof options == "function") {
-                callback = options;
-                options = {};
-            }
-            if (req.xhr) {
-                return res.renderPartial(view, options, callback);
-            } else {
-                return res.render(view, options, callback);
-            }
-        };
+    // custom middlewares
+    app.use(function (req, res, next) {
 
         res.error = function (status, options, callback) {
             options = options || {};

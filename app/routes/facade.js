@@ -122,7 +122,7 @@ router.get("/*", function (req, res) {
         res.send(html);
     };
 
-    return res.renderPage(view, options, renderCallback);
+    return res.render(view, options, renderCallback);
 });
 
 module.exports = router;
