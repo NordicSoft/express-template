@@ -3,10 +3,7 @@ const nodemailer = require("nodemailer"),
 
 
 // Configure AWS with your access and secret key.
-const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_SES_FROM } = process.env;
-
-// Configure AWS to use promise
-AWS.config.setPromisesDependency(require("bluebird"));
+const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_SES_FROM, AWS_SES_SEND_RATE } = process.env;
 AWS.config.update({ accessKeyId: AWS_ACCESS_KEY_ID, secretAccessKey: AWS_SECRET_ACCESS_KEY, region: AWS_REGION });
 
 // create Nodemailer SES transporter
@@ -14,7 +11,7 @@ let transporter = nodemailer.createTransport({
     SES: new AWS.SES({
         apiVersion: "2010-12-01"
     }),
-    sendingRate: 1 // max 1 messages/second
+    sendingRate: AWS_SES_SEND_RATE
 });
 
 module.exports = {
