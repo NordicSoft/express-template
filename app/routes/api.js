@@ -97,4 +97,25 @@ router.post("/send-email", async function (req, res) {
     return res.sendStatus(200);
 });
 
+router.get("/storage/s3/list", async function (req, res) {
+    const AWS = require("aws-sdk");
+
+    // Configure AWS with your access and secret key.
+    const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_S3_BUCKET } = process.env;
+    AWS.config.update({ accessKeyId: AWS_ACCESS_KEY_ID, secretAccessKey: AWS_SECRET_ACCESS_KEY, region: AWS_REGION });
+
+    // Create a new service object
+    var s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: { Bucket: AWS_S3_BUCKET }
+    });
+    var data = await s3.listObjectsV2({
+        Delimiter: "/",
+        Prefix: req.query.path
+    }).promise();
+    console.log(data);
+    res.json(data);
+});
+
+
 module.exports = router;
