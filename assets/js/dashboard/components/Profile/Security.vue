@@ -2,7 +2,7 @@
     <v-form ref="form" lazy-validation>
         <v-text-field
             v-model="password"
-            prepend-icon="lock"
+            prepend-icon="mdi-lock"
             type="password"
             :rules="passwordRules"
             label="Current Password"
@@ -10,7 +10,7 @@
         ></v-text-field>
         <v-text-field
             v-model="newPassword"
-            prepend-icon="lock"
+            prepend-icon="mdi-lock"
             type="password"
             :rules="newPasswordRules"
             label="New Password"
@@ -18,14 +18,14 @@
         ></v-text-field>
         <v-text-field
             v-model="newPasswordConfirm"
-            prepend-icon="lock"
+            prepend-icon="mdi-lock"
             type="password"
             :rules="newPasswordConfirmRules"
             label="New Password Confirmation"
             required
         ></v-text-field>
         <v-btn color="success" @click="save">
-            <v-icon class="mr-2">done</v-icon>Save
+            <v-icon class="mr-2">mdi-check</v-icon>Save
         </v-btn>
     </v-form>
 </template>

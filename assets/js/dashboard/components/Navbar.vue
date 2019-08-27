@@ -3,42 +3,40 @@
         <v-navigation-drawer v-model="drawer" fixed clipped app>
             <v-subheader class="mt-3 grey--text text--darken-1">Administration</v-subheader>
             <v-list dense>
-                <v-list-tile to="/users">
-                    <v-list-tile-action>
-                        <v-icon>supervisor_account</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Users</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile to="/send-email">
-                    <v-list-tile-action>
-                        <v-icon>email</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Send Email</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
+                <v-list-item to="/users">
+                    <v-list-item-action>
+                        <v-icon>mdi-account-supervisor</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Users</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item to="/send-email">
+                    <v-list-item-action>
+                        <v-icon>mdi-email</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Send Email</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar dark color="primary" dense fixed clipped-left app>
-            <v-toolbar-side-icon @click.stop="drawer = !drawer" class="mr-0"></v-toolbar-side-icon>
+        <v-app-bar dark color="primary" dense fixed clipped-left app>
+            <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="mr-0"></v-app-bar-nav-icon>
             <v-toolbar-title class="mr-5 ml-0">
-                <v-btn flat to="/">
-                    <v-icon class="mr-2">dashboard</v-icon>
+                <v-btn text to="/">
+                    <v-icon class="mr-2">mdi-view-dashboard</v-icon>
                     <span class="title">Dashboard</span>
                 </v-btn>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-toolbar-items>
-                <v-btn flat to="/profile">
-                    <v-icon class="mr-2">account_box</v-icon>Profile
-                </v-btn>
-                <v-btn flat href="/signout">
-                    <v-icon class="mr-2">exit_to_app</v-icon>Sign Out
-                </v-btn>
-            </v-toolbar-items>
-        </v-toolbar>
+            <v-btn text to="/profile">
+                <v-icon class="mr-2">mdi-account-box</v-icon>Profile
+            </v-btn>
+            <v-btn text href="/signout">
+                <v-icon class="mr-2">mdi-exit-to-app</v-icon>Sign Out
+            </v-btn>
+        </v-app-bar>
     </div>
 </template>
 
@@ -51,7 +49,7 @@ export default {
 </script>
 
 <style lang="scss">
-.v-toolbar {
+.v-app-bar {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 </style>

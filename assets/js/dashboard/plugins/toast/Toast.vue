@@ -14,8 +14,8 @@
     >
         <v-icon v-if="icon" dark left class="ml-0 mr-3">{{ icon }}</v-icon>
         <div v-html="message" class="toast-message"></div>
-        <v-btn v-if="closeButton" flat icon @click="active = false" class="mr-0 ml-1">
-            <v-icon>close</v-icon>
+        <v-btn v-if="closeButton" text icon @click="active = false" class="mr-0 ml-1">
+            <v-icon>mdi-close</v-icon>
         </v-btn>
     </v-snackbar>
 </template>

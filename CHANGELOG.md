@@ -5,6 +5,7 @@
 * `dotenv-defaults` added;
 * `aws-sdk` added;
 * `Dashboard/Send Email` page added (uses Amazon SES);
+* `Vuetify` updated to v2.0;
 
 
 ## **0.0.4** - *2019-07-18*

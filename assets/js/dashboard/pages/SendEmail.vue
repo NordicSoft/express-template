@@ -11,7 +11,7 @@
             ></v-text-field>
             <v-textarea v-model="message" :rules="messageRules" label="Message"></v-textarea>
             <v-btn color="success" @click="send">
-                <v-icon class="mr-2">done</v-icon>Send
+                <v-icon class="mr-2">mdi-check</v-icon>Send
             </v-btn>
         </v-form>
     </div>

@@ -28,7 +28,7 @@ export default {
     text-transform: initial;
 }
 
-.application.dashboard {
+.v-application.dashboard {
     background: #f7f7f7;
 }
 

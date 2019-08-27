@@ -2,7 +2,7 @@
     <v-form ref="form" lazy-validation>
         <v-text-field
             v-model="name"
-            prepend-icon="person"
+            prepend-icon="mdi-account"
             :counter="50"
             :rules="nameRules"
             label="Name"
@@ -10,14 +10,14 @@
         ></v-text-field>
         <v-text-field
             v-model="email"
-            prepend-icon="email"
+            prepend-icon="mdi-email"
             maxlength="254"
             :rules="emailRules"
             label="E-mail"
             required
         ></v-text-field>
         <v-btn color="success" @click="save">
-            <v-icon class="mr-2">done</v-icon>Save
+            <v-icon class="mr-2">mdi-check</v-icon>Save
         </v-btn>
     </v-form>
 </template>

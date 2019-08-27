@@ -66,7 +66,7 @@
     "vue": "^2.6.10",
     "vue-router": "^3.0.6",
     "vue-template-compiler": "^2.6.10",
-    "vuetify": "^1.5.16",
+    "vuetify": "^2.0.10",
     "vuex": "^3.1.1",
     "winston": "3.x.x",
     "xdate": "0.x.x"
@@ -74,6 +74,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
+    "@mdi/font": "^4.2.95",
     "autoprefixer": "^9.6.0",
     "browser-sync": "^2.26.7",
     "cssnano": "^4.1.10",
@@ -92,7 +93,6 @@
     "gulp-uglify": "^3.0.2",
     "gulp-uglify-es": "^1.0.4",
     "minimist": "^1.2.0",
-    "node-sass": "^4.12.0",
     "rollup": "^1.16.2",
     "rollup-plugin-alias": "^1.5.2",
     "rollup-plugin-babel": "^4.3.3",
@@ -101,6 +101,7 @@
     "rollup-plugin-node-resolve": "^5.1.0",
     "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-sass": "^1.2.2",
+    "sass": "^1.22.10",
     "uglify-js": "^3.6.0"
   },
   "nodemonConfig": {

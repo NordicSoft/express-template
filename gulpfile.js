@@ -33,6 +33,14 @@ function fontAwesome() {
 }
 
 /**
+ * Copies Material Design icons fonts from node_modules to www/fonts
+*/
+function fontMdi() {
+    return gulp.src(["node_modules/@mdi/font/fonts/**/*"])
+        .pipe(gulp.dest("www/fonts/mdi"));
+}
+
+/**
  * Compiles SCSS, applies required PostCSS plugins:
  * Autoprefixer - https://www.npmjs.com/package/autoprefixer
  * 
@@ -264,7 +272,7 @@ function deploy() {
 
 // default task is for development purposes
 exports.default = gulp.series(
-    gulp.parallel(jsFacadeRollup(true), jsDashboardRollup(true), jsServiceWorker, fontAwesome, watch),
+    gulp.parallel(jsFacadeRollup(true), jsDashboardRollup(true), jsServiceWorker, fontAwesome, fontMdi, watch),
     cssBundle, // cssBundle is after jsDashboardRollup because of extracted Vue Single File Component styles (vue-components.scss)
     browserSyncInit
 );
@@ -272,7 +280,7 @@ exports.default = gulp.series(
 
 // concatenates and minifies all styles and scripts
 exports.build = gulp.series(
-    gulp.parallel(fontAwesome, jsFacadeRollup(false), jsDashboardRollup(false)),
+    gulp.parallel(fontAwesome, fontMdi, jsFacadeRollup(false), jsDashboardRollup(false)),
     cssBundle, // cssBundle is after jsDashboardRollup because of extracted Vue Single File Component styles (vue-components.scss)
     gulp.parallel(cssMinify, jsFacadeMinify, jsDashboardMinify)
 );

@@ -2,12 +2,12 @@
     <div>
         <h1>Profile</h1>
 
-        <v-tabs v-model="tab" centered color="blue-grey lighten-5" @change="tabChanged">
+        <v-tabs v-model="tab" centered background-color="blue-grey lighten-5" @change="tabChanged">
             <v-tab href="#general">
-                <v-icon class="mr-2">person</v-icon>General
+                <v-icon class="mr-2">mdi-account</v-icon>General
             </v-tab>
             <v-tab href="#security">
-                <v-icon class="mr-2">lock</v-icon>Security
+                <v-icon class="mr-2">mdi-lock</v-icon>Security
             </v-tab>
 
             <v-tab-item value="general">

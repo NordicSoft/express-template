@@ -9,7 +9,7 @@ class ToastPlugin {
 
         // default options
         this.options = {
-            container: ".application",  // default container to place toasts in
+            container: ".v-application",  // default container to place toasts in
             property: "$toast",         // Vue instance property name
             queue: true                 // if queue is false then next toast will immediately close previous
         };
@@ -70,10 +70,10 @@ class ToastPlugin {
         // prepare plugin method
         let vueInstanceMethod = this.showToast.bind(this),
             shortcutMethods = [
-                { name: "success", options: { color: "success", icon: "done" } },
-                { name: "info", options: { color: "info", icon: "info" } },
-                { name: "error", options: { color: "error", icon: "error" } },
-                { name: "warning", options: { color: "warning", icon: "warning" } },
+                { name: "success", options: { color: "success", icon: "mdi-check" } },
+                { name: "info", options: { color: "info", icon: "mdi-information" } },
+                { name: "error", options: { color: "error", icon: "mdi-alert-circle" } },
+                { name: "warning", options: { color: "warning", icon: "mdi-alert" } },
             ];
 
         shortcutMethods.forEach(method => {

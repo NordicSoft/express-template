@@ -1,6 +1,6 @@
 import "babel-polyfill";
 import Vue from "vue";
-import Vuetify from "vuetify";
+import vuetify from "./plugins/vuetify";
 import Toast from "./plugins/toast";
 import axios from "axios";
 //import BootstrapVue from "bootstrap-vue";
@@ -12,9 +12,6 @@ import router from "./router";
 import errorHandler from "./error-handler";
 import store from "./store";
 
-// register Vuetify
-Vue.use(Vuetify);
-
 // register Toast plugin
 Vue.use(Toast);
 
@@ -25,6 +22,7 @@ axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 var app = new Vue({
     el: "#app",
+    vuetify,
     router,
     store,
     components: { App },
