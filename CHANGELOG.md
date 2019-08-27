@@ -1,11 +1,14 @@
 # Changelog
 
-## **0.0.5** - *2019-xx-xx* - **_[next]_**
+## **0.0.6** - *2019-xx-xx* - **_[next]_**
+
+## **0.0.5** - *2019-08-27*
 * `Dashboard/Profile` page - separate route (URL) for each tab;
 * `dotenv-defaults` added;
 * `aws-sdk` added;
 * `Dashboard/Send Email` page added (uses Amazon SES);
 * `Vuetify` updated to v2.0;
+* `MongoDB` connection URL moved to environment vars;
 
 
 ## **0.0.4** - *2019-07-18*

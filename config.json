@@ -31,11 +31,5 @@
     "redis": {
         "host": "localhost",
         "port": 6379
-    },
-    "mongo": {
-        // Heroku:
-        "connectionString": "mongodb://express-template-user:express-template-password@main-shard-00-00-pjncj.mongodb.net:27017,main-shard-00-01-pjncj.mongodb.net:27017,main-shard-00-02-pjncj.mongodb.net:27017/test?ssl=true&replicaSet=main-shard-0&authSource=admin&retryWrites=true"
-        // localhost:
-        //"connectionString": "mongodb://express-template-user:express-template-password@localhost:27017/express-template?retryWrites=true"
     }
 }

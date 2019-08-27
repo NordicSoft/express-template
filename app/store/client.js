@@ -1,13 +1,13 @@
 let mongodb = require("mongodb"),
-    config = require("../lib/config"),
     logger = require("../lib/logger"),
     client = new mongodb.MongoClient(
-        config.mongo.connectionString,
+        process.env.MONGODB_URL,
         { useNewUrlParser: true }
     );
 
 client.connect(() => {
-    logger.info("MongoDB connection opened");
+    let server = client.s.options.servers[0];
+    logger.info(`MongoDB connection opened: ${server.host}:${server.port}`);
 });
 
 module.exports = client;
