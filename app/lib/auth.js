@@ -7,7 +7,6 @@
 
 var security = require("./security"),
     md5 = security.md5,
-    clone = require("clone"),
     passport = require("passport"),
     LocalStrategy = require("passport-local").Strategy,
     //FacebookStrategy = require('passport-facebook').Strategy,
@@ -24,58 +23,58 @@ var security = require("./security"),
             passwordField: "password",
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
-            async function (req, username, password, done) {
-                logger.info(username);
-                logger.info(password);
-                // asynchronous
-                process.nextTick(async function () {
-                    // find a user
-                    let user;
-                    try {
-                        user = await store.users.getByEmail(username);
-                        logger.dir(user);
-                    } catch (err) {
-                        logger.error(err);
-                        return done(null, false, "Unknown error");
-                    }
+        async function (req, username, password, done) {
+            logger.info(username);
+            logger.info(password);
+            // asynchronous
+            process.nextTick(async function () {
+                // find a user
+                let user;
+                try {
+                    user = await store.users.getByEmail(username);
+                    logger.dir(user);
+                } catch (err) {
+                    logger.error(err);
+                    return done(null, false, "Unknown error");
+                }
 
-                    // if no user is found or password is wrong return error
-                    if (!user) {
-                        logger.info("User not found");
-                        return done(null, false, "User was not found or password is incorrect");
-                    }
+                // if no user is found or password is wrong return error
+                if (!user) {
+                    logger.info("User not found");
+                    return done(null, false, "User was not found or password is incorrect");
+                }
 
-                    switch (config.passwordHashAlgorithm) {
-                        case "md5":
-                            if (md5(password) !== user.password) {
+                switch (config.passwordHashAlgorithm) {
+                    case "md5":
+                        if (md5(password) !== user.password) {
+                            return done(null, false, "User was not found or password is incorrect");
+                        }
+                        // all is well, return successful user
+                        logger.info("Signin successful");
+                        return done(null, user);
+                    case "bcrypt":
+                        security.bcryptCheck(password, user.password, function (err, result) {
+                            if (err) {
+                                logger.error("password check failed", err);
+                                return done(null, false, "Unknown error");
+                            }
+                            if (!result) {
+                                logger.info(!user ? "User not found" : "Password is incorrect");
                                 return done(null, false, "User was not found or password is incorrect");
                             }
+
                             // all is well, return successful user
                             logger.info("Signin successful");
+
                             return done(null, user);
-                        case "bcrypt":
-                            security.bcryptCheck(password, user.password, function (err, result) {
-                                if (err) {
-                                    logger.error("password check failed", err);
-                                    return done(null, false, "Unknown error");
-                                }
-                                if (!result) {
-                                    logger.info(!user ? "User not found" : "Password is incorrect");
-                                    return done(null, false, "User was not found or password is incorrect");
-                                }
-
-                                // all is well, return successful user
-                                logger.info("Signin successful");
-
-                                return done(null, user);
-                            });
-                            break;
-                        default:
-                            logger.error("Incorrect passwordHashAlgorithm specified in config.json");
-                            break;
-                    }
-                });
-            }),
+                        });
+                        break;
+                    default:
+                        logger.error("Incorrect passwordHashAlgorithm specified in config.json");
+                        break;
+                }
+            });
+        }),
         /*facebook: new FacebookStrategy({
                 // pull in our app id and secret from our auth.js file
                 clientID: configAuth.facebookAuth.clientID,

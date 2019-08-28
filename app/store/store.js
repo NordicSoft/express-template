@@ -1,6 +1,5 @@
 const mongodb = require("mongodb"),
-    client = require("./client"),
-    logger = require("./../lib/logger");
+    client = require("./client");
 
 class Store {
     constructor(collectionName) {

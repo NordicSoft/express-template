@@ -9,11 +9,13 @@
   "commit": "${commit}",
   "backup": "${backup}",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint '**/*.js'",
+    "lint-fix": "npm run lint -- --fix",
     "forever-start": "cross-env PORT=8080 RUNNING_FOREVER=1 cross-var forever start -a -l $INIT_CWD/logs/forever.log --uid express-template index.js",
     "forever-stop": "forever stop express-template",
     "build": "npx gulp build",
     "deploy": "npx gulp deploy",
+    "dev": "npm run lint && nodemon",
     "start": "node index.js"
   },
   "dependencies": {

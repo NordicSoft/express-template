@@ -47,6 +47,7 @@ module.exports = function (express) {
     // handle 500
     // eslint-disable-next-line no-unused-vars
     // next parameter is required to work correctly
+    // eslint-disable-next-line no-unused-vars
     express.use(function (err, req, res, next) {
 
         var options = {};

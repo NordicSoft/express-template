@@ -2,6 +2,8 @@
 
 ## **0.0.6** - *2019-xx-xx* - **_[next]_**
 * `MongoDB Store` refactored;
+* `lint` run task added (runs ESLint);
+* follow `ESLint` recommendations;
 
 ## **0.0.5** - *2019-08-27*
 * `Dashboard/Profile` page - separate route (URL) for each tab;

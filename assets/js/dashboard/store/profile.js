@@ -8,7 +8,7 @@ export default {
         },
     },
     actions: {
-        async load({ commit }) {
+        async load() {
             
         }
     },
@@ -17,4 +17,4 @@ export default {
             return state.profile;
         }
     }
-}  
+};
