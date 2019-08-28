@@ -16,14 +16,13 @@
             label="E-mail"
             required
         ></v-text-field>
-        <v-btn color="success" @click="save">
+        <v-btn color="success" @click="save" class="mt-3">
             <v-icon class="mr-2">mdi-check</v-icon>Save
         </v-btn>
     </v-form>
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
     data: () => ({
@@ -40,7 +39,7 @@ export default {
     }),
     async mounted() {
         // load profile info
-        let response = await axios.get("/api/profile"),
+        let response = await this.$http.get("/profile"),
             profile = response.data;
 
         this.name = profile.name;
@@ -54,7 +53,7 @@ export default {
                     email: this.email
                 };
 
-                await axios.post("/api/profile", profile);
+                await this.$http.post("/profile", profile);
                 this.$toast.success("Profile saved");
             }
         }

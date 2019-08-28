@@ -7,7 +7,6 @@
         :bottom="bottom"
         :left="left"
         :timeout="timeout"
-        :auto-height="autoHeight"
         :multi-line="multiLine"
         :vertical="vertical"
         @click="closeOnClick ? active = false : null"

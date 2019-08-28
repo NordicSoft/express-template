@@ -7,6 +7,7 @@
             :rules="passwordRules"
             label="Current Password"
             required
+            autocomplete="off"
         ></v-text-field>
         <v-text-field
             v-model="newPassword"
@@ -15,6 +16,7 @@
             :rules="newPasswordRules"
             label="New Password"
             required
+            autocomplete="off"
         ></v-text-field>
         <v-text-field
             v-model="newPasswordConfirm"
@@ -23,16 +25,15 @@
             :rules="newPasswordConfirmRules"
             label="New Password Confirmation"
             required
+            autocomplete="off"
         ></v-text-field>
-        <v-btn color="success" @click="save">
+        <v-btn color="success" @click="save" class="mt-3">
             <v-icon class="mr-2">mdi-check</v-icon>Save
         </v-btn>
     </v-form>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
     data: () => ({
         password: "",
@@ -59,7 +60,7 @@ export default {
                     newPassword: this.newPassword
                 };
 
-                await axios.post("/api/change-password", data);
+                await this.$http.post("/change-password", data);
 
                 this.$toast.success("Password changed");
             }

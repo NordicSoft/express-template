@@ -4,6 +4,7 @@
 * `MongoDB Store` refactored;
 * `lint` run task added (runs ESLint);
 * follow `ESLint` recommendations;
+* `axios` configuration changed (used as Vue $http plugin);
 
 ## **0.0.5** - *2019-08-27*
 * `Dashboard/Profile` page - separate route (URL) for each tab;

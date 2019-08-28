@@ -3,7 +3,6 @@ import Vue from "vue";
 import vuetify from "./plugins/vuetify";
 import Toast from "./plugins/toast";
 import axios from "axios";
-//import BootstrapVue from "bootstrap-vue";
 
 import { log } from "core";
 import options from "options";
@@ -12,13 +11,16 @@ import router from "./router";
 import errorHandler from "./error-handler";
 import store from "./store";
 
+// setup axios
+Vue.axios = Vue.prototype.$http = axios.create({
+    baseURL: "/api",
+    headers: {
+        "X-Requested-With": "XMLHttpRequest"
+    }
+});
+
 // register Toast plugin
 Vue.use(Toast);
-
-//Vue.use(BootstrapVue);
-
-// set axios defaults
-axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 var app = new Vue({
     el: "#app",
