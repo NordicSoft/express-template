@@ -1,5 +1,5 @@
 const mongodb = require("mongodb"),
-    users = require("./users");
+    users = require("./modules/users");
 
 module.exports = {
     users

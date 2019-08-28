@@ -5,9 +5,4 @@ let mongodb = require("mongodb"),
         { useNewUrlParser: true }
     );
 
-client.connect(() => {
-    let server = client.s.options.servers[0];
-    logger.info(`MongoDB connection opened: ${server.host}:${server.port}`);
-});
-
 module.exports = client;
