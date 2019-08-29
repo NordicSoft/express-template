@@ -97,6 +97,26 @@ router.post("/send-email", async function (req, res) {
     return res.sendStatus(200);
 });
 
+router.get("/storage/local/list", async function (req, res) {
+    let path = req.query.path;
+    res.json([
+        {
+            type: "dir",
+            path: path + "subfolder/",
+            basename: "subfolder",
+            extension: "",
+            name: "subfolder",
+            children: []
+        },
+        {
+            type: "file",
+            path: path + "test.txt",
+            basename: "test.txt",
+            extension: "txt",
+            name: "test"
+        }]);
+});
+
 router.get("/storage/s3/list", async function (req, res) {
     const AWS = require("aws-sdk");
 
