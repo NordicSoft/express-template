@@ -67,7 +67,13 @@ export default {
             let response = await this.$http.get(
                 "/storage/local/list?path=" + item.path
             );
-            item.children = response.data;
+
+            item.children = response.data.map(item => {
+                if (item.type === "dir") {
+                    item.children = [];
+                }
+                return item;
+            });
         },
         activeChanged(active) {
             let path = "";
@@ -75,7 +81,7 @@ export default {
                 path = active[0].path;
             }
             this.$emit("path-changed", path);
-        },
+        }
     },
     watch: {
         storage() {

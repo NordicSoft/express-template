@@ -2,7 +2,7 @@ var logger = require("./lib/logger");
 
 module.exports = function (express) {
     logger.info("Init Router");
-    
+
     var signinRequired = function (req, res, next) {
         if (!req.isAuthenticated()) {
             logger.info("Signin is required");
@@ -14,17 +14,17 @@ module.exports = function (express) {
                     redirectUrl = "/signin",
                     path = url.parse(req.originalUrl).path;
 
-                if (/^\s*$/.test(path)) {
+                if (path) {
                     redirectUrl += "?return=" + querystring.escape(path);
                 }
-
+                console.log("redirectUrl", path);
                 return res.redirect(redirectUrl);
             }
         }
         next();
     };
 
-    var xhrOnly = function(req, res, next){            
+    var xhrOnly = function (req, res, next) {
         if (!req.xhr) {
             return res.error(404);
         }
@@ -61,7 +61,7 @@ module.exports = function (express) {
 
         logger.error("Express Error Middleware");
         logger.error(err);
-        
+
         return res.error(500, options);
     });
 };

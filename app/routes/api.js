@@ -98,8 +98,59 @@ router.post("/send-email", async function (req, res) {
 });
 
 router.get("/storage/local/list", async function (req, res) {
+    const root = process.cwd() + "/www/files",
+        fs = require("fs"),
+        nodePath = require("path"),
+        util = require("util"),
+        readdir = util.promisify(fs.readdir),
+        stat = util.promisify(fs.stat);
+
+    let path = req.query.path,
+        dirs = [],
+        files = [];
+
+    if (path[path.length - 1] !== "/") {
+        path += "/";
+    }
+
+    let items = await readdir(root + path, { withFileTypes: true });
+
+    for (let item of items) {
+        console.log(item.name);
+        let isFile = item.isFile(),
+            isDir = item.isDirectory();
+
+        if (!isFile && !isDir) {
+            return;
+        }
+        console.log(isDir, isFile);
+
+        let result = {
+            type: isFile ? "file" : "dir",
+            path: path + item.name,
+        };
+
+        result.basename = result.name = nodePath.basename(result.path);
+
+        if (isFile) {
+            let fileStat = await stat(root + result.path);
+            result.size = fileStat.size;
+            result.extension = nodePath.extname(result.path).slice(1);
+            result.name = nodePath.basename(result.path, "." + result.extension);
+            console.log(result);
+            files.push(result);
+        } else {
+            console.log(result);
+            dirs.push(result);
+        }
+    }
+
+    return res.json(dirs.concat(files));
+});
+
+router.get("/storage/s3/list", async function (req, res) {
     let path = req.query.path;
-    res.json([
+    return res.json([
         {
             type: "dir",
             path: path + "subfolder/",
@@ -115,9 +166,7 @@ router.get("/storage/local/list", async function (req, res) {
             extension: "txt",
             name: "test"
         }]);
-});
 
-router.get("/storage/s3/list", async function (req, res) {
     const AWS = require("aws-sdk");
 
     // Configure AWS with your access and secret key.

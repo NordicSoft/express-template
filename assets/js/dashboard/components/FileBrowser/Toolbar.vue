@@ -3,7 +3,7 @@
         <v-toolbar-items>
             <v-menu offset-y>
                 <template v-slot:activator="{ on }">
-                    <v-btn text class="storage-select-button" v-on="on">
+                    <v-btn text class="storage-select-button" v-on="storages.length > 1 ? on : {}" :disabled="storages.length <= 1">
                         <v-icon class="mr-2">{{storageObject.icon}}</v-icon>
                         {{storageObject.name}}
                     </v-btn>
@@ -73,7 +73,7 @@ export default {
             return segments;
         },
         storageObject() {
-            return this.storages.find(item => item.code === this.storage);
+            return this.storages.find(item => item.code == this.storage);
         }
     },
     methods: {
