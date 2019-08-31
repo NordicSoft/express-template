@@ -3,9 +3,13 @@
         <v-toolbar-items>
             <v-menu offset-y>
                 <template v-slot:activator="{ on }">
-                    <v-btn text class="storage-select-button" v-on="storages.length > 1 ? on : {}" :disabled="storages.length <= 1">
-                        <v-icon class="mr-2">{{storageObject.icon}}</v-icon>
-                        {{storageObject.name}}
+                    <v-btn
+                        icon
+                        class="storage-select-button mr-3"
+                        v-on="on"
+                        v-if="storages.length > 1"
+                    >
+                        <v-icon>mdi-arrow-down-drop-circle-outline</v-icon>
                     </v-btn>
                 </template>
                 <v-list class="storage-select-list">
@@ -22,6 +26,10 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
+            <v-btn text @click="changePath('/')">
+                <v-icon class="mr-2">{{storageObject.icon}}</v-icon>
+                {{storageObject.name}}
+            </v-btn>
             <template v-for="(segment, index) in pathSegments">
                 <v-icon :key="index + '-icon'">mdi-chevron-right</v-icon>
                 <v-btn
@@ -35,12 +43,6 @@
         <div class="flex-grow-1"></div>
 
         <template v-if="$vuetify.breakpoint.smAndUp">
-            <v-btn icon>
-                <v-icon>mdi-export-variant</v-icon>
-            </v-btn>
-            <v-btn icon>
-                <v-icon>mdi-delete-circle</v-icon>
-            </v-btn>
             <v-btn icon>
                 <v-icon>mdi-plus-circle</v-icon>
             </v-btn>
@@ -84,6 +86,7 @@ export default {
             }
         },
         changePath(path) {
+            console.log("Toolbar.changePath: " + path);
             this.$emit("path-changed", path);
         }
     }

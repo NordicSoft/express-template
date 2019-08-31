@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Files</h1>
-        <file-browser/>
+        <file-browser storages="local"/>
     </div>
 </template>
 

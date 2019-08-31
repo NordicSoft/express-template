@@ -116,14 +116,12 @@ router.get("/storage/local/list", async function (req, res) {
     let items = await readdir(root + path, { withFileTypes: true });
 
     for (let item of items) {
-        console.log(item.name);
         let isFile = item.isFile(),
             isDir = item.isDirectory();
 
         if (!isFile && !isDir) {
             return;
         }
-        console.log(isDir, isFile);
 
         let result = {
             type: isFile ? "file" : "dir",
@@ -137,10 +135,9 @@ router.get("/storage/local/list", async function (req, res) {
             result.size = fileStat.size;
             result.extension = nodePath.extname(result.path).slice(1);
             result.name = nodePath.basename(result.path, "." + result.extension);
-            console.log(result);
             files.push(result);
         } else {
-            console.log(result);
+            result.path += "/";
             dirs.push(result);
         }
     }

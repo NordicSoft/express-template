@@ -72,11 +72,11 @@ export default {
     },
     methods: {
         storageChanged(storage) {
-            console.log(storage);
+            console.log("FileBrowser.storageChanged: " + storage);
             this.activeStorage = storage;
         },
         pathChanged(path) {
-            console.log(path);
+            console.log("FileBrowser.pathChanged: " + path);
             this.path = path;
         }
     },

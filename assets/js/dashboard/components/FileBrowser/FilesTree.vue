@@ -2,11 +2,12 @@
     <v-card flat tile width="250" min-height="300" class="folders-tree-card">
         <v-treeview
             :open="open"
+            :active="active"
             :items="items"
             :load-children="readFolder"
             v-on:update:active="activeChanged"
             item-key="path"
-            return-object
+            item-text="basename"
             dense
             activatable
             transition
@@ -31,6 +32,8 @@ export default {
     data() {
         return {
             files: {
+                zip: "mdi-folder-zip-outline",
+                rar: "mdi-folder-zip-outline",
                 html: "mdi-language-html5",
                 js: "mdi-nodejs",
                 json: "mdi-json",
@@ -41,6 +44,7 @@ export default {
                 xls: "mdi-file-excel"
             },
             open: [],
+            active: [],
             items: []
         };
     },
@@ -55,7 +59,7 @@ export default {
                     {
                         type: "dir",
                         path: "/",
-                        basename: "",
+                        basename: "root",
                         extension: "",
                         name: "root",
                         children: []
@@ -68,24 +72,38 @@ export default {
                 "/storage/local/list?path=" + item.path
             );
 
-            item.children = response.data.map(item => {
-                if (item.type === "dir") {
-                    item.children = [];
-                }
-                return item;
-            });
+            item.children.push(
+                ...response.data.map(item => {
+                    if (item.type === "dir") {
+                        item.children = [];
+                    }
+                    return item;
+                })
+            );
         },
         activeChanged(active) {
+            console.log("FilesTree.activeChanged");
+            console.log(active);
+            this.active = active;
             let path = "";
             if (active.length) {
-                path = active[0].path;
+                path = active[0];
             }
-            this.$emit("path-changed", path);
+            if (this.path != path) {
+                this.$emit("path-changed", path);
+            }
         }
     },
     watch: {
         storage() {
+            console.log("watch storage");
             this.init();
+        },
+        path() {
+            console.log("watch path");
+            console.log(this.path);
+            //this.activeChanged([this.path]);
+            this.active = [this.path];
         }
     },
     created() {
