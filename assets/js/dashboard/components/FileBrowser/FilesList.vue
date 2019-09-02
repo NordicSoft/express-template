@@ -1,18 +1,125 @@
 <template>
-    <v-card flat tile>
-        <v-card-text v-if="!path" class="text-center grey--text">Select a folder or a file</v-card-text>
-        <v-card-text v-else>{{path}}</v-card-text>
+    <v-card flat tile min-height="300" class="d-flex flex-column">
+        <v-card-text v-if="!path" class="grow d-flex justify-center align-center grey--text">Select a folder or a file</v-card-text>
+        <v-card-text v-else-if="dirs.length || files.length" class="grow">
+            <v-list subheader v-if="dirs.length">
+                <v-subheader>Folders</v-subheader>
+                <v-list-item
+                    v-for="item in dirs"
+                    :key="item.basename"
+                    @click="changePath(item.path)"
+                    class="pl-0"
+                >
+                    <v-list-item-avatar class="ma-0">
+                        <v-icon>mdi-folder-outline</v-icon>
+                    </v-list-item-avatar>
+                    <v-list-item-content class="py-2">
+                        <v-list-item-title v-text="item.basename"></v-list-item-title>
+                    </v-list-item-content>
+                    <v-list-item-action v-if="false">
+                        <v-btn icon>
+                            <v-icon color="grey lighten-1">mdi-information</v-icon>
+                        </v-btn>
+                    </v-list-item-action>
+                </v-list-item>
+            </v-list>
+            <v-divider v-if="dirs.length && files.length"></v-divider>
+            <v-list subheader v-if="files.length">
+                <v-subheader>Files</v-subheader>
+                <v-list-item
+                    v-for="item in files"
+                    :key="item.basename"
+                    @click="changePath(item.path)"
+                    class="pl-0"
+                >
+                    <v-list-item-avatar class="ma-0">
+                        <v-icon>{{ icons[item.extension] }}</v-icon>
+                    </v-list-item-avatar>
+
+                    <v-list-item-content class="py-2">
+                        <v-list-item-title v-text="item.basename"></v-list-item-title>
+                        <v-list-item-subtitle>{{ item.size }} bytes</v-list-item-subtitle>
+                    </v-list-item-content>
+
+                    <v-list-item-action v-if="false">
+                        <v-btn icon>
+                            <v-icon color="grey lighten-1">mdi-information</v-icon>
+                        </v-btn>
+                    </v-list-item-action>
+                </v-list-item>
+            </v-list>
+        </v-card-text>
+        <v-card-text
+            v-else-if="filter"
+            class="grow d-flex justify-center align-center grey--text py-5"
+        >No files or folders found</v-card-text>
+        <v-card-text v-else class="grow d-flex justify-center align-center grey--text py-5">The folder is empty</v-card-text>
+        <v-divider v-if="path"></v-divider>
+        <v-toolbar v-if="path" dense flat class="shrink">
+            <v-text-field
+                solo
+                flat
+                hide-details
+                label="Filter"
+                v-model="filter"
+                prepend-inner-icon="mdi-filter-outline"
+                class="ml-n3"
+            ></v-text-field>
+            <v-btn icon v-if="false">
+                <v-icon>mdi-eye-settings-outline</v-icon>
+            </v-btn>
+        </v-toolbar>
     </v-card>
 </template>
 
 <script>
 export default {
     props: {
+        icons: Object,
         storage: String,
         path: String
+    },
+    data() {
+        return {
+            items: [],
+            filter: ""
+        };
+    },
+    computed: {
+        dirs() {
+            return this.items.filter(
+                item =>
+                    item.type === "dir" && item.basename.includes(this.filter)
+            );
+        },
+        files() {
+            return this.items.filter(
+                item =>
+                    item.type === "file" && item.basename.includes(this.filter)
+            );
+        }
+    },
+    methods: {
+        changePath(path) {
+            console.log("List.changePath: " + path);
+            this.$emit("path-changed", path);
+        }
+    },
+    watch: {
+        async path() {
+            this.$emit("loading", true);
+            let response = await this.$http.get(
+                "/storage/local/list?path=" + this.path
+            );
+            this.items = response.data;
+            this.$emit("loading", false);
+        }
     }
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.v-card {
+    height: 100%;
+}
 </style>

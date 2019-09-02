@@ -1,51 +1,64 @@
 <template>
-    <v-card flat tile width="250" min-height="300" class="folders-tree-card">
-        <v-treeview
-            :open="open"
-            :active="active"
-            :items="items"
-            :load-children="readFolder"
-            v-on:update:active="activeChanged"
-            item-key="path"
-            item-text="basename"
-            dense
-            activatable
-            transition
-            class="folders-tree"
-        >
-            <template v-slot:prepend="{ item, open }">
-                <v-icon
-                    v-if="item.type === 'dir'"
-                >{{ open ? 'mdi-folder-open-outline' : 'mdi-folder-outline' }}</v-icon>
-                <v-icon v-else>{{ files[item.extension] }}</v-icon>
-            </template>
-        </v-treeview>
+    <v-card flat tile width="250" min-height="300" class="d-flex flex-column folders-tree-card">
+        <div class="grow scroll-x">
+            <v-treeview
+                :open="open"
+                :active="active"
+                :items="items"
+                :search="filter"
+                :load-children="readFolder"
+                v-on:update:active="activeChanged"
+                item-key="path"
+                item-text="basename"
+                dense
+                activatable
+                transition
+                class="folders-tree"
+            >
+                <template v-slot:prepend="{ item, open }">
+                    <v-icon
+                        v-if="item.type === 'dir'"
+                    >{{ open ? 'mdi-folder-open-outline' : 'mdi-folder-outline' }}</v-icon>
+                    <v-icon v-else>{{ icons[item.extension] }}</v-icon>
+                </template>
+            </v-treeview>
+        </div>
+        <v-divider></v-divider>
+        <v-toolbar dense flat class="shrink">
+            <v-text-field
+                solo
+                flat
+                hide-details
+                label="Filter"
+                v-model="filter"
+                prepend-inner-icon="mdi-filter-outline"
+                class="ml-n3"
+            ></v-text-field>
+            <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                    <v-btn icon @click="init" v-on="on">
+                        <v-icon>mdi-collapse-all-outline</v-icon>
+                    </v-btn>
+                </template>
+                <span>Collapse All</span>
+            </v-tooltip>
+        </v-toolbar>
     </v-card>
 </template>
 
 <script>
 export default {
     props: {
+        icons: Object,
         storage: String,
         path: String
     },
     data() {
         return {
-            files: {
-                zip: "mdi-folder-zip-outline",
-                rar: "mdi-folder-zip-outline",
-                html: "mdi-language-html5",
-                js: "mdi-nodejs",
-                json: "mdi-json",
-                md: "mdi-markdown",
-                pdf: "mdi-file-pdf",
-                png: "mdi-file-image",
-                txt: "mdi-file-document-outline",
-                xls: "mdi-file-excel"
-            },
             open: [],
             active: [],
-            items: []
+            items: [],
+            filter: ""
         };
     },
     methods: {
@@ -66,8 +79,12 @@ export default {
                     }
                 ];
             }, 0);
+            if (this.path !== "") {
+                this.$emit("path-changed", "");
+            }
         },
         async readFolder(item) {
+            this.$emit("loading", true);
             let response = await this.$http.get(
                 "/storage/local/list?path=" + item.path
             );
@@ -80,6 +97,7 @@ export default {
                     return item;
                 })
             );
+            this.$emit("loading", false);
         },
         activeChanged(active) {
             console.log("FilesTree.activeChanged");
@@ -104,6 +122,9 @@ export default {
             console.log(this.path);
             //this.activeChanged([this.path]);
             this.active = [this.path];
+            if (!this.open.includes(this.path)) {
+                this.open.push(this.path);
+            }
         }
     },
     created() {
@@ -114,7 +135,11 @@ export default {
 
 <style lang="scss" scoped>
 .folders-tree-card {
-    overflow-x: auto;
+    height: 100%;
+
+    .scroll-x {
+        overflow-x: auto;
+    }
 
     ::v-deep .folders-tree {
         width: fit-content;

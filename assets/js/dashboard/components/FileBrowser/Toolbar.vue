@@ -1,14 +1,9 @@
 <template>
     <v-toolbar flat dense color="blue-grey lighten-5">
         <v-toolbar-items>
-            <v-menu offset-y>
+            <v-menu offset-y v-if="storages.length > 1">
                 <template v-slot:activator="{ on }">
-                    <v-btn
-                        icon
-                        class="storage-select-button mr-3"
-                        v-on="on"
-                        v-if="storages.length > 1"
-                    >
+                    <v-btn icon class="storage-select-button mr-3" v-on="on">
                         <v-icon>mdi-arrow-down-drop-circle-outline</v-icon>
                     </v-btn>
                 </template>

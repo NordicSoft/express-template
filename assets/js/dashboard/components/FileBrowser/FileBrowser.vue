@@ -8,16 +8,23 @@
             v-on:path-changed="pathChanged"
         ></toolbar>
         <v-row no-gutters>
-            <v-col sm="auto" class="d-none d-sm-flex">
-                <files-tree :path="path" :storage="activeStorage" v-on:path-changed="pathChanged"></files-tree>
+            <v-col sm="auto">
+                <files-tree
+                    :path="path"
+                    :storage="activeStorage"
+                    :icons="icons"
+                    v-on:path-changed="pathChanged"
+                    v-on:loading="loadingChanged"
+                ></files-tree>
             </v-col>
-
             <v-divider vertical></v-divider>
-
             <v-col>
-                <v-scroll-y-transition mode="out-in">
-                    <files-list :path="path"></files-list>
-                </v-scroll-y-transition>
+                <files-list
+                    :path="path"
+                    :icons="icons"
+                    v-on:path-changed="pathChanged"
+                    v-on:loading="loadingChanged"
+                ></files-list>
             </v-col>
         </v-row>
     </v-card>
@@ -41,6 +48,19 @@ const availableStorages = [
     }
 ];
 
+const fileIcons = {
+    zip: "mdi-folder-zip-outline",
+    rar: "mdi-folder-zip-outline",
+    html: "mdi-language-html5",
+    js: "mdi-nodejs",
+    json: "mdi-json",
+    md: "mdi-markdown",
+    pdf: "mdi-file-pdf",
+    png: "mdi-file-image",
+    txt: "mdi-file-document-outline",
+    xls: "mdi-file-excel"
+};
+
 export default {
     components: {
         Toolbar,
@@ -49,9 +69,13 @@ export default {
     },
     props: {
         // comma-separated list of active storage codes
-        storages: { type: String, default: "local,s3" },
+        storages: {
+            type: String,
+            default: () => availableStorages.map(item => item.code).join(",")
+        },
         // code of default storage
-        storage: { type: String, default: "local" }
+        storage: { type: String, default: "local" },
+        icons: { type: Object, default: () => fileIcons }
     },
     data() {
         return {
@@ -71,6 +95,10 @@ export default {
         }
     },
     methods: {
+        loadingChanged(loading) {
+            console.log("FileBrowser.loadingChanged: " + loading);
+            this.loading = loading;
+        },
         storageChanged(storage) {
             console.log("FileBrowser.storageChanged: " + storage);
             this.activeStorage = storage;
