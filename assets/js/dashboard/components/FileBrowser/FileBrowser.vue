@@ -4,36 +4,48 @@
             :path="path"
             :storages="storagesArray"
             :storage="activeStorage"
+            :endpoints="endpoints"
+            :axios="axios"
+            :axiosConfig="axiosConfig"
             v-on:storage-changed="storageChanged"
             v-on:path-changed="pathChanged"
         ></toolbar>
         <v-row no-gutters>
-            <v-col sm="auto">
-                <files-tree
+            <v-col v-if="tree && $vuetify.breakpoint.smAndUp" sm="auto">
+                <tree
                     :path="path"
                     :storage="activeStorage"
                     :icons="icons"
+                    :endpoints="endpoints"
+                    :axios="axios"
+                    :axiosConfig="axiosConfig"
                     v-on:path-changed="pathChanged"
                     v-on:loading="loadingChanged"
-                ></files-tree>
+                ></tree>
             </v-col>
-            <v-divider vertical></v-divider>
+            <v-divider v-if="tree" vertical></v-divider>
             <v-col>
-                <files-list
+                <list
                     :path="path"
+                    :storage="activeStorage"
                     :icons="icons"
+                    :endpoints="endpoints"
+                    :axios="axios"
+                    :axiosConfig="axiosConfig"
                     v-on:path-changed="pathChanged"
                     v-on:loading="loadingChanged"
-                ></files-list>
+                ></list>
             </v-col>
         </v-row>
     </v-card>
 </template>
 
 <script>
+import axios from "axios";
+
 import Toolbar from "./Toolbar";
-import FilesTree from "./FilesTree";
-import FilesList from "./FilesList";
+import Tree from "./Tree";
+import List from "./List";
 
 const availableStorages = [
     {
@@ -47,6 +59,10 @@ const availableStorages = [
         icon: "mdi-amazon-drive"
     }
 ];
+
+const endpoints = {
+    list: { url: "/storage/{storage}/list?path={path}", method: "get" }
+};
 
 const fileIcons = {
     zip: "mdi-folder-zip-outline",
@@ -64,8 +80,12 @@ const fileIcons = {
 export default {
     components: {
         Toolbar,
-        FilesTree,
-        FilesList
+        Tree,
+        List
+    },
+    model: {
+        prop: "path",
+        event: "change"
     },
     props: {
         // comma-separated list of active storage codes
@@ -75,7 +95,11 @@ export default {
         },
         // code of default storage
         storage: { type: String, default: "local" },
-        icons: { type: Object, default: () => fileIcons }
+        tree: { type: Boolean, default: true },
+        icons: { type: Object, default: () => fileIcons },
+        endpoints: { type: Object, default: () => endpoints },
+        axios: { type: Function, default: () => axios },
+        axiosConfig: { type: Object, default: () => {} }
     },
     data() {
         return {
@@ -96,20 +120,24 @@ export default {
     },
     methods: {
         loadingChanged(loading) {
-            console.log("FileBrowser.loadingChanged: " + loading);
             this.loading = loading;
         },
         storageChanged(storage) {
-            console.log("FileBrowser.storageChanged: " + storage);
             this.activeStorage = storage;
         },
         pathChanged(path) {
             console.log("FileBrowser.pathChanged: " + path);
             this.path = path;
+            this.$emit("change", path);
         }
     },
     created() {
         this.activeStorage = this.storage;
+    },
+    mounted() {
+        if (!this.path && !(this.tree && this.$vuetify.breakpoint.smAndUp)) {
+            this.pathChanged("/");
+        }
     }
 };
 </script>

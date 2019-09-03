@@ -21,7 +21,7 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
-            <v-btn text @click="changePath('/')">
+            <v-btn text :input-value="path === '/'" @click="changePath('/')">
                 <v-icon class="mr-2">{{storageObject.icon}}</v-icon>
                 {{storageObject.name}}
             </v-btn>
@@ -38,6 +38,15 @@
         <div class="flex-grow-1"></div>
 
         <template v-if="$vuetify.breakpoint.smAndUp">
+            <v-tooltip bottom v-if="pathSegments.length > 0">
+                <template v-slot:activator="{ on }">
+                    <v-btn icon @click="goUp" v-on="on">
+                        <v-icon>mdi-arrow-up-bold-outline</v-icon>
+                    </v-btn>
+                </template>
+                <span v-if="pathSegments.length === 1">Up to "root"</span>
+                <span v-else>Up to "{{pathSegments[pathSegments.length - 2].name}}"</span>
+            </v-tooltip>
             <v-btn icon>
                 <v-icon>mdi-plus-circle</v-icon>
             </v-btn>
@@ -50,7 +59,9 @@ export default {
     props: {
         storages: Array,
         storage: String,
-        path: String
+        path: String,
+        endpoints: Object,
+        axiosConfig: Object
     },
     computed: {
         pathSegments() {
@@ -81,8 +92,15 @@ export default {
             }
         },
         changePath(path) {
-            console.log("Toolbar.changePath: " + path);
             this.$emit("path-changed", path);
+        },
+        goUp() {
+            let segments = this.pathSegments,
+                path =
+                    segments.length === 1
+                        ? "/"
+                        : segments[segments.length - 2].path;
+            this.changePath(path);
         }
     }
 };

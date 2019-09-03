@@ -51,7 +51,10 @@ export default {
     props: {
         icons: Object,
         storage: String,
-        path: String
+        path: String,
+        endpoints: Object,
+        axios: Function,
+        axiosConfig: Object
     },
     data() {
         return {
@@ -85,9 +88,17 @@ export default {
         },
         async readFolder(item) {
             this.$emit("loading", true);
-            let response = await this.$http.get(
-                "/storage/local/list?path=" + item.path
-            );
+            let url = this.endpoints.list.url
+                .replace(new RegExp("{storage}", "g"), this.storage)
+                .replace(new RegExp("{path}", "g"), item.path);
+
+            let config = {
+                url,
+                method: this.endpoints.list.method || "get",
+                ...this.axiosConfig
+            };
+
+            let response = await this.axios.request(config);
 
             item.children.push(
                 ...response.data.map(item => {
@@ -100,8 +111,6 @@ export default {
             this.$emit("loading", false);
         },
         activeChanged(active) {
-            console.log("FilesTree.activeChanged");
-            console.log(active);
             this.active = active;
             let path = "";
             if (active.length) {
@@ -114,13 +123,9 @@ export default {
     },
     watch: {
         storage() {
-            console.log("watch storage");
             this.init();
         },
         path() {
-            console.log("watch path");
-            console.log(this.path);
-            //this.activeChanged([this.path]);
             this.active = [this.path];
             if (!this.open.includes(this.path)) {
                 this.open.push(this.path);
@@ -149,7 +154,7 @@ export default {
             cursor: pointer;
 
             &:hover {
-                background-color: rgba(0, 0, 0, 0.025);
+                background-color: rgba(0, 0, 0, 0.02);
             }
         }
     }

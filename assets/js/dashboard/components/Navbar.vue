@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-app-bar dark color="primary" dense fixed clipped-left app>
+        <v-app-bar dark color="primary" dense fixed clipped-left app class="elevation-2">
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="mr-0"></v-app-bar-nav-icon>
             <v-toolbar-title class="mr-5 ml-0">
                 <v-btn text to="/">
@@ -19,7 +19,7 @@
         <v-navigation-drawer v-model="drawer" fixed clipped app>
             <v-subheader class="mt-3 grey--text text--darken-1">Administration</v-subheader>
             <v-list dense>
-                <v-list-item to="/users">
+                <v-list-item to="/users" disabled>
                     <v-list-item-action>
                         <v-icon>mdi-account-group-outline</v-icon>
                     </v-list-item-action>
@@ -59,8 +59,5 @@ export default {
 </script>
 
 <style lang="scss">
-.v-app-bar {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
 </style>
 

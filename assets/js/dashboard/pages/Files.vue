@@ -1,7 +1,16 @@
 <template>
     <div>
         <h1>Files</h1>
-        <file-browser />
+        <file-browser :axios="$http" v-model="path" />
+        <div class="py-5 text-center">
+            <strong>Selected path:</strong>
+            <v-chip v-if="path" color="green" text-color="white">
+                <v-icon left v-if="path[path.length - 1] === '/'">mdi-folder</v-icon>
+                <v-icon left v-else>mdi-file</v-icon>
+                {{ path }}
+            </v-chip>
+            <v-chip v-else outlined><em>empty string</em></v-chip>
+        </div>
     </div>
 </template>
 
@@ -11,6 +20,11 @@ import FileBrowser from "./../components/FileBrowser";
 export default {
     components: {
         FileBrowser
+    },
+    data() {
+        return {
+            path: ""
+        };
     }
 };
 </script>

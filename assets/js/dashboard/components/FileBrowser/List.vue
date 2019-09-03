@@ -1,6 +1,13 @@
 <template>
     <v-card flat tile min-height="300" class="d-flex flex-column">
-        <v-card-text v-if="!path" class="grow d-flex justify-center align-center grey--text">Select a folder or a file</v-card-text>
+        <v-card-text
+            v-if="!path"
+            class="grow d-flex justify-center align-center grey--text"
+        >Select a folder or a file</v-card-text>
+        <v-card-text
+            v-else-if="isFile"
+            class="grow d-flex justify-center align-center"
+        >File: {{ path }}</v-card-text>
         <v-card-text v-else-if="dirs.length || files.length" class="grow">
             <v-list subheader v-if="dirs.length">
                 <v-subheader>Folders</v-subheader>
@@ -53,9 +60,17 @@
             v-else-if="filter"
             class="grow d-flex justify-center align-center grey--text py-5"
         >No files or folders found</v-card-text>
-        <v-card-text v-else class="grow d-flex justify-center align-center grey--text py-5">The folder is empty</v-card-text>
+        <v-card-text
+            v-else
+            class="grow d-flex justify-center align-center grey--text py-5"
+        >The folder is empty</v-card-text>
         <v-divider v-if="path"></v-divider>
-        <v-toolbar v-if="path" dense flat class="shrink">
+        <v-toolbar v-if="path && isFile" dense flat class="shrink">
+            <v-btn icon>
+                <v-icon>mdi-download</v-icon>
+            </v-btn>
+        </v-toolbar>
+        <v-toolbar v-if="path && isDir" dense flat class="shrink">
             <v-text-field
                 solo
                 flat
@@ -77,7 +92,10 @@ export default {
     props: {
         icons: Object,
         storage: String,
-        path: String
+        path: String,
+        endpoints: Object,
+        axios: Function,
+        axiosConfig: Object
     },
     data() {
         return {
@@ -97,21 +115,38 @@ export default {
                 item =>
                     item.type === "file" && item.basename.includes(this.filter)
             );
+        },
+        isDir() {
+            return this.path[this.path.length - 1] === "/";
+        },
+        isFile() {
+            return !this.isDir;
         }
     },
     methods: {
         changePath(path) {
-            console.log("List.changePath: " + path);
             this.$emit("path-changed", path);
         }
     },
     watch: {
         async path() {
             this.$emit("loading", true);
-            let response = await this.$http.get(
-                "/storage/local/list?path=" + this.path
-            );
-            this.items = response.data;
+            if (this.isDir) {
+                let url = this.endpoints.list.url
+                    .replace(new RegExp("{storage}", "g"), this.storage)
+                    .replace(new RegExp("{path}", "g"), this.path);
+
+                let config = {
+                    url,
+                    method: this.endpoints.list.method || "get",
+                    ...this.axiosConfig
+                };
+
+                let response = await this.axios.request(config);
+                this.items = response.data;
+            } else {
+                // TODO: load file
+            }
             this.$emit("loading", false);
         }
     }
