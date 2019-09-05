@@ -47,8 +47,10 @@
                 <span v-if="pathSegments.length === 1">Up to "root"</span>
                 <span v-else>Up to "{{pathSegments[pathSegments.length - 2].name}}"</span>
             </v-tooltip>
-            <v-btn icon>
+
+            <v-btn v-if="path" icon @click="$refs.inputUpload.click()">
                 <v-icon>mdi-plus-circle</v-icon>
+                <input v-show="false" ref="inputUpload" type="file" multiple @change="addFiles" />
             </v-btn>
         </template>
     </v-toolbar>
@@ -61,7 +63,7 @@ export default {
         storage: String,
         path: String,
         endpoints: Object,
-        axiosConfig: Object
+        axios: Function
     },
     computed: {
         pathSegments() {
@@ -101,6 +103,10 @@ export default {
                         ? "/"
                         : segments[segments.length - 2].path;
             this.changePath(path);
+        },
+        async addFiles(event) {
+            this.$emit("add-files", event.target.files);
+            this.$refs.inputUpload.value = "";
         }
     }
 };

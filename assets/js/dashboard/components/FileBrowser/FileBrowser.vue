@@ -6,9 +6,9 @@
             :storage="activeStorage"
             :endpoints="endpoints"
             :axios="axios"
-            :axiosConfig="axiosConfig"
             v-on:storage-changed="storageChanged"
             v-on:path-changed="pathChanged"
+            v-on:add-files="addUploadingFiles"
         ></toolbar>
         <v-row no-gutters>
             <v-col v-if="tree && $vuetify.breakpoint.smAndUp" sm="auto">
@@ -18,7 +18,6 @@
                     :icons="icons"
                     :endpoints="endpoints"
                     :axios="axios"
-                    :axiosConfig="axiosConfig"
                     v-on:path-changed="pathChanged"
                     v-on:loading="loadingChanged"
                 ></tree>
@@ -31,12 +30,25 @@
                     :icons="icons"
                     :endpoints="endpoints"
                     :axios="axios"
-                    :axiosConfig="axiosConfig"
                     v-on:path-changed="pathChanged"
                     v-on:loading="loadingChanged"
                 ></list>
             </v-col>
         </v-row>
+        <upload
+            v-if="uploadingFiles !== false"
+            :path="path"
+            :storage="activeStorage"
+            :files="uploadingFiles"
+            :icons="icons"
+            :axios="axios"
+            :endpoint="endpoints.upload"
+            v-on:add-files="addUploadingFiles"
+            v-on:remove-file="removeUploadingFile"
+            v-on:clear-files="uploadingFiles = []"
+            v-on:cancel="uploadingFiles = false"
+            v-on:uploaded="uploaded"
+        ></upload>
     </v-card>
 </template>
 
@@ -46,6 +58,7 @@ import axios from "axios";
 import Toolbar from "./Toolbar";
 import Tree from "./Tree";
 import List from "./List";
+import Upload from "./Upload";
 
 const availableStorages = [
     {
@@ -57,11 +70,17 @@ const availableStorages = [
         name: "Amazon S3",
         code: "s3",
         icon: "mdi-amazon-drive"
+    },
+    {
+        name: "Dropbox",
+        code: "dropbox",
+        icon: "mdi-dropbox"
     }
 ];
 
 const endpoints = {
-    list: { url: "/storage/{storage}/list?path={path}", method: "get" }
+    list: { url: "/storage/{storage}/list?path={path}", method: "get" },
+    upload: { url: "/storage/{storage}/upload?path={path}", method: "post" }
 };
 
 const fileIcons = {
@@ -81,7 +100,8 @@ export default {
     components: {
         Toolbar,
         Tree,
-        List
+        List,
+        Upload
     },
     model: {
         prop: "path",
@@ -98,14 +118,15 @@ export default {
         tree: { type: Boolean, default: true },
         icons: { type: Object, default: () => fileIcons },
         endpoints: { type: Object, default: () => endpoints },
-        axios: { type: Function, default: () => axios },
+        axios: { type: Function },
         axiosConfig: { type: Object, default: () => {} }
     },
     data() {
         return {
             loading: false,
             path: "",
-            activeStorage: null
+            activeStorage: null,
+            uploadingFiles: false // or an Array of files
         };
     },
     computed: {
@@ -125,6 +146,21 @@ export default {
         storageChanged(storage) {
             this.activeStorage = storage;
         },
+        addUploadingFiles(files) {
+            console.log(files);
+            if (this.uploadingFiles === false) {
+                this.uploadingFiles = [];
+            }
+            this.uploadingFiles.push(...files);
+            console.log(this.uploadingFiles);
+        },
+        removeUploadingFile(index) {
+            this.uploadingFiles.splice(index, 1);
+        },
+        uploaded() {
+            this.uploadingFiles = false;
+            // TODO: refresh tree & list
+        },
         pathChanged(path) {
             console.log("FileBrowser.pathChanged: " + path);
             this.path = path;
@@ -133,6 +169,7 @@ export default {
     },
     created() {
         this.activeStorage = this.storage;
+        this.axios = this.axios || axios.create(this.axiosConfig);
     },
     mounted() {
         if (!this.path && !(this.tree && this.$vuetify.breakpoint.smAndUp)) {

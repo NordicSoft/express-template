@@ -94,8 +94,7 @@ export default {
         storage: String,
         path: String,
         endpoints: Object,
-        axios: Function,
-        axiosConfig: Object
+        axios: Function
     },
     data() {
         return {
@@ -138,8 +137,7 @@ export default {
 
                 let config = {
                     url,
-                    method: this.endpoints.list.method || "get",
-                    ...this.axiosConfig
+                    method: this.endpoints.list.method || "get"
                 };
 
                 let response = await this.axios.request(config);

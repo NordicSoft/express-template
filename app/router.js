@@ -31,7 +31,8 @@ module.exports = function (express) {
         next();
     };
 
-    express.use("/api", signinRequired, xhrOnly, require("./routes/api"));
+    express.use("/api", signinRequired, require("./routes/api"));
+    //express.use("/api", signinRequired, xhrOnly, require("./routes/api"));
     express.use("/dashboard", signinRequired, require("./routes/dashboard"));
     express.use("/", require("./routes/facade"));
 

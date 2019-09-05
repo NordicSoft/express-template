@@ -1,5 +1,6 @@
 const express = require("express"),
     router = express.Router(),
+    multer = require("multer"),
     logger = require("./../lib/logger"),
     config = require("./../lib/config"),
     store = require("./../store");
@@ -94,6 +95,23 @@ router.post("/send-email", async function (req, res) {
 
     const mailer = require("./../lib/mailer");
     await mailer.send(req.user.email, subject, message);
+    return res.sendStatus(200);
+});
+
+router.post("/storage/local/upload", multer({dest: process.cwd() + "/uploads"}).array("files"), async function (req, res) {
+    const root = process.cwd() + "/www/files",
+        fs = require("fs"),
+        util = require("util"),
+        rename = util.promisify(fs.rename);
+
+    let path = req.query.path;
+
+    //console.log("body: ", req.body);
+    //console.log("files:", req.files);
+    for (let file of req.files) {
+        await rename(file.path, root + path + file.originalname);
+    }
+
     return res.sendStatus(200);
 });
 
