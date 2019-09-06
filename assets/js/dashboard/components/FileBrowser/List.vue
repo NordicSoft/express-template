@@ -83,6 +83,9 @@
             <v-btn icon v-if="false">
                 <v-icon>mdi-eye-settings-outline</v-icon>
             </v-btn>
+            <v-btn icon @click="load">
+                <v-icon>mdi-refresh</v-icon>
+            </v-btn>
         </v-toolbar>
     </v-card>
 </template>
@@ -94,7 +97,8 @@ export default {
         storage: String,
         path: String,
         endpoints: Object,
-        axios: Function
+        axios: Function,
+        refreshPending: Boolean
     },
     data() {
         return {
@@ -125,10 +129,8 @@ export default {
     methods: {
         changePath(path) {
             this.$emit("path-changed", path);
-        }
-    },
-    watch: {
-        async path() {
+        },
+        async load() {
             this.$emit("loading", true);
             if (this.isDir) {
                 let url = this.endpoints.list.url
@@ -146,6 +148,18 @@ export default {
                 // TODO: load file
             }
             this.$emit("loading", false);
+        }
+    },
+    watch: {
+        async path() {
+            this.items = [];
+            await this.load();
+        },
+        async refreshPending() {
+            if (this.refreshPending) {
+                await this.load();
+                this.$emit("refreshed");
+            }
         }
     }
 };

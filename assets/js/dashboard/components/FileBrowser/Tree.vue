@@ -21,6 +21,17 @@
                     >{{ open ? 'mdi-folder-open-outline' : 'mdi-folder-outline' }}</v-icon>
                     <v-icon v-else>{{ icons[item.extension.toLowerCase()] || icons['other'] }}</v-icon>
                 </template>
+                <template v-slot:label="{ item }">
+                    {{item.basename}}
+                    <v-btn
+                        icon
+                        v-if="item.type === 'dir'"
+                        @click.stop="readFolder(item)"
+                        class="ml-1"
+                    >
+                        <v-icon class="pa-0 mdi-18px" color="grey lighten-1">mdi-refresh</v-icon>
+                    </v-btn>
+                </template>
             </v-treeview>
         </div>
         <v-divider></v-divider>
@@ -53,7 +64,8 @@ export default {
         storage: String,
         path: String,
         endpoints: Object,
-        axios: Function
+        axios: Function,
+        refreshPending: Boolean
     },
     data() {
         return {
@@ -98,14 +110,14 @@ export default {
 
             let response = await this.axios.request(config);
 
-            item.children.push(
-                ...response.data.map(item => {
-                    if (item.type === "dir") {
-                        item.children = [];
-                    }
-                    return item;
-                })
-            );
+            // eslint-disable-next-line require-atomic-updates
+            item.children = response.data.map(item => {
+                if (item.type === "dir") {
+                    item.children = [];
+                }
+                return item;
+            });
+
             this.$emit("loading", false);
         },
         activeChanged(active) {
@@ -117,6 +129,23 @@ export default {
             if (this.path != path) {
                 this.$emit("path-changed", path);
             }
+        },
+        findItem(path) {
+            console.log(path);
+            let stack = [];
+            stack.push(this.items[0]);
+            while (stack.length > 0) {
+                let node = stack.pop();
+                if (node.path == path) {
+                    console.log(node);
+                    return node;
+                } else if (node.children && node.children.length) {
+                    for (let i = 0; i < node.children.length; i++) {
+                        stack.push(node.children[i]);
+                    }
+                }
+            }
+            return null;
         }
     },
     watch: {
@@ -127,6 +156,13 @@ export default {
             this.active = [this.path];
             if (!this.open.includes(this.path)) {
                 this.open.push(this.path);
+            }
+        },
+        async refreshPending(){
+            if (this.refreshPending) {
+                let item = this.findItem(this.path);
+                await this.readFolder(item);
+                this.$emit("refreshed");
             }
         }
     },

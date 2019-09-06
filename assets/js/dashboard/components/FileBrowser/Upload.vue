@@ -1,11 +1,10 @@
 <template>
     <v-overlay :absolute="true">
         <v-card flat light class="mx-auto" :loading="loading">
-            <div class="py-5 text-center">
-                <strong>Selected path:</strong>
-                <v-chip color="green" text-color="white">
-                    {{ storage }}{{ path }}
-                </v-chip>
+            <div class="py-3 text-center">
+                <span class="grey--text">Upload to:</span>
+                <v-chip color="info" class="ml-1">{{ storage }}</v-chip>
+                <v-chip>{{ path }}</v-chip>
             </div>
             <v-divider></v-divider>
             <v-card-text v-if="listItems.length" class="pa-0 files-list-wrapper">
@@ -32,12 +31,10 @@
                     </v-list-item>
                 </v-list>
             </v-card-text>
-            <v-card-text v-else>
-                <div class="d-flex justify-center align-center">
-                    <v-btn @click="$refs.inputUpload.click()">
-                        <v-icon left>mdi-plus-circle</v-icon>Add files
-                    </v-btn>
-                </div>
+            <v-card-text v-else class="py-6 text-center">
+                <v-btn @click="$refs.inputUpload.click()">
+                    <v-icon left>mdi-plus-circle</v-icon>Add files
+                </v-btn>
             </v-card-text>
             <v-divider></v-divider>
             <v-toolbar dense flat>
@@ -61,6 +58,11 @@
                     <v-icon right>mdi-upload-outline</v-icon>
                 </v-btn>
             </v-toolbar>
+            <v-overlay :value="uploading" :absolute="true" color="white" opacity="0.9">
+                <v-progress-linear v-model="progress" height="25" striped rounded reactive>
+                    <strong>{{ Math.ceil(progress) }}%</strong>
+                </v-progress-linear>
+            </v-overlay>
         </v-card>
     </v-overlay>
 </template>
@@ -80,6 +82,8 @@ export default {
     data() {
         return {
             loading: true,
+            uploading: false,
+            progress: 0,
             listItems: []
         };
     },
@@ -110,7 +114,9 @@ export default {
 
         async add(event) {
             let files = Array.from(event.target.files);
+            this.loading = true;
             this.listItems = this.listItems.concat(await this.filesMap(files));
+            this.loading = false;
             this.$emit("add-files", files);
             this.$refs.inputUpload.value = "";
         },
@@ -147,12 +153,14 @@ export default {
                 data: formData,
                 onUploadProgress: progressEvent => {
                     console.log(progressEvent.loaded / progressEvent.total);
+                    this.progress =
+                        (progressEvent.loaded / progressEvent.total) * 100;
                 }
             };
 
-            this.loading = true;
+            this.uploading = true;
             let response = await this.axios.request(config);
-            this.loading = false;
+            this.uploading = false;
             this.$emit("uploaded");
             console.log(response);
         }

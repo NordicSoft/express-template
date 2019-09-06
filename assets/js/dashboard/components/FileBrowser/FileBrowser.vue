@@ -18,8 +18,10 @@
                     :icons="icons"
                     :endpoints="endpoints"
                     :axios="axios"
+                    :refreshPending="refreshPending"
                     v-on:path-changed="pathChanged"
                     v-on:loading="loadingChanged"
+                    v-on:refreshed="refreshPending = false"
                 ></tree>
             </v-col>
             <v-divider v-if="tree" vertical></v-divider>
@@ -30,8 +32,10 @@
                     :icons="icons"
                     :endpoints="endpoints"
                     :axios="axios"
+                    :refreshPending="refreshPending"
                     v-on:path-changed="pathChanged"
                     v-on:loading="loadingChanged"
+                    v-on:refreshed="refreshPending = false"
                 ></list>
             </v-col>
         </v-row>
@@ -135,7 +139,8 @@ export default {
             loading: 0,
             path: "",
             activeStorage: null,
-            uploadingFiles: false // or an Array of files
+            uploadingFiles: false, // or an Array of files
+            refreshPending: false
         };
     },
     computed: {
@@ -150,8 +155,6 @@ export default {
     },
     methods: {
         loadingChanged(loading) {
-            console.log(loading);
-            console.log(this.loading);
             if (loading) {
                 this.loading++;
             } else if (this.loading > 0) {
@@ -174,7 +177,7 @@ export default {
         },
         uploaded() {
             this.uploadingFiles = false;
-            // TODO: refresh tree & list
+            this.refreshPending = true;
         },
         pathChanged(path) {
             console.log("FileBrowser.pathChanged: " + path);
