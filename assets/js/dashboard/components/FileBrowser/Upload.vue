@@ -158,7 +158,6 @@ export default {
         }
     },
     async created() {
-        this.loading = true;
         this.listItems = await this.filesMap(this.files);
         this.loading = false;
     }

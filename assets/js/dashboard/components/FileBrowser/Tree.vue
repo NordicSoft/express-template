@@ -19,7 +19,7 @@
                     <v-icon
                         v-if="item.type === 'dir'"
                     >{{ open ? 'mdi-folder-open-outline' : 'mdi-folder-outline' }}</v-icon>
-                    <v-icon v-else>{{ icons[item.extension.toLowerCase()] }}</v-icon>
+                    <v-icon v-else>{{ icons[item.extension.toLowerCase()] || icons['other'] }}</v-icon>
                 </template>
             </v-treeview>
         </div>

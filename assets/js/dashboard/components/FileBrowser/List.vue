@@ -40,7 +40,7 @@
                     class="pl-0"
                 >
                     <v-list-item-avatar class="ma-0">
-                        <v-icon>{{ icons[item.extension.toLowerCase()] }}</v-icon>
+                        <v-icon>{{ icons[item.extension.toLowerCase()] || icons['other'] }}</v-icon>
                     </v-list-item-avatar>
 
                     <v-list-item-content class="py-2">
@@ -65,7 +65,7 @@
             class="grow d-flex justify-center align-center grey--text py-5"
         >The folder is empty</v-card-text>
         <v-divider v-if="path"></v-divider>
-        <v-toolbar v-if="path && isFile" dense flat class="shrink">
+        <v-toolbar v-if="false && path && isFile" dense flat class="shrink">
             <v-btn icon>
                 <v-icon>mdi-download</v-icon>
             </v-btn>

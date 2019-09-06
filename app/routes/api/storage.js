@@ -7,7 +7,7 @@ const nodePath = require("path"),
 module.exports = function (router) {
 
     router.get("/storage/local/list", async function (req, res) {
-        const root = process.env.FILEBROWSER_ROOT_PATH,
+        const root = nodePath.resolve(process.cwd(), process.env.FILEBROWSER_ROOT_PATH),
             fs = require("fs"),
             util = require("util"),
             readdir = util.promisify(fs.readdir),
@@ -54,7 +54,7 @@ module.exports = function (router) {
     });
 
     router.post("/storage/local/upload", upload.array("files"), async function (req, res) {
-        const root = process.env.FILEBROWSER_ROOT_PATH,
+        const root = nodePath.resolve(process.cwd(), process.env.FILEBROWSER_ROOT_PATH),
             fs = require("fs"),
             util = require("util"),
             rename = util.promisify(fs.rename);

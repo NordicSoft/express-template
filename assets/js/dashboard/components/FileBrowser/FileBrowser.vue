@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mx-auto" :loading="loading">
+    <v-card class="mx-auto" :loading="loading > 0">
         <toolbar
             :path="path"
             :storages="storagesArray"
@@ -95,8 +95,14 @@ const fileIcons = {
     png: "mdi-file-image",
     jpg: "mdi-file-image",
     jpeg: "mdi-file-image",
+    mp4: "mdi-filmstrip",
+    mkv: "mdi-filmstrip",
+    avi: "mdi-filmstrip",
+    wmv: "mdi-filmstrip",
+    mov: "mdi-filmstrip",
     txt: "mdi-file-document-outline",
-    xls: "mdi-file-excel"
+    xls: "mdi-file-excel",
+    other: "mdi-file-outline"
 };
 
 export default {
@@ -126,7 +132,7 @@ export default {
     },
     data() {
         return {
-            loading: false,
+            loading: 0,
             path: "",
             activeStorage: null,
             uploadingFiles: false // or an Array of files
@@ -144,7 +150,13 @@ export default {
     },
     methods: {
         loadingChanged(loading) {
-            this.loading = loading;
+            console.log(loading);
+            console.log(this.loading);
+            if (loading) {
+                this.loading++;
+            } else if (this.loading > 0) {
+                this.loading--;
+            }
         },
         storageChanged(storage) {
             this.activeStorage = storage;
