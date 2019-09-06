@@ -40,7 +40,7 @@
                     class="pl-0"
                 >
                     <v-list-item-avatar class="ma-0">
-                        <v-icon>{{ icons[item.extension] }}</v-icon>
+                        <v-icon>{{ icons[item.extension.toLowerCase()] }}</v-icon>
                     </v-list-item-avatar>
 
                     <v-list-item-content class="py-2">

@@ -86,12 +86,15 @@ const endpoints = {
 const fileIcons = {
     zip: "mdi-folder-zip-outline",
     rar: "mdi-folder-zip-outline",
+    htm: "mdi-language-html5",
     html: "mdi-language-html5",
     js: "mdi-nodejs",
     json: "mdi-json",
     md: "mdi-markdown",
     pdf: "mdi-file-pdf",
     png: "mdi-file-image",
+    jpg: "mdi-file-image",
+    jpeg: "mdi-file-image",
     txt: "mdi-file-document-outline",
     xls: "mdi-file-excel"
 };

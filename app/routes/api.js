@@ -98,25 +98,8 @@ router.post("/send-email", async function (req, res) {
     return res.sendStatus(200);
 });
 
-router.post("/storage/local/upload", multer({dest: process.cwd() + "/uploads"}).array("files"), async function (req, res) {
-    const root = process.cwd() + "/www/files",
-        fs = require("fs"),
-        util = require("util"),
-        rename = util.promisify(fs.rename);
-
-    let path = req.query.path;
-
-    //console.log("body: ", req.body);
-    //console.log("files:", req.files);
-    for (let file of req.files) {
-        await rename(file.path, root + path + file.originalname);
-    }
-
-    return res.sendStatus(200);
-});
-
 router.get("/storage/local/list", async function (req, res) {
-    const root = process.cwd() + "/www/files",
+    const root = process.env.FILEBROWSER_ROOT_PATH,
         fs = require("fs"),
         nodePath = require("path"),
         util = require("util"),
@@ -163,42 +146,104 @@ router.get("/storage/local/list", async function (req, res) {
     return res.json(dirs.concat(files));
 });
 
-router.get("/storage/s3/list", async function (req, res) {
-    let path = req.query.path;
-    return res.json([
-        {
-            type: "dir",
-            path: path + "subfolder/",
-            basename: "subfolder",
-            extension: "",
-            name: "subfolder",
-            children: []
-        },
-        {
-            type: "file",
-            path: path + "test.txt",
-            basename: "test.txt",
-            extension: "txt",
-            name: "test"
-        }]);
+router.post("/storage/local/upload", multer({ dest: process.env.FILEBROWSER_UPLOAD_PATH }).array("files"), async function (req, res) {
+    const root = process.env.FILEBROWSER_ROOT_PATH,
+        fs = require("fs"),
+        util = require("util"),
+        rename = util.promisify(fs.rename);
 
-    const AWS = require("aws-sdk");
+    let path = req.query.path;
+
+    for (let file of req.files) {
+        await rename(file.path, root + path + file.originalname);
+    }
+
+    return res.sendStatus(200);
+});
+
+router.get("/storage/s3/list", async function (req, res) {
+    const AWS = require("aws-sdk"),
+        nodePath = require("path");
 
     // Configure AWS with your access and secret key.
     const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_S3_BUCKET } = process.env;
     AWS.config.update({ accessKeyId: AWS_ACCESS_KEY_ID, secretAccessKey: AWS_SECRET_ACCESS_KEY, region: AWS_REGION });
+
+
+    let path = req.query.path,
+        dirs = [],
+        files = [];
 
     // Create a new service object
     var s3 = new AWS.S3({
         apiVersion: "2006-03-01",
         params: { Bucket: AWS_S3_BUCKET }
     });
+
     var data = await s3.listObjectsV2({
         Delimiter: "/",
-        Prefix: req.query.path
+        Prefix: path.slice(1)
     }).promise();
-    console.log(data);
-    res.json(data);
+
+    for (let prefix of data.CommonPrefixes) {
+        console.log(prefix);
+        let dir = {
+            type: "dir",
+            path: "/" + prefix.Prefix
+        };
+        dir.basename = dir.name = nodePath.basename(dir.path);
+        dirs.push(dir);
+    }
+
+    for (let item of data.Contents.filter(item => item.Key != data.Prefix)) {
+        console.log(item);
+        let file = {
+            type: "file",
+            path: path + item.Key,
+            size: item.Size,
+            lastModified: item.LastModified,
+            eTag: item.ETag
+        };
+        file.basename = nodePath.basename(file.path);
+        file.extension = nodePath.extname(file.path).slice(1);
+        file.name = nodePath.basename(file.path, "." + file.extension);
+        files.push(file);
+    }
+    console.log(dirs);
+    console.log(files);
+    return res.json(dirs.concat(files));
+});
+
+router.post("/storage/s3/upload", multer({ dest: process.env.FILEBROWSER_UPLOAD_PATH }).array("files"), async function (req, res) {
+    const fs = require("fs"),
+        AWS = require("aws-sdk");
+
+    // Configure AWS with your access and secret key.
+    const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_S3_BUCKET } = process.env;
+    AWS.config.update({ accessKeyId: AWS_ACCESS_KEY_ID, secretAccessKey: AWS_SECRET_ACCESS_KEY, region: AWS_REGION });
+
+    // Create a new service object
+    const s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: { Bucket: AWS_S3_BUCKET }
+    });
+
+    let path = req.query.path.slice(1);
+
+    for (let file of req.files) {
+        var fileStream = fs.createReadStream(file.path);
+        fileStream.on("error", function (err) {
+            console.log("File Error", err);
+        });
+        let response = await s3.upload({
+            Key: path + file.originalname,
+            Body: fileStream
+        }).promise();
+
+        console.log(response);
+    }
+
+    return res.sendStatus(200);
 });
 
 
