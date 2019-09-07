@@ -75,12 +75,12 @@ const availableStorages = [
         name: "Amazon S3",
         code: "s3",
         icon: "mdi-amazon-drive"
-    },
-    {
+    }
+    /*{
         name: "Dropbox",
         code: "dropbox",
         icon: "mdi-dropbox"
-    }
+    }*/
 ];
 
 const endpoints = {
