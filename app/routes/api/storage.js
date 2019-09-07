@@ -68,6 +68,17 @@ module.exports = function (router) {
         return res.sendStatus(200);
     });
 
+    router.post("/storage/local/delete", async function (req, res) {
+        const root = nodePath.resolve(process.cwd(), process.env.FILEBROWSER_ROOT_PATH),
+            unlink = require("fs").promises.unlink;
+
+        let path = req.query.path;
+
+        await unlink(root + path);
+
+        return res.sendStatus(200);
+    });
+
     router.get("/storage/s3/list", async function (req, res) {
         const S3 = require("./../../lib/aws").S3;
 
@@ -118,6 +129,16 @@ module.exports = function (router) {
                 Body: fileStream
             }).promise();
         }
+
+        return res.sendStatus(200);
+    });
+
+    router.post("/storage/s3/delete", async function (req, res) {
+        const S3 = require("./../../lib/aws").S3;
+
+        let path = req.query.path.slice(1);
+
+        await S3.deleteObject({Key: path}).promise();
 
         return res.sendStatus(200);
     });

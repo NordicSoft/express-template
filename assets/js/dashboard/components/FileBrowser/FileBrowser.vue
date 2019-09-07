@@ -36,6 +36,7 @@
                     v-on:path-changed="pathChanged"
                     v-on:loading="loadingChanged"
                     v-on:refreshed="refreshPending = false"
+                    v-on:file-deleted="refreshPending = true"
                 ></list>
             </v-col>
         </v-row>
@@ -84,7 +85,8 @@ const availableStorages = [
 
 const endpoints = {
     list: { url: "/storage/{storage}/list?path={path}", method: "get" },
-    upload: { url: "/storage/{storage}/upload?path={path}", method: "post" }
+    upload: { url: "/storage/{storage}/upload?path={path}", method: "post" },
+    delete: { url: "/storage/{storage}/delete?path={path}", method: "post" }
 };
 
 const fileIcons = {

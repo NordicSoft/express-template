@@ -45,6 +45,14 @@
                         <v-list-item-title>Chat</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                <v-list-item to="/gallery" disabled>
+                    <v-list-item-action>
+                        <v-icon>mdi-image-multiple</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Gallery</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
                 <v-list-item to="/files">
                     <v-list-item-action>
                         <v-icon>mdi-folder-multiple-outline</v-icon>

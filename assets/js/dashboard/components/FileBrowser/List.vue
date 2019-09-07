@@ -1,5 +1,6 @@
 <template>
-    <v-card flat tile min-height="300" class="d-flex flex-column">
+    <v-card flat tile min-height="350" class="d-flex flex-column">
+        <confirm ref="confirm"></confirm>
         <v-card-text
             v-if="!path"
             class="grow d-flex justify-center align-center grey--text"
@@ -48,8 +49,11 @@
                         <v-list-item-subtitle>{{ item.size }} bytes</v-list-item-subtitle>
                     </v-list-item-content>
 
-                    <v-list-item-action v-if="false">
-                        <v-btn icon>
+                    <v-list-item-action>
+                        <v-btn icon @click.stop="deleteFile(item)">
+                            <v-icon color="grey lighten-1">mdi-delete-outline</v-icon>
+                        </v-btn>
+                        <v-btn icon v-if="false">
                             <v-icon color="grey lighten-1">mdi-information</v-icon>
                         </v-btn>
                     </v-list-item-action>
@@ -91,6 +95,8 @@
 </template>
 
 <script>
+import Confirm from "./Confirm";
+
 export default {
     props: {
         icons: Object,
@@ -99,6 +105,9 @@ export default {
         endpoints: Object,
         axios: Function,
         refreshPending: Boolean
+    },
+    components: {
+        Confirm
     },
     data() {
         return {
@@ -148,6 +157,28 @@ export default {
                 // TODO: load file
             }
             this.$emit("loading", false);
+        },
+        async deleteFile(item) {
+            let confirmed = await this.$refs.confirm.open(
+                "Delete",
+                `Are you sure you want to delete this file?<br><em>${item.basename}</em>`
+            );
+
+            if (confirmed) {
+                this.$emit("loading", true);
+                let url = this.endpoints.delete.url
+                    .replace(new RegExp("{storage}", "g"), this.storage)
+                    .replace(new RegExp("{path}", "g"), item.path);
+
+                let config = {
+                    url,
+                    method: this.endpoints.delete.method || "post"
+                };
+
+                await this.axios.request(config);
+                this.$emit("file-deleted");
+                this.$emit("loading", false);
+            }
         }
     },
     watch: {
