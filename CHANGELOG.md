@@ -1,6 +1,9 @@
 # Changelog
 
-## **0.0.6** - *2019-xx-xx* - **_[next]_**
+## **0.0.7** - *2019-xx-xx* - **_[next]_**
+
+## **0.0.6** - *2019-09-22*
+* `Dashboard/Files` page added (separate `Vuetify File Browser` component created for this);
 * `MongoDB Store` refactored;
 * `lint` run task added (runs ESLint);
 * follow `ESLint` recommendations;

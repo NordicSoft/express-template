@@ -70,6 +70,8 @@
     "vue-router": "^3.0.6",
     "vue-template-compiler": "^2.6.10",
     "vuetify": "^2.0.10",
+    "vuetify-file-browser": "^1.0.2",
+    "vuetify-file-browser-server": "^1.0.1",
     "vuex": "^3.1.1",
     "winston": "3.x.x",
     "xdate": "0.x.x"

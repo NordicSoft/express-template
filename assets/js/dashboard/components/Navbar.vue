@@ -1,6 +1,14 @@
 <template>
     <div>
-        <v-app-bar dark color="primary" dense fixed clipped-left app class="elevation-2">
+        <v-app-bar
+            dark
+            color="primary"
+            dense
+            fixed
+            :clipped-left="$vuetify.breakpoint.lgAndUp"
+            app
+            class="elevation-2"
+        >
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="mr-0"></v-app-bar-nav-icon>
             <v-toolbar-title class="mr-5 ml-0">
                 <v-btn text to="/">
@@ -16,7 +24,7 @@
                 <v-icon class="mr-2">mdi-exit-to-app</v-icon>Sign Out
             </v-btn>
         </v-app-bar>
-        <v-navigation-drawer v-model="drawer" fixed clipped app>
+        <v-navigation-drawer v-model="drawer" fixed :clipped="$vuetify.breakpoint.lgAndUp" app>
             <v-subheader class="mt-3 grey--text text--darken-1">Administration</v-subheader>
             <v-list dense>
                 <v-list-item to="/users" disabled>

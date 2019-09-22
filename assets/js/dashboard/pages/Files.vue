@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Files</h1>
-        <file-browser :axios="$http" v-model="path" />
+        <file-browser :axios="$http" v-model="path" :maxUploadFileSize="5242880" :maxUploadFilesCount="5" />
         <div class="py-5 text-center">
             <strong>Selected path:</strong>
             <v-chip v-if="path" color="green" text-color="white">
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import FileBrowser from "./../components/FileBrowser";
+import FileBrowser from "vuetify-file-browser";
 
 export default {
     components: {

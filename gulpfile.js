@@ -16,7 +16,7 @@ function browserSyncInit(callback) {
     browserSync.init({
         port: 3001,
         proxy: {
-            target: "http://localhost:8080",
+            target: "http://localhost:" + (process.env.PORT || 8080),
             ws: true
         }
     });
