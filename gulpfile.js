@@ -125,8 +125,8 @@ async function rollup(input, output, watch, callback) {
                 "core": "assets/js/core.js",
                 "options": "assets/js/options.js"
             }),
-            commonjs(),
             noderesolve({ extensions: [".js", ".json", ".vue"] }),
+            commonjs(),
             sass(),
             css({ output: "assets/scss/dashboard/vue-components.scss" }),
             vue({ css: false })

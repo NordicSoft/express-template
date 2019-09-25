@@ -45,6 +45,14 @@
                         <v-list-item-title>Send Email</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                <v-list-item to="/google-maps">
+                    <v-list-item-action>
+                        <v-icon>mdi-google-maps</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Google Maps</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
                 <v-list-item to="/chat" disabled>
                     <v-list-item-action>
                         <v-icon>mdi-chat-outline</v-icon>

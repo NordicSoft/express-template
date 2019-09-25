@@ -44,6 +44,7 @@
     "express": "^4.17.1",
     "express-hbs": "^2.1.2",
     "express-session": "1.x.x",
+    "google-maps-api-loader": "^1.1.1",
     "jquery": "^3.4.1",
     "jquery-validation": "^1.19.1",
     "method-override": "3.x.x",
