@@ -1,8 +1,10 @@
 # Express 4 Template
 
-Basic website template (skeleton) based on Express.js 4, Vue.js and Vuetify 2 with some preconfigured useful tools and libraries.
+Basic website template (boilerplate, skeleton, starter kit) based on Express.js 4, Vue.js and Vuetify 2 with some preconfigured useful tools and libraries.
 
-[Demo](https://nordicsoft-express-template.herokuapp.com/)
+> ⚠ **CAUTION** ⚠ **Monolithic Architecture** - best for MVP, quick prototyping and small projects. Simple to develop, test and deploy. For medium to large projects consider splitting into separate microservices.
+
+[💣 Demo](https://nordicsoft-express-template.herokuapp.com/)
 
 ## Structure
 
@@ -16,7 +18,12 @@ Basic website template (skeleton) based on Express.js 4, Vue.js and Vuetify 2 wi
 * Dashboard Pages
     * Homepage
     * Profile
-    * Users
+    * ~~Users~~
+    * Send Email
+    * Google Maps
+    * ~~Chat~~
+    * ~~Gallery~~
+    * Files
 
 ## Backend Features
 
