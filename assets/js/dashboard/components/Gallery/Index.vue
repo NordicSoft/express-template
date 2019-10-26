@@ -136,7 +136,9 @@ export default {
         }
     },
     async created() {
+        this.$store.dispatch("loading", true);
         await this.$store.dispatch("gallery/load");
+        this.$store.dispatch("loading", false);
     }
 };
 </script>

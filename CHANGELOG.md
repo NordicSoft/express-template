@@ -2,6 +2,7 @@
 
 ## **1.0.1** - *2019-xx-xx* (next)
 * `Dashboard/Gallery` - success toasts added, cards loading behavior added;
+* `Dashboard` - global loading overlay added;
 
 ## **1.0.0** - *2019-10-26*
 * `Dashboard/Gallery` page added;
