@@ -2,12 +2,8 @@
     <v-app class="dashboard">
         <Navbar />
         <v-content>
-            <v-container fill-height>
-                <v-layout justify-center>
-                    <v-flex>
-                        <router-view></router-view>
-                    </v-flex>
-                </v-layout>
+            <v-container fluid>
+                <router-view></router-view>
             </v-container>
         </v-content>
     </v-app>
@@ -35,6 +31,13 @@ export default {
 h1 {
     text-align: center;
     margin: 1rem auto 2rem;
+}
+
+.theme--light.v-text-field > .v-input__control > .v-input__slot:before {
+    border-color: rgba(0, 0, 0, 0.1);
+}
+.theme--light.v-text-field:not(.v-input--has-state) > .v-input__control > .v-input__slot:hover:before {
+    border-color: rgba(0, 0, 0, 0.25);
 }
 </style>
 

@@ -48,7 +48,7 @@ module.exports = function (router) {
             return res.status(400).send("New password is required");
         }
 
-        const security = require("./../lib/security"),
+        const security = require("./../../lib/security"),
             user = await store.users.getById(req.user._id);
 
         switch (config.passwordHashAlgorithm) {

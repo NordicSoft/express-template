@@ -1,24 +1,47 @@
 const mongodb = require("mongodb"),
     client = require("./client");
 
+
 class Store {
     constructor(collectionName) {
+        this.client = client;
         this.collection = client.db().collection(collectionName);
     }
     getCollection() {
         return this.collection;
     }
     async getById(id) {
-        return await this.collection.findOne({ _id: mongodb.ObjectID(id) });
+        return await this.collection.findOne({ _id: typeof id === "string" ? mongodb.ObjectID(id) : id });
     }
-    async get(query) {
-        return await this.collection.findOne(query);
+    async findOne(query, options) {
+        return await this.collection.findOne(query, options);
     }
-    async update(_id, changes) {
-        return await this.collection.updateOne(
-            { _id: mongodb.ObjectID(_id) },
+    async find(query, options) {
+        return await this.collection.find(query, options);
+    }
+    async all() {
+        return (await this.find({})).toArray();
+    }
+    async insert(docs, options) {
+        if (!Array.isArray(docs)) {
+            docs = [docs];
+        }
+        return this.collection.insertMany(docs, options);
+    }
+    async update(id, changes) {
+        return this.collection.updateOne(
+            { _id: typeof id === "string" ? mongodb.ObjectID(id) : id },
             { $set: changes }
         );
+    }
+    async save(doc, forceInsert = false) {
+        if (forceInsert || !doc._id) {
+            return this.insert(doc);
+        }
+        return this.update(doc._id, doc);
+    }
+    async delete(id) {
+        return this.collection.deleteOne({ _id: typeof id === "string" ? mongodb.ObjectID(id) : id });
     }
 }
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## **1.0.0** - *2019-10-26*
+* `Dashboard/Gallery` page added;
+* `Vuetify` updated to v2.1.7;
+* both backend & frontend refactored;
+* minor appearance changes;
+
 ## **0.0.7** - *2019-09-25*
 * `Dashboard/Google Maps` page added;
 

@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Users from "./pages/Users";
 import SendEmail from "./pages/SendEmail";
 import GoogleMaps from "./pages/GoogleMaps";
+import Gallery from "./pages/Gallery";
 import Files from "./pages/Files";
 import Profile from "./pages/Profile";
 
@@ -32,6 +33,16 @@ export default new Router({
             path: "/google-maps",
             name: "googleMaps",
             component: GoogleMaps
+        },
+        {
+            path: "/gallery/:initPhotoSet",
+            name: "gallery",
+            component: Gallery,
+            props: true
+        },
+        {
+            path: "/gallery",
+            redirect: "/gallery/all"
         },
         {
             path: "/files",

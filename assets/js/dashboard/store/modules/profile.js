@@ -1,15 +1,18 @@
+import Vue from "vue";
+
 export default {
     state: {
         profile: []
     },
     mutations: {
-        load(state, payload) {
+        setProfile(state, payload) {
             state.profile = payload;
         },
     },
     actions: {
-        async load() {
-            
+        async load({ commit }) {
+            let { data } = await Vue.axios.get("/profile");
+            commit("setProfile", data);
         }
     },
     getters: {

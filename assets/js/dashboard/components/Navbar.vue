@@ -25,8 +25,8 @@
             </v-btn>
         </v-app-bar>
         <v-navigation-drawer v-model="drawer" fixed :clipped="$vuetify.breakpoint.lgAndUp" app>
-            <v-subheader class="mt-3 grey--text text--darken-1">Administration</v-subheader>
-            <v-list dense>
+            <v-subheader class="mt-2 grey--text text--darken-1">Administration</v-subheader>
+            <v-list dense class="pa-0">
                 <v-list-item to="/users" disabled>
                     <v-list-item-action>
                         <v-icon>mdi-account-group-outline</v-icon>
@@ -35,8 +35,10 @@
                         <v-list-item-title>Users</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-divider dark class="my-4"></v-divider>
-                <v-subheader class="mt-3 grey--text text--darken-1">Tools</v-subheader>
+            </v-list>
+            <v-divider dark class="my-1"></v-divider>
+            <v-subheader class="grey--text text--darken-1">Tools</v-subheader>
+            <v-list dense class="pa-0">
                 <v-list-item to="/send-email">
                     <v-list-item-action>
                         <v-icon>mdi-email-edit-outline</v-icon>
@@ -61,7 +63,7 @@
                         <v-list-item-title>Chat</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item to="/gallery" disabled>
+                <v-list-item to="/gallery">
                     <v-list-item-action>
                         <v-icon>mdi-image-multiple</v-icon>
                     </v-list-item-action>

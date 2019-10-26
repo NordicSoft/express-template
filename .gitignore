@@ -6,5 +6,6 @@ node_modules
 /www/css/facade.css
 /www/js/dashboard.js
 /www/js/facade.js
+/www/files
 package-lock.json
 .env

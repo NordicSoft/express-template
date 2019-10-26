@@ -13,6 +13,7 @@ router.post("/send-email", async function (req, res) {
 });
 
 require("./profile")(router);
+router.use("/gallery", require("./gallery"));
 
 // get AWS configuration from process.env
 const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_S3_BUCKET } = process.env;

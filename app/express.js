@@ -42,7 +42,8 @@ module.exports = function (config) {
     app.use(favicon(process.cwd() + "/www/favicon.ico"));
 
     // set the static files location /www/img will be /img for users
-    app.use(express.static(path.join(process.cwd(), "www")));
+    app.set("static-path", path.resolve(process.cwd(), process.env.STATIC_PATH));
+    app.use(express.static(app.get("static-path")));
 
     // log every request to the console and forever's log
     morgan.token("user", function (req) {
