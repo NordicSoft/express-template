@@ -1,6 +1,6 @@
 {
   "name": "express-template",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "description": "Website template (skeleton) based on Express.js 4, Vue.js and Vuetify 2",
   "author": "NordicSoft",
   "license": "MIT",
