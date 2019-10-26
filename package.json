@@ -16,7 +16,10 @@
     "build": "npx gulp build",
     "deploy": "npx gulp deploy",
     "dev": "npm run lint && nodemon",
-    "start": "node index.js"
+    "mkdir-files": "mkdir www/files && mkdir www/files/uploads",
+    "mkdir-gallery": "mkdir www/files/gallery && mkdir www/files/gallery/photos && mkdir www/files/gallery/photosets && mkdir www/files/gallery/trash",
+    "mkdir": "npm run mkdir-files && npm run mkdir-gallery",
+    "start": "npm run mkdir && node index.js"
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -36,6 +39,7 @@
     "cookie": "^0.4.0",
     "cookie-parser": "1.x.x",
     "cors": "^2.8.5",
+    "crc-32": "^1.2.0",
     "cross-env": "^5.2.0",
     "cross-var": "^1.1.0",
     "dotenv-defaults": "^1.0.2",
@@ -70,9 +74,9 @@
     "vue": "^2.6.10",
     "vue-router": "^3.0.6",
     "vue-template-compiler": "^2.6.10",
-    "vuetify": "^2.0.10",
+    "vuetify": "^2.1.7",
     "vuetify-file-browser": "^1.0.2",
-    "vuetify-file-browser-server": "^1.0.1",
+    "vuetify-file-browser-server": "^1.0.2",
     "vuex": "^3.1.1",
     "winston": "3.x.x",
     "xdate": "0.x.x"
