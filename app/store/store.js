@@ -11,13 +11,13 @@ class Store {
         return this.collection;
     }
     async getById(id) {
-        return await this.collection.findOne({ _id: typeof id === "string" ? mongodb.ObjectID(id) : id });
+        return this.collection.findOne({ _id: typeof id === "string" ? mongodb.ObjectID(id) : id });
     }
     async findOne(query, options) {
-        return await this.collection.findOne(query, options);
+        return this.collection.findOne(query, options);
     }
     async find(query, options) {
-        return await this.collection.find(query, options);
+        return this.collection.find(query, options);
     }
     async all() {
         return (await this.find({})).toArray();

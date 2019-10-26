@@ -28,13 +28,17 @@
                 :value="photoSet.code"
             >
                 <v-avatar left :color="active ? activePillColor : pillColor">
-                    <v-img v-if="photoSet && photoSet.cover" :src="photoSet.cover" :key="crc(photoSet.cover)"></v-img>
+                    <v-img
+                        v-if="photoSet && photoSet.cover"
+                        :src="photoSet.cover"
+                        :key="crc(photoSet.cover)"
+                    ></v-img>
                     <v-icon v-else-if="icon" :text="icon">{{icon}}</v-icon>
                 </v-avatar>
                 {{photoSet.title}}
             </v-chip>
         </template>
-        <v-card v-if="editable && active" width="296">
+        <v-card v-if="editable && active" :loading="loading" width="296">
             <v-img :src="newCoverSrc" width="296px" height="222px" :key="crc(newCoverSrc)"></v-img>
             <v-btn class="btn-change-cover" @click="$refs.inputCoverUpload.click()">
                 <v-icon>mdi-square-edit-outline</v-icon>
@@ -88,6 +92,7 @@ export default {
     data() {
         return {
             menu: false,
+            loading: false,
             newCoverSrc: this.blank ? "" : this.photoSet.cover || "",
             newCoverFile: null,
             newTitle: this.blank ? "" : this.photoSet.title,
@@ -95,28 +100,36 @@ export default {
         };
     },
     methods: {
-        crc: (value) => crc32.str(value),
+        crc: value => crc32.str(value),
         async save() {
+            this.loading = true;
             await this.$store.dispatch("gallery/savePhotoSet", {
                 _id: this.blank ? null : this.photoSet._id,
                 file: this.newCoverFile,
                 title: this.newTitle,
                 code: this.newCode
             });
+            this.$toast.success(`Photo set ${this.blank ? "added" : "saved"}`);
             // close menu
             this.menu = false;
+            this.loading = false;
         },
         async remove() {
+            this.loading = true;
             await this.$store.dispatch(
                 "gallery/deletePhotoSet",
                 this.photoSet._id
             );
+            this.$toast.success("Photo set deleted");
+            this.loading = false;
         },
         changeCover(event) {
+            this.loading = true;
             this.newCoverFile = event.target.files[0];
             var reader = new FileReader();
             reader.onload = e => {
                 this.newCoverSrc = e.target.result;
+                this.loading = false;
             };
             reader.readAsDataURL(this.newCoverFile);
         }

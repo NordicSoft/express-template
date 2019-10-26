@@ -39,7 +39,7 @@
                 :imageMimeTypes="imageMimeTypes"
                 @delete="deleteUploadingPhoto(photo)"
             />
-            <v-card flat class="ma-2" width="296px" min-height="222px">
+            <v-card :loading="loading" flat class="ma-2" width="296px" min-height="222px">
                 <v-btn
                     @click="$refs.inputUpload.click()"
                     depressed
@@ -75,6 +75,7 @@ export default {
     },
     data() {
         return {
+            loading: false,
             imageMimeTypes: ["image/png", "image/jpeg"],
             uploadingPhotos: []
         };
@@ -115,15 +116,17 @@ export default {
                     });
                 });
 
-            return await Promise.all(promises);
+            return Promise.all(promises);
         },
         setActivePhotoSet(value) {
             this.$store.commit("gallery/setActivePhotoSet", value);
         },
         async addPhotos(event) {
+            this.loading = true;
             let files = await this.filesMap(event.target.files);
             this.uploadingPhotos.push(...files);
             this.$refs.inputUpload.value = "";
+            this.loading = false;
         },
         deleteUploadingPhoto(photo) {
             let index = this.uploadingPhotos.indexOf(photo);

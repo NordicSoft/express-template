@@ -54,7 +54,7 @@
         </v-card-text>
         <v-card-actions>
             <div class="flex-grow-1"></div>
-            <v-btn v-if="blank" depressed @click="remove">
+            <v-btn v-if="blank" depressed @click="cancel">
                 <v-icon left>mdi-cancel</v-icon>Cancel
             </v-btn>
             <v-btn v-if="blank" depressed color="info" @click="save">
@@ -108,6 +108,7 @@ export default {
     methods: {
         crc: value => crc32.str(value),
         async save() {
+            this.loading = true;
             await this.$store.dispatch("gallery/savePhoto", {
                 _id: this.blank ? null : this.photo._id,
                 file: this.newPhotoFile,
@@ -119,16 +120,17 @@ export default {
             if (this.blank) {
                 this.$emit("delete");
             }
+            this.$toast.success(`Photo ${this.blank ? "uploaded" : "saved"}`);
+            this.loading = false;
         },
         async remove() {
-            if (this.blank) {
-                this.$emit("delete");
-            } else {
-                await this.$store.dispatch(
-                    "gallery/deletePhoto",
-                    this.photo._id
-                );
-            }
+            this.loading = true;
+            await this.$store.dispatch("gallery/deletePhoto", this.photo._id);
+            this.$toast.success("Photo deleted");
+            this.loading = false;
+        },
+        cancel() {
+            this.$emit("delete");
         },
         removePhotoSet(item) {
             const index = this.newSets.indexOf(item.code);
