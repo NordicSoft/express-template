@@ -22,7 +22,7 @@ Basic website template (boilerplate, skeleton, starter kit) based on Express.js 
     * Send Email
     * Google Maps
     * ~~Chat~~
-    * ~~Gallery~~
+    * Gallery
     * Files
 
 ## Backend Features
