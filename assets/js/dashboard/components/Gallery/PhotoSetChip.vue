@@ -23,7 +23,7 @@
                 class="my-2"
                 v-on="on"
                 :color="active ? activeColor : color"
-                :class="{active}"
+                :class="{ 'v-chip--active': active }"
                 @click="$emit('click')"
                 :value="photoSet.code"
             >
@@ -143,14 +143,18 @@ export default {
     height: 36px;
     color: #555;
     overflow: visible;
+    position: relative;
+    left: 2px;
 
-    &.active {
+    &.v-chip--active {
         color: #fff;
     }
 
     .v-avatar {
         height: 48px !important;
         width: 48px !important;
+        position: relative;
+        left: -1px;
     }
 }
 
