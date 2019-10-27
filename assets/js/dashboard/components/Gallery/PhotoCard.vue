@@ -54,18 +54,30 @@
         </v-card-text>
         <v-card-actions>
             <div class="flex-grow-1"></div>
-            <v-btn v-if="blank" depressed @click="cancel">
-                <v-icon left>mdi-cancel</v-icon>Cancel
-            </v-btn>
-            <v-btn v-if="blank" depressed color="info" @click="save">
-                <v-icon left>mdi-upload-outline</v-icon>Upload
-            </v-btn>
-            <v-btn v-if="!blank" depressed color="error" @click="remove">
-                <v-icon left>mdi-delete-outline</v-icon>Delete
-            </v-btn>
-            <v-btn v-if="!blank" depressed color="success" @click="save">
-                <v-icon left>mdi-check</v-icon>Save
-            </v-btn>
+            <template v-if="blank">
+                <v-btn depressed @click="cancel">
+                    <v-icon left>mdi-cancel</v-icon>Cancel
+                </v-btn>
+                <v-btn depressed color="info" @click="save">
+                    <v-icon left>mdi-upload-outline</v-icon>Upload
+                </v-btn>
+            </template>
+            <template v-else-if="photo.deleted">
+                <v-btn depressed color="error" @click="remove">
+                    <v-icon left>mdi-delete-outline</v-icon>Delete
+                </v-btn>
+                <v-btn depressed color="success" @click="restore">
+                    <v-icon left>mdi-undo-variant</v-icon>Restore
+                </v-btn>
+            </template>
+            <template v-else>
+                <v-btn depressed color="warning" @click="remove">
+                    <v-icon left>mdi-delete-outline</v-icon>Delete
+                </v-btn>
+                <v-btn depressed color="success" @click="save">
+                    <v-icon left>mdi-check</v-icon>Save
+                </v-btn>
+            </template>
         </v-card-actions>
     </v-card>
 </template>
@@ -131,6 +143,12 @@ export default {
         },
         cancel() {
             this.$emit("delete");
+        },
+        async restore() {
+            this.loading = true;
+            await this.$store.dispatch("gallery/restorePhoto", this.photo._id);
+            this.$toast.success("Photo restored");
+            this.loading = false;
         },
         removePhotoSet(item) {
             const index = this.newSets.indexOf(item.code);

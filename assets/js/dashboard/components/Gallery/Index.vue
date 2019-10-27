@@ -39,7 +39,7 @@
                 :imageMimeTypes="imageMimeTypes"
                 @delete="deleteUploadingPhoto(photo)"
             />
-            <v-card :loading="loading" flat class="ma-2" width="296px" min-height="222px">
+            <v-card v-if="activePhotoSet != 'trash'" :loading="loading" flat class="ma-2" width="296px" min-height="222px">
                 <v-btn
                     @click="$refs.inputUpload.click()"
                     depressed

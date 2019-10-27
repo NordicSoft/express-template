@@ -29,9 +29,14 @@ class Store {
         return this.collection.insertMany(docs, options);
     }
     async update(id, changes) {
-        return this.collection.updateOne(
+        if (!Object.keys(changes).every(x => x.startsWith("$"))) {
+            changes = { $set: changes };
+        }
+
+        return this.collection.findOneAndUpdate(
             { _id: typeof id === "string" ? mongodb.ObjectID(id) : id },
-            { $set: changes }
+            changes,
+            { returnOriginal: false }
         );
     }
     async save(doc, forceInsert = false) {
