@@ -1,11 +1,12 @@
 # Changelog
 
 ## **1.0.1** - *2019-xx-xx* (next)
+* `Dashboard` - global loading overlay added;
 * `Dashboard/Gallery`:
     * success toasts added;
     * cards loading behavior added;
     * photosets appearance improved;
-* `Dashboard` - global loading overlay added;
+* `Facade` - homepage updated;
 
 ## **1.0.0** - *2019-10-26*
 * `Dashboard/Gallery` page added;
