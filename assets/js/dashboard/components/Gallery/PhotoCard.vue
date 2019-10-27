@@ -41,7 +41,7 @@
                 </template>
                 <template v-slot:item="data">
                     <v-list-item-avatar>
-                        <v-img :src="data.item.cover" :key="crc(data.item.cover)" />
+                        <v-img :src="data.item.cover" :key="crc(data.item.cover || '')" />
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title v-html="data.item.title"></v-list-item-title>
@@ -85,7 +85,7 @@
 <script>
 import crc32 from "crc-32";
 import { createNamespacedHelpers } from "vuex";
-const { mapState } = createNamespacedHelpers("gallery");
+const { mapState, mapGetters } = createNamespacedHelpers("gallery");
 
 export default {
     props: {
@@ -115,7 +115,8 @@ export default {
     computed: {
         ...mapState({
             photoSets: "photoSets"
-        })
+        }),
+        ...mapGetters(["activePhotoSet"])
     },
     methods: {
         crc: value => crc32.str(value),
@@ -165,6 +166,25 @@ export default {
                 this.loading = false;
             };
             reader.readAsDataURL(this.newPhotoFile);
+        }
+    },
+    watch: {
+        activePhotoSet(newValue, oldValue) {
+            // if not a new photo or more than 1 photoset is selected - return
+            if (!this.blank || this.newSets.length > 1) {
+                return;
+            }
+
+            // if new photoset is system - empty selected photosets and return
+            if (this.photoSets.every(x => x.code !== newValue)) {
+                this.newSets.splice(0);
+                return;
+            }
+
+            // if photosets untouched - update it regarding to the active one
+            if (this.newSets.length === 0 || this.newSets[0] == oldValue) {
+                this.$set(this.newSets, 0, newValue);
+            }
         }
     },
     mounted() {

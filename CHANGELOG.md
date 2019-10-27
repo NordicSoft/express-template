@@ -7,6 +7,7 @@
     * cards loading behavior added;
     * photosets appearance improved;
     * the 'Trash' functionality added for photos (remove photos into Trash first; photos can be then restored from Trash or removed permanently);
+    * new photos uploading - consider switching between photo sets;
 * `Facade` - homepage updated;
 
 ## **1.0.0** - *2019-10-26*
