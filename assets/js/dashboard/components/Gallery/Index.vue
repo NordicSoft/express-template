@@ -30,15 +30,17 @@
                 :photo="photo"
                 :imageMimeTypes="imageMimeTypes"
             />
-            <photo-card
-                v-for="(photo) in uploadingPhotos"
-                :key="crc(photo.src)"
-                :photo="photo"
-                :blank="true"
-                :file="photo.file"
-                :imageMimeTypes="imageMimeTypes"
-                @delete="deleteUploadingPhoto(photo)"
-            />
+            <template v-if="activePhotoSet != 'trash'">
+                <photo-card
+                    v-for="(photo) in uploadingPhotos"
+                    :key="crc(photo.src)"
+                    :photo="photo"
+                    :blank="true"
+                    :file="photo.file"
+                    :imageMimeTypes="imageMimeTypes"
+                    @delete="deleteUploadingPhoto(photo)"
+                />
+            </template>
             <v-card v-if="activePhotoSet != 'trash'" :loading="loading" flat class="ma-2" width="296px" min-height="222px">
                 <v-btn
                     @click="$refs.inputUpload.click()"
