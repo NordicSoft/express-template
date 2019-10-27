@@ -1,6 +1,6 @@
 # Changelog
 
-## **1.0.1** - *2019-xx-xx* (next)
+## **1.0.1** - *2019-10-27* (next)
 * `Dashboard` - global loading overlay added;
 * `Dashboard/Gallery`:
     * success toasts added;
