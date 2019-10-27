@@ -7,7 +7,7 @@ const state = {
 };
 
 const getters = {
-    photoSets: (state) => {
+    photoSets: (state, getters) => {
         const all = {
             system: true,
             title: "All",
@@ -20,7 +20,18 @@ const getters = {
             code: "unclassified",
             icon: "mdi-image-filter"
         };
-        return [all, ...state.photoSets, unclassified];
+
+        let result = [all, ...state.photoSets, unclassified];
+        // if there are some deleted photos then add 'Trash' photoset
+        if (getters.deletedPhotos.length > 0) {
+            result.push({
+                system: true,
+                title: "Trash",
+                code: "trash",
+                icon: "mdi-delete-outline"
+            });
+        }
+        return result;
     },
     activePhotoSet: (state) => state.activePhotoSet,
     photos: (state, getters) => {
@@ -29,12 +40,15 @@ const getters = {
                 return getters.allPhotos;
             case "unclassified":
                 return getters.unclassifiedPhotos;
+            case "trash":
+                return getters.deletedPhotos;
             default:
-                return state.photos.filter(photo => photo.sets.includes(state.activePhotoSet));
+                return getters.allPhotos.filter(photo => photo.sets.includes(state.activePhotoSet));
         }
     },
-    allPhotos: (state) => state.photos,
-    unclassifiedPhotos: state => state.photos.filter(photo => !Array.isArray(photo.sets) || !photo.sets.length)
+    allPhotos: (state) => state.photos.filter(photo => !photo.deleted),
+    unclassifiedPhotos: state => state.photos.filter(photo => !photo.deleted && (!Array.isArray(photo.sets) || !photo.sets.length)),
+    deletedPhotos: (state) => state.photos.filter(photo => photo.deleted)
 };
 
 const mutations = {
@@ -82,13 +96,26 @@ const mutations = {
             state.photoSets.splice(index, 1);
         }
     },
-    deletePhoto(state, _id) {
+    deletePhoto(state, { _id, deleted }) {
         let index = state.photos.findIndex(item => {
             return item._id === _id;
         });
+        if (deleted) {
+            // add vuex state's `deleted` property dynamically
+            Vue.set(state.photos[index], "deleted", deleted);
+            return;
+        }
+
         if (index !== -1) {
             state.photos.splice(index, 1);
         }
+    },
+    restorePhoto(state, _id) {
+        let photo = state.photos.find(item => {
+            return item._id === _id;
+        });
+        // remove vuex state's `deleted` property dynamically
+        Vue.delete(photo, "deleted");
     }
 };
 
@@ -132,9 +159,23 @@ const actions = {
         await Vue.axios.delete(`/gallery/photoset/${_id}`);
         commit("deletePhotoSet", _id);
     },
-    async deletePhoto({ commit }, _id) {
-        await Vue.axios.delete(`/gallery/photo/${_id}`);
-        commit("deletePhoto", _id);
+    async deletePhoto({ commit, getters }, _id) {
+        let { data } = await Vue.axios.delete(`/gallery/photo/${_id}`);
+        commit("deletePhoto", data);
+        // if there are no remaining photos in trash
+        if (getters.activePhotoSet == "trash" && getters.deletedPhotos.length === 0) {
+            // go to 'All' photoset
+            commit("setActivePhotoSet", "all");
+        }
+    },
+    async restorePhoto({ commit, getters }, _id) {
+        await Vue.axios.post("/gallery/photo/restore", { _id });
+        commit("restorePhoto", _id);
+        // if there are no remaining photos in trash
+        if (getters.activePhotoSet == "trash" && getters.deletedPhotos.length === 0) {
+            // go to 'All' photoset
+            commit("setActivePhotoSet", "all");
+        }
     }
 };
 

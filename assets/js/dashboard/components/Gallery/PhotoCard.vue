@@ -41,7 +41,7 @@
                 </template>
                 <template v-slot:item="data">
                     <v-list-item-avatar>
-                        <v-img :src="data.item.cover" :key="crc(data.item.cover)" />
+                        <v-img :src="data.item.cover" :key="crc(data.item.cover || '')" />
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title v-html="data.item.title"></v-list-item-title>
@@ -54,18 +54,30 @@
         </v-card-text>
         <v-card-actions>
             <div class="flex-grow-1"></div>
-            <v-btn v-if="blank" depressed @click="remove">
-                <v-icon left>mdi-cancel</v-icon>Cancel
-            </v-btn>
-            <v-btn v-if="blank" depressed color="info" @click="save">
-                <v-icon left>mdi-upload-outline</v-icon>Upload
-            </v-btn>
-            <v-btn v-if="!blank" depressed color="error" @click="remove">
-                <v-icon left>mdi-delete-outline</v-icon>Delete
-            </v-btn>
-            <v-btn v-if="!blank" depressed color="success" @click="save">
-                <v-icon left>mdi-check</v-icon>Save
-            </v-btn>
+            <template v-if="blank">
+                <v-btn depressed @click="cancel">
+                    <v-icon left>mdi-cancel</v-icon>Cancel
+                </v-btn>
+                <v-btn depressed color="info" @click="save">
+                    <v-icon left>mdi-upload-outline</v-icon>Upload
+                </v-btn>
+            </template>
+            <template v-else-if="photo.deleted">
+                <v-btn depressed color="error" @click="remove">
+                    <v-icon left>mdi-delete-outline</v-icon>Delete
+                </v-btn>
+                <v-btn depressed color="success" @click="restore">
+                    <v-icon left>mdi-undo-variant</v-icon>Restore
+                </v-btn>
+            </template>
+            <template v-else>
+                <v-btn depressed color="warning" @click="remove">
+                    <v-icon left>mdi-delete-outline</v-icon>Delete
+                </v-btn>
+                <v-btn depressed color="success" @click="save">
+                    <v-icon left>mdi-check</v-icon>Save
+                </v-btn>
+            </template>
         </v-card-actions>
     </v-card>
 </template>
@@ -73,7 +85,7 @@
 <script>
 import crc32 from "crc-32";
 import { createNamespacedHelpers } from "vuex";
-const { mapState } = createNamespacedHelpers("gallery");
+const { mapState, mapGetters } = createNamespacedHelpers("gallery");
 
 export default {
     props: {
@@ -103,11 +115,13 @@ export default {
     computed: {
         ...mapState({
             photoSets: "photoSets"
-        })
+        }),
+        ...mapGetters(["activePhotoSet"])
     },
     methods: {
         crc: value => crc32.str(value),
         async save() {
+            this.loading = true;
             await this.$store.dispatch("gallery/savePhoto", {
                 _id: this.blank ? null : this.photo._id,
                 file: this.newPhotoFile,
@@ -119,16 +133,23 @@ export default {
             if (this.blank) {
                 this.$emit("delete");
             }
+            this.$toast.success(`Photo ${this.blank ? "uploaded" : "saved"}`);
+            this.loading = false;
         },
         async remove() {
-            if (this.blank) {
-                this.$emit("delete");
-            } else {
-                await this.$store.dispatch(
-                    "gallery/deletePhoto",
-                    this.photo._id
-                );
-            }
+            this.loading = true;
+            await this.$store.dispatch("gallery/deletePhoto", this.photo._id);
+            this.$toast.success("Photo deleted");
+            this.loading = false;
+        },
+        cancel() {
+            this.$emit("delete");
+        },
+        async restore() {
+            this.loading = true;
+            await this.$store.dispatch("gallery/restorePhoto", this.photo._id);
+            this.$toast.success("Photo restored");
+            this.loading = false;
         },
         removePhotoSet(item) {
             const index = this.newSets.indexOf(item.code);
@@ -145,6 +166,25 @@ export default {
                 this.loading = false;
             };
             reader.readAsDataURL(this.newPhotoFile);
+        }
+    },
+    watch: {
+        activePhotoSet(newValue, oldValue) {
+            // if not a new photo or more than 1 photoset is selected - return
+            if (!this.blank || this.newSets.length > 1) {
+                return;
+            }
+
+            // if new photoset is system - empty selected photosets and return
+            if (this.photoSets.every(x => x.code !== newValue)) {
+                this.newSets.splice(0);
+                return;
+            }
+
+            // if photosets untouched - update it regarding to the active one
+            if (this.newSets.length === 0 || this.newSets[0] == oldValue) {
+                this.$set(this.newSets, 0, newValue);
+            }
         }
     },
     mounted() {

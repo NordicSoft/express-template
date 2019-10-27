@@ -30,16 +30,18 @@
                 :photo="photo"
                 :imageMimeTypes="imageMimeTypes"
             />
-            <photo-card
-                v-for="(photo) in uploadingPhotos"
-                :key="crc(photo.src)"
-                :photo="photo"
-                :blank="true"
-                :file="photo.file"
-                :imageMimeTypes="imageMimeTypes"
-                @delete="deleteUploadingPhoto(photo)"
-            />
-            <v-card flat class="ma-2" width="296px" min-height="222px">
+            <template v-if="activePhotoSet != 'trash'">
+                <photo-card
+                    v-for="(photo) in uploadingPhotos"
+                    :key="crc(photo.src)"
+                    :photo="photo"
+                    :blank="true"
+                    :file="photo.file"
+                    :imageMimeTypes="imageMimeTypes"
+                    @delete="deleteUploadingPhoto(photo)"
+                />
+            </template>
+            <v-card v-if="activePhotoSet != 'trash'" :loading="loading" flat class="ma-2" width="296px" min-height="222px">
                 <v-btn
                     @click="$refs.inputUpload.click()"
                     depressed
@@ -75,6 +77,7 @@ export default {
     },
     data() {
         return {
+            loading: false,
             imageMimeTypes: ["image/png", "image/jpeg"],
             uploadingPhotos: []
         };
@@ -115,15 +118,17 @@ export default {
                     });
                 });
 
-            return await Promise.all(promises);
+            return Promise.all(promises);
         },
         setActivePhotoSet(value) {
             this.$store.commit("gallery/setActivePhotoSet", value);
         },
         async addPhotos(event) {
+            this.loading = true;
             let files = await this.filesMap(event.target.files);
             this.uploadingPhotos.push(...files);
             this.$refs.inputUpload.value = "";
+            this.loading = false;
         },
         deleteUploadingPhoto(photo) {
             let index = this.uploadingPhotos.indexOf(photo);
@@ -133,7 +138,9 @@ export default {
         }
     },
     async created() {
+        this.$store.dispatch("loading", true);
         await this.$store.dispatch("gallery/load");
+        this.$store.dispatch("loading", false);
     }
 };
 </script>

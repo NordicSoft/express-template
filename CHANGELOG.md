@@ -1,5 +1,15 @@
 # Changelog
 
+## **1.0.1** - *2019-xx-xx* (next)
+* `Dashboard` - global loading overlay added;
+* `Dashboard/Gallery`:
+    * success toasts added;
+    * cards loading behavior added;
+    * photosets appearance improved;
+    * the 'Trash' functionality added for photos (remove photos into Trash first; photos can be then restored from Trash or removed permanently);
+    * new photos uploading - consider switching between photo sets;
+* `Facade` - homepage updated;
+
 ## **1.0.0** - *2019-10-26*
 * `Dashboard/Gallery` page added;
 * `Vuetify` updated to v2.1.7;

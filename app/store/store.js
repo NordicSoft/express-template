@@ -11,13 +11,13 @@ class Store {
         return this.collection;
     }
     async getById(id) {
-        return await this.collection.findOne({ _id: typeof id === "string" ? mongodb.ObjectID(id) : id });
+        return this.collection.findOne({ _id: typeof id === "string" ? mongodb.ObjectID(id) : id });
     }
     async findOne(query, options) {
-        return await this.collection.findOne(query, options);
+        return this.collection.findOne(query, options);
     }
     async find(query, options) {
-        return await this.collection.find(query, options);
+        return this.collection.find(query, options);
     }
     async all() {
         return (await this.find({})).toArray();
@@ -29,9 +29,14 @@ class Store {
         return this.collection.insertMany(docs, options);
     }
     async update(id, changes) {
-        return this.collection.updateOne(
+        if (!Object.keys(changes).every(x => x.startsWith("$"))) {
+            changes = { $set: changes };
+        }
+
+        return this.collection.findOneAndUpdate(
             { _id: typeof id === "string" ? mongodb.ObjectID(id) : id },
-            { $set: changes }
+            changes,
+            { returnOriginal: false }
         );
     }
     async save(doc, forceInsert = false) {
