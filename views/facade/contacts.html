@@ -2,9 +2,82 @@
 {{#contentFor "description"}}Lorem ipsum{{/contentFor}}
 {{#contentFor "keywords"}}lorem ipsum{{/contentFor}}
 {{#contentFor "cssClass"}}contacts{{/contentFor}}
+{{#contentFor "scripts"}}
+<script type="text/javascript"
+    src="https://maps.googleapis.com/maps/api/js?libraries=places&language=ru&key=AIzaSyCifmSvEU38gNoswX4MckQUSy7ezTIuIyo"></script>
+{{/contentFor}}
 
 <h1>Contacts</h1>
 
-<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat, facere dolorum neque exercitationem odio impedit commodi repudiandae modi, alias aperiam ea maiores. Omnis laboriosam deserunt aliquid, veniam repudiandae quis fuga!</p>
-<p>Ullam dolore tempore et consequatur dolorem rerum expedita nihil quasi temporibus, culpa harum, perferendis molestiae placeat soluta esse, vero labore numquam? Nisi temporibus natus ullam deleniti laudantium ea quis excepturi.</p>
-<p>Delectus aliquid repellat deserunt ullam fugit, voluptate voluptatem perferendis impedit sequi dignissimos tempora necessitatibus expedita aliquam doloremque. Officiis qui sit porro incidunt delectus, soluta corporis a earum placeat suscipit? Laborum.</p>
+<div class="row mb-3">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="address">
+                    <a href="https://goo.gl/maps/wSPKywhyZq5icixL6" target="_blank" data-aos="fade-down"><i
+                            class="fas fa-map-marker-alt"></i> Greenwich, London SE10 0BG, United Kingdom</a>
+                </div>
+                <div class="phone">
+                    <a class="phone-primary" href="tel:+440000000000" data-aos="fade-down">
+                        <i class="fab fa-viber"></i> +44 00 0000 0000
+                    </a>
+                    <a class="phone-secondary" href="tel:+440000000001" data-aos="fade-down">
+                        <i class="fab fa-whatsapp"></i> +44 00 0000 0001
+                    </a>
+                </div>
+                <div class="email">
+                    <a href="mailto:mail@example.com" data-aos="fade-down">
+                        <i class="far fa-envelope"></i> mail@example.com
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                {{> facade/_social-links}}
+            </div>
+        </div>
+        <form class="contact-form" method="post" action="#">
+            <div class="alert alert-danger" style="display: none;">
+                <strong>An error occurred.</strong>
+            </div>
+            <div class="alert alert-success" style="display: none;">
+                <strong>Message sent!</strong>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input type="text" name="name" placeholder="Name" class="form-control required" />
+                </div>
+                <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <input type="email" name="email" placeholder="Email" class="form-control required" />
+                </div>
+                <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
+            </div>
+            <div class="form-group">
+                <textarea name="message" class="form-control" rows="8" placeholder="Message"></textarea>
+            </div>
+            <button type="submit" class="btn btn-warning send">
+                <i class="fab fa-telegram-plane"></i> Send
+            </button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <div class="map"></div>
+    </div>
+</div>
+
+<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat, facere dolorum neque exercitationem odio impedit
+    commodi repudiandae modi, alias aperiam ea maiores. Omnis laboriosam deserunt aliquid, veniam repudiandae quis fuga!
+</p>
+<p>Ullam dolore tempore et consequatur dolorem rerum expedita nihil quasi temporibus, culpa harum, perferendis molestiae
+    placeat soluta esse, vero labore numquam? Nisi temporibus natus ullam deleniti laudantium ea quis excepturi.</p>
+<p>Delectus aliquid repellat deserunt ullam fugit, voluptate voluptatem perferendis impedit sequi dignissimos tempora
+    necessitatibus expedita aliquam doloremque. Officiis qui sit porro incidunt delectus, soluta corporis a earum
+    placeat suscipit? Laborum.</p>

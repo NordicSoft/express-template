@@ -1,5 +1,5 @@
 <footer>
-	<div class="container logo">
+    <div class="container logo">
         <a class="fade-in" href="/">
             <picture>
                 <source srcset="/img/logo-2x.png"
@@ -9,40 +9,35 @@
             </picture>
         </a>
     </div>
-    
-	<div class="container menu">
-        <hr>
-		<nav class="navbar navbar-expand navbar-light" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
-			<ul class="navbar-nav mx-auto">
-				<li class="nav-item">
-					<a href="/about" class="nav-link" itemprop="url"><span itemprop="name">About</span> </a>
-				</li>
-				<li class="nav-item">
-					<a href="/contacts" class="nav-link" itemprop="url"><span itemprop="name">Contacts</span> </a>
-				</li>
-				<li class="nav-item">
-					<a href="/policies" class="nav-link" itemprop="url"><span itemprop="name">Policies</span> </a>
-				</li>
-			</ul>
-		</nav>
-        <hr>
-	</div>
 
-	<div class="container social">
-		<a target="_blank" title="GitHub" href="https://github.com/NordicSoft/express-template" class="social-link fb"><i
-				class="fab fa-github"></i></a>
-		<a target="_blank" title="Facebook" href="https://fb.com/NordicSoft.net" class="social-link fb"><i
-				class="fab fa-facebook"></i></a>
-		<a target="_blank" title="Twitter" href="https://twitter.com/NordicSoft_net" class="social-link twitter"><i
-				class="fab fa-twitter"></i></a>
+    <div class="container menu">
+        <hr>
+        <nav class="navbar navbar-expand navbar-light" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a href="/about" class="nav-link" itemprop="url"><span itemprop="name">About</span> </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/contacts" class="nav-link" itemprop="url"><span itemprop="name">Contacts</span> </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/policies" class="nav-link" itemprop="url"><span itemprop="name">Policies</span> </a>
+                </li>
+            </ul>
+        </nav>
+        <hr>
     </div>
-    
-	<div class="container copyright">
-		<div>
-			<i class="far fa-heart" aria-hidden="true"></i>
-			Created with love by
-			<a href="http://ysemeniuk.com" target="_blank">Yurii Semeniuk</a> in
-			<a href="https://nordicsoft.net" target="_blank">NordicSoft</a>
-		</div>
-	</div>
+
+    <div class="container">
+        {{> facade/_social-links}}
+    </div>
+
+    <div class="container copyright">
+        <div>
+            <i class="far fa-heart" aria-hidden="true"></i>
+            Created with love by
+            <a href="http://ysemeniuk.com" target="_blank">Yurii Semeniuk</a> in
+            <a href="https://nordicsoft.net" target="_blank">NordicSoft</a>
+        </div>
+    </div>
 </footer>

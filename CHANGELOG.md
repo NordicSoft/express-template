@@ -1,6 +1,9 @@
 # Changelog
 
-## **1.0.1** - *2019-10-27* (next)
+## **1.0.2** - *2019-11-25*
+* `Facade` - contacts page updated;
+
+## **1.0.1** - *2019-10-27*
 * `Dashboard` - global loading overlay added;
 * `Dashboard/Gallery`:
     * success toasts added;

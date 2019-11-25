@@ -103,6 +103,15 @@ router.post("/register", async function (req, res) {
     }
 });
 
+router.post("/send-message", async (req, res) => {
+    let axios = require("axios");
+    let text = `*${req.body.name}* (_${req.body.email}_) says:\n${req.body.message}`;
+    await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
+        { chat_id: process.env.TELEGRAM_CHAT_ID, text, parse_mode: "Markdown" }
+    );
+    res.sendStatus(200);
+});
+
 router.get("/signout", function (req, res) {
     req.signout();
     return res.redirect("/");

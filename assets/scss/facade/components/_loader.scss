@@ -8,7 +8,7 @@ $loader-border-color-primary: #5fb0e5;
 $loader-border-color-secondary: #ecf5fe;
 
 .loader {
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
     top: 0;
