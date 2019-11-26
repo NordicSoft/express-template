@@ -3,30 +3,31 @@
 {{#contentFor "keywords"}}signin{{/contentFor}}
 {{#contentFor "cssClass"}}signin{{/contentFor}}
 
-<h1>Sign In</h1>
-
-<form class="signin" novalidate>
-    <div class="alert alert-success" style="display: none">
-    </div>
-    <div class="alert alert-danger" style="display: none">
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-            </div>
-            <input type="email" name="email" placeholder="Email" class="form-control required" />
+<div class="container">
+    <h1>Sign In</h1>
+    <form class="signin" novalidate>
+        <div class="alert alert-success" style="display: none">
         </div>
-        <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
-            </div>
-            <input type="password" name="password" placeholder="Password" class="form-control required" maxlength="20">
+        <div class="alert alert-danger" style="display: none">
         </div>
-        <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
-    </div>
-    <button class="btn btn-block btn-warning submit" type="submit" disabled>{{lang.signIn}}</button>
-</form>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                </div>
+                <input type="email" name="email" placeholder="Email" class="form-control required" />
+            </div>
+            <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
+                </div>
+                <input type="password" name="password" placeholder="Password" class="form-control required" maxlength="20">
+            </div>
+            <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
+        </div>
+        <button class="btn btn-block btn-warning submit" type="submit" disabled>{{lang.signIn}}</button>
+    </form>
+</div>

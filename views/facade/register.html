@@ -3,51 +3,53 @@
 {{#contentFor "keywords"}}register{{/contentFor}}
 {{#contentFor "cssClass"}}register{{/contentFor}}
 
-<h1>Register</h1>
+<div class="container">
+    <h1>Register</h1>
 
-<form class="register" novalidate autocomplete="off">
-    <div class="alert alert-success" style="display: none">
-    </div>
-    <div class="alert alert-danger" style="display: none">
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-user"></i></span>
-            </div>
-            <input type="text" name="name" placeholder="Name" class="form-control required" maxlength="50" />
+    <form class="register" novalidate autocomplete="off">
+        <div class="alert alert-success" style="display: none">
         </div>
-        <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-            </div>
-            <input type="email" name="email" placeholder="Email" class="form-control email required" maxlength="254" />
+        <div class="alert alert-danger" style="display: none">
         </div>
-        <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                </div>
+                <input type="text" name="name" placeholder="Name" class="form-control required" maxlength="50" />
             </div>
-            <input type="password" name="password" placeholder="Password" class="form-control required" maxlength="20" autocomplete="off">
+            <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
         </div>
-        <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                </div>
+                <input type="email" name="email" placeholder="Email" class="form-control email required" maxlength="254" />
             </div>
-            <input type="password" name="passwordConfirm" placeholder="Password Confirmation" class="form-control required" maxlength="20" autocomplete="off">            
+            <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
         </div>
-        <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
-    </div>
-    <div class="note">
-        <p>{{{lang.pages.register.policiesAgreementNote}}}</p>
-    </div>
-    <button class="btn btn-block btn-warning submit" type="submit" disabled>{{lang.register}}</button>
-</form>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
+                </div>
+                <input type="password" name="password" placeholder="Password" class="form-control required" maxlength="20" autocomplete="off">
+            </div>
+            <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="fa fa-asterisk"></i></span>
+                </div>
+                <input type="password" name="passwordConfirm" placeholder="Password Confirmation" class="form-control required" maxlength="20" autocomplete="off">            
+            </div>
+            <i class="fa fa-exclamation-triangle error-sign" data-toggle="tooltip"></i>
+        </div>
+        <div class="note">
+            <p>{{{lang.pages.register.policiesAgreementNote}}}</p>
+        </div>
+        <button class="btn btn-block btn-warning submit" type="submit" disabled>{{lang.register}}</button>
+    </form>
+</div>
