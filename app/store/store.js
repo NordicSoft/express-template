@@ -17,10 +17,10 @@ class Store {
         return this.collection.findOne(query, options);
     }
     async find(query, options) {
-        return this.collection.find(query, options);
+        return (await this.collection.find(query, options)).toArray();
     }
     async all() {
-        return (await this.find({})).toArray();
+        return this.find({});
     }
     async insert(docs, options) {
         if (!Array.isArray(docs)) {

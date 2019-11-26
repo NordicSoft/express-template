@@ -3,7 +3,6 @@ var router = require("express").Router(),
     logger = require("./../lib/logger"),
     store = require("./../store");
 
-
 function signin(req, res) {
     req.signin(function (err, user, info) {
         if (user) {
@@ -15,10 +14,34 @@ function signin(req, res) {
 }
 
 router.get("/", function (req, res) {
-    res.locals.model = {
-        isAuthenticated: req.isAuthenticated()
-    };
     return res.render("facade/index");
+});
+
+router.get("/gallery", function (req, res) {
+    return res.redirect("/gallery/all");
+});
+
+router.get("/gallery/:photoSet/:photoId?", async function (req, res) {
+    let photoSet, photos;
+    console.log(req.params);
+
+    if (req.params.photoSet !== "all") {
+        photoSet = await store.photoSets.getByCode(req.params.photoSet),
+        photos = await store.photos.find({sets: req.params.photoSet});
+    } else {
+        photoSet = { title: "All photos", code: "all" };
+        photos = await store.photos.all();
+    }
+
+    if (!photoSet) {
+        return res.error(404);
+    }
+
+    res.locals.model = {
+        photoSet,
+        photos
+    };
+    return res.render("facade/gallery");
 });
 
 router.get("/signin", function (req, res) {
@@ -134,4 +157,15 @@ router.get("/*", function (req, res) {
     return res.render(view, options, renderCallback);
 });
 
-module.exports = router;
+module.exports = function (express) {
+    express.use(async function (req, res, next) {
+        res.locals = res.locals || {};
+        Object.assign(res.locals, {
+            photoSets: await store.photoSets.all()
+        });
+        console.log(res.locals.photoSets);
+        next();
+    });
+
+    return router;
+};

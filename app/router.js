@@ -33,7 +33,7 @@ module.exports = function (express) {
 
     express.use("/api", signinRequired, xhrOnly, require("./routes/api"));
     express.use("/dashboard", signinRequired, require("./routes/dashboard"));
-    express.use("/", require("./routes/facade"));
+    express.use("/", require("./routes/facade")(express));
 
     // handle 404
     express.use(function (req, res) {

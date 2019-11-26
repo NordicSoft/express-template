@@ -1,0 +1,12 @@
+{{#contentFor "title"}}Gallery - {{model.photoSet.title}}{{/contentFor}}
+{{#contentFor "description"}}Lorem ipsum{{/contentFor}}
+{{#contentFor "keywords"}}lorem ipsum{{/contentFor}}
+{{#contentFor "cssClass"}}gallery{{/contentFor}}
+
+<div class="container">
+    <h1>Gallery <small>/ {{model.photoSet.title}}</small></h1>
+    {{#model.photos}}
+    <img src="{{src}}" alt="{{alt}}" title="{{title}}">
+    {{/model.photos}}
+
+</div>

@@ -1,5 +1,5 @@
 <header>
-    <nav class="navbar navbar-expand-sm">
+    <nav class="navbar navbar-expand-md">
         <div class="container">
             <a class="navbar-brand" href="/">
                 <picture>
@@ -22,6 +22,21 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/contacts">Contacts</a>
                     </li>
+                    {{#if photoSets.length}}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" data-toggle="dropdown">
+                            Gallery
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            {{#photoSets}}
+                            <a class="dropdown-item" href="/gallery/{{code}}">{{title}}</a>
+                            {{/photoSets}}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/gallery/all">All photos</a>
+                        </div>
+                    </li>
+                    {{/if}}
                     {{#if isAuthenticated}}
                     <li class="nav-item">
                         <a class="nav-link" href="/dashboard">Dashboard</a>
