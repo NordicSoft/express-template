@@ -7,6 +7,7 @@ var express = require("express"),
     favicon = require("serve-favicon"),
     errorHandler = require("errorhandler"),
     hbs = require("express-hbs"),
+    hbsHelpers = require("./lib/hbs-helpers"),
     cors = require("cors"),
     compression = require("compression");
 //router = require('./router');
@@ -37,6 +38,9 @@ module.exports = function (config) {
     }));
     app.set("view engine", "html");
     app.set("views", process.cwd() + "/views");
+
+    // register custom Handlebars helpers
+    hbsHelpers(hbs);
 
     // set favicon
     app.use(favicon(process.cwd() + "/www/favicon.ico"));

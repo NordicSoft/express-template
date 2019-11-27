@@ -3,5 +3,22 @@
 /*************************************************************/
 
 .gallery main {
-    
+    .caption {
+        h5 {
+            font-size: 1.05rem;
+            margin: 0;
+
+            &:empty {
+                display: none;
+            }
+        }
+
+        div {
+            
+
+            &:empty {
+                display: none;
+            }
+        }
+    }
 }

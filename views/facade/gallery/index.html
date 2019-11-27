@@ -4,12 +4,13 @@
 {{#contentFor "cssClass"}}gallery{{/contentFor}}
 
 <div class="container">
-    <h1>Gallery</h1>
+    <h1>Gallery <small>/ Photo Sets</small></h1>
 
     {{#photoSets}}
-    <div class="albums">
+    <div class="photosets">
         <a href="/gallery/{{code}}">
-            <img src="{{cover}}" alt="{{title}}">
+            <img src="{{cover}}" alt="{{title}}" title="{{title}}">
+            <div class="caption">{{title}}</div>
         </a>
     </div>
     {{/photoSets}}

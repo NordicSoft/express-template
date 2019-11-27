@@ -6,12 +6,18 @@
 <div class="container">
     <h1>Gallery <small>/ {{model.photoSet.title}}</small></h1>
 
-    {{#model.photos}}
     <div class="photos">
+        {{#model.photos}}
         <a href="/gallery/{{@root.model.photoSet.code}}/{{_id}}">
             <img src="{{src}}" alt="{{alt}}" title="{{title}}">
+            {{#if (or title description)}}
+            <div class="caption">
+                <h5>{{title}}</h5>
+                <div>{{breaklines description}}</div>
+            </div>
+            {{/if}}
         </a>
+        {{/model.photos}}
     </div>
-    {{/model.photos}}
 
 </div>

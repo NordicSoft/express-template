@@ -12,6 +12,9 @@ log("Welcome to NordicSoft Express 4 Template! Environment: " + options.env);
 page("/", pages.homepage);
 page("/about", pages.about);
 page("/contacts", pages.contacts);
+page("/gallery", pages.gallery);
+page("/gallery/:photoSet", pages.photoSet);
+page("/gallery/:photoSet/:photoId", pages.photo);
 page("/register", pages.register);
 page("/signin", pages.signin);
 //page('*', app.pages.notfound)

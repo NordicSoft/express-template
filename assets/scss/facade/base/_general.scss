@@ -40,6 +40,14 @@ h1 {
         font-size: 1.25rem;
         font-weight: normal;
     }
+
+    a {
+        color: #3333aa;
+
+        &:hover {
+            color: #0000cc;
+        }
+    }
 }
 
 .browserupgrade {
