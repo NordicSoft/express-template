@@ -1,0 +1,12 @@
+{{#contentFor "title"}}Gallery Photo - {{model.photo.title}}{{/contentFor}}
+{{#contentFor "description"}}Lorem ipsum{{/contentFor}}
+{{#contentFor "keywords"}}lorem ipsum{{/contentFor}}
+{{#contentFor "cssClass"}}gallery{{/contentFor}}
+
+<div class="container">
+    <h1>Gallery <small>/ <a href="/gallery/{{model.photoSet.code}}">{{model.photoSet.title}}</a></small></h1>
+
+    {{#with model.photo}}
+    <img src="{{src}}" alt="{{alt}}" title="{{title}}" class="img-fluid">
+    {{/with}}
+</div>

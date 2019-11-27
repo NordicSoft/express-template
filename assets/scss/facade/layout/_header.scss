@@ -61,6 +61,8 @@ header {
             border-radius: 0;
             margin: 0;
             padding-top: 0;
+            left: auto;
+            right: 0;
 
             @include media-breakpoint-down(sm) {
                 background: transparent;
@@ -88,19 +90,24 @@ header {
             }
         }
 
-        .nav-item.dropdown .nav-link {
-            .fa-chevron-down {
-                position: relative;
-                top: -1px;
-                font-size: 0.75rem;
-                opacity: 0.7;
-                transition: ease 100ms transform;
+        .nav-item.dropdown {
+            position: relative;
+            left: -3px;
+
+            .nav-link {
+                .fa-chevron-down {
+                    position: relative;
+                    top: -1px;
+                    font-size: 0.75rem;
+                    opacity: 0.7;
+                    transition: ease 100ms transform;
+                }
             }
-        }
-        
-        .nav-item.dropdown.show .nav-link {
-            .fa-chevron-down {
-                transform: rotate(180deg);
+            
+            &.show .nav-link {
+                .fa-chevron-down {
+                    transform: rotate(180deg);
+                }
             }
         }
     }

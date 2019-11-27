@@ -18,15 +18,14 @@ router.get("/", function (req, res) {
 });
 
 router.get("/gallery", function (req, res) {
-    return res.redirect("/gallery/all");
+    return res.render("facade/gallery/index");
 });
 
-router.get("/gallery/:photoSet/:photoId?", async function (req, res) {
+router.get("/gallery/:photoSet", async function (req, res) {
     let photoSet, photos;
-    console.log(req.params);
 
     if (req.params.photoSet !== "all") {
-        photoSet = await store.photoSets.getByCode(req.params.photoSet),
+        photoSet = await store.photoSets.getByCode(req.params.photoSet);
         photos = await store.photos.find({sets: req.params.photoSet});
     } else {
         photoSet = { title: "All photos", code: "all" };
@@ -41,7 +40,30 @@ router.get("/gallery/:photoSet/:photoId?", async function (req, res) {
         photoSet,
         photos
     };
-    return res.render("facade/gallery");
+    return res.render("facade/gallery/photoset");
+});
+
+router.get("/gallery/:photoSet/:photoId(\\d+)", async function (req, res) {
+    let photoSet, photo;
+
+    if (req.params.photoSet !== "all") {
+        photoSet = await store.photoSets.getByCode(req.params.photoSet);
+    } else {
+        photoSet = { title: "All photos", code: "all" };
+    }
+
+    photo = await store.photos.getById(Number(req.params.photoId));
+
+    if (!photoSet || !photo) {
+        return res.error(404);
+    }
+
+    res.locals.model = {
+        photoSet,
+        photo
+    };
+
+    return res.render("facade/gallery/photo");
 });
 
 router.get("/signin", function (req, res) {
@@ -163,7 +185,6 @@ module.exports = function (express) {
         Object.assign(res.locals, {
             photoSets: await store.photoSets.all()
         });
-        console.log(res.locals.photoSets);
         next();
     });
 

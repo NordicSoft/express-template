@@ -1,0 +1,16 @@
+{{#contentFor "title"}}Gallery{{/contentFor}}
+{{#contentFor "description"}}Lorem ipsum{{/contentFor}}
+{{#contentFor "keywords"}}lorem ipsum{{/contentFor}}
+{{#contentFor "cssClass"}}gallery{{/contentFor}}
+
+<div class="container">
+    <h1>Gallery</h1>
+
+    {{#photoSets}}
+    <div class="albums">
+        <a href="/gallery/{{code}}">
+            <img src="{{cover}}" alt="{{title}}">
+        </a>
+    </div>
+    {{/photoSets}}
+</div>
