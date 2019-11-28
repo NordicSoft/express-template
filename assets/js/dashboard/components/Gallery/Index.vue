@@ -68,7 +68,12 @@ import crc32 from "crc-32";
 import PhotoSetChip from "./PhotoSetChip";
 import PhotoCard from "./PhotoCard";
 import { createNamespacedHelpers } from "vuex";
+import XMP from "xmp-js";
+// npm i exif-parser
+// import exifParser from "exif-parser";
+
 const { mapGetters } = createNamespacedHelpers("gallery");
+
 
 export default {
     components: {
@@ -97,9 +102,9 @@ export default {
             let promises = Array.from(files)
                 .filter(file => this.imageMimeTypes.includes(file.type))
                 .map(file => {
+
                     let result = {
                         name: file.name,
-                        // TODO: prepopulate with data from EXIF if possible
                         alt: file.name,
                         title: "",
                         description: "",
@@ -112,6 +117,17 @@ export default {
                         var reader = new FileReader();
                         reader.onload = function(e) {
                             result.src = e.target.result;
+
+                            //let parser = exifParser.create(blob);
+                            //let exif = parser.parse();
+
+                            let xmp = new XMP(result.src);
+                            let xmpJson = xmp.parse();
+                            if (xmpJson) {
+                                result.alt = xmpJson.title;
+                                result.title = xmpJson.title;
+                                result.description = xmpJson.description;
+                            }
                             resolve(result);
                         };
                         reader.readAsDataURL(file);
