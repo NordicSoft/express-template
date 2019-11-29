@@ -42,8 +42,18 @@ const getters = {
                 return getters.unclassifiedPhotos;
             case "trash":
                 return getters.deletedPhotos;
-            default:
-                return getters.allPhotos.filter(photo => photo.sets.includes(state.activePhotoSet));
+            default: {
+                let photoSet = state.photoSets.find(photoSet => photoSet.code === getters.activePhotoSet);
+                if (!photoSet) {
+                    return [];
+                }
+                return photoSet.photos.map(id => {
+                    let photo = state.photos.find(x=>x._id === id);
+                    if (photo && !photo.deleted) {
+                        return photo;
+                    }
+                }).filter(x=>!!x);
+            }
         }
     },
     allPhotos: (state) => state.photos.filter(photo => !photo.deleted),
@@ -116,6 +126,21 @@ const mutations = {
         });
         // remove vuex state's `deleted` property dynamically
         Vue.delete(photo, "deleted");
+    },
+    reorderPhotos(state, payload) {
+        let photoSet = state.photoSets.find(x => x.code === payload.photoSet);
+        photoSet.photos = payload.photos;
+        /*
+        // TODO: sort within payload.photoSet
+        payload.photos.forEach((id, newIndex)=> {
+            let currentIndex = state.photos.findIndex(photo=>photo._id === id);
+            if (currentIndex === newIndex) {
+                return;
+            }
+
+            // move from currentIndex -> newIndex
+            state.photos.splice(newIndex, 0, state.photos.splice(currentIndex, 1)[0]);
+        });*/
     }
 };
 
@@ -176,6 +201,10 @@ const actions = {
             // go to 'All' photoset
             commit("setActivePhotoSet", "all");
         }
+    },
+    async reorderPhotos({ commit }, payload) {
+        await Vue.axios.post("/gallery/photos/reorder", payload);
+        commit("reorderPhotos", payload);
     }
 };
 

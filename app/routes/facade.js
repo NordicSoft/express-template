@@ -22,23 +22,26 @@ router.get("/gallery", function (req, res) {
 });
 
 router.get("/gallery/:photoSet", async function (req, res) {
-    let photoSet, photos;
+    let photoSet;
 
     if (req.params.photoSet !== "all") {
-        photoSet = await store.photoSets.getByCode(req.params.photoSet);
-        photos = await store.photos.find({sets: req.params.photoSet});
+        photoSet = await store.photoSets.getByCodeWithPhotos(req.params.photoSet);
     } else {
-        photoSet = { title: "All photos", code: "all" };
-        photos = await store.photos.all();
+        photoSet = {
+            title: "All photos",
+            code: "all",
+            photos: await store.photos.all()
+        };
     }
+
+    console.log(photoSet);
 
     if (!photoSet) {
         return res.error(404);
     }
 
     res.locals.model = {
-        photoSet,
-        photos
+        photoSet
     };
     return res.render("facade/gallery/photoset");
 });

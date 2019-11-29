@@ -16,11 +16,15 @@ class Store {
     async findOne(query, options) {
         return this.collection.findOne(query, options);
     }
-    async find(query, options) {
-        return (await this.collection.find(query, options)).toArray();
+    async find(query, options, sort) {
+        let result = await this.collection.find(query, options);
+        if (sort) {
+            return result.sort(sort).toArray();
+        }
+        return result.toArray();
     }
-    async all() {
-        return this.find({});
+    async all(sort) {
+        return this.find({}, undefined, sort);
     }
     async insert(docs, options) {
         if (!Array.isArray(docs)) {
@@ -28,12 +32,15 @@ class Store {
         }
         return this.collection.insertMany(docs, options);
     }
+    async findOneAndUpdate(filter, update, options) {
+        return this.collection.findOneAndUpdate(filter, update, options);
+    }
     async update(id, changes) {
         if (!Object.keys(changes).every(x => x.startsWith("$"))) {
             changes = { $set: changes };
         }
 
-        return this.collection.findOneAndUpdate(
+        return this.findOneAndUpdate(
             { _id: typeof id === "string" ? mongodb.ObjectID(id) : id },
             changes,
             { returnOriginal: false }
@@ -44,6 +51,9 @@ class Store {
             return this.insert(doc);
         }
         return this.update(doc._id, doc);
+    }
+    async updateMany(filter, update, options) {
+        return this.collection.updateMany(filter, update, options);
     }
     async delete(id) {
         return this.collection.deleteOne({ _id: typeof id === "string" ? mongodb.ObjectID(id) : id });

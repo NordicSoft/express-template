@@ -5,9 +5,8 @@
 
 <div class="container">
     <h1>Gallery <small>/ {{model.photoSet.title}}</small></h1>
-
     <div class="photos">
-        {{#model.photos}}
+        {{#each model.photoSet.photos}}
         <a href="/gallery/{{@root.model.photoSet.code}}/{{_id}}">
             <img src="{{src}}" alt="{{alt}}" title="{{title}}">
             {{#if (or title description)}}
@@ -17,7 +16,7 @@
             </div>
             {{/if}}
         </a>
-        {{/model.photos}}
+        {{/each}}
     </div>
 
 </div>

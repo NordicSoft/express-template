@@ -23,12 +23,20 @@
                 :imageMimeTypes="imageMimeTypes"
             />
         </div>
-        <div class="d-flex flex-wrap pt-3 mx-n2">
+        <draggable
+            v-model="photos"
+            :force-fallback="true"
+            :disabled="!reorderEnabled"
+            draggable=".saved-photo"
+            class="d-flex flex-wrap pt-3 mx-n2"
+            ghost-class="ghost"
+        >
             <photo-card
                 v-for="photo in photos"
                 :key="photo._id"
                 :photo="photo"
                 :imageMimeTypes="imageMimeTypes"
+                class="saved-photo"
             />
             <template v-if="activePhotoSet != 'trash'">
                 <photo-card
@@ -39,9 +47,17 @@
                     :file="photo.file"
                     :imageMimeTypes="imageMimeTypes"
                     @delete="deleteUploadingPhoto(photo)"
+                    class="uploading-photo"
                 />
             </template>
-            <v-card v-if="activePhotoSet != 'trash'" :loading="loading" flat class="ma-2" width="296px" min-height="222px">
+            <v-card
+                v-if="activePhotoSet != 'trash'"
+                :loading="loading"
+                flat
+                class="ma-2"
+                width="296px"
+                min-height="222px"
+            >
                 <v-btn
                     @click="$refs.inputUpload.click()"
                     depressed
@@ -59,7 +75,7 @@
                     />
                 </v-btn>
             </v-card>
-        </div>
+        </draggable>
     </div>
 </template>
 
@@ -68,17 +84,18 @@ import crc32 from "crc-32";
 import PhotoSetChip from "./PhotoSetChip";
 import PhotoCard from "./PhotoCard";
 import { createNamespacedHelpers } from "vuex";
+import draggable from "vuedraggable";
 import XMP from "xmp-js";
 // npm i exif-parser
 // import exifParser from "exif-parser";
 
 const { mapGetters } = createNamespacedHelpers("gallery");
 
-
 export default {
     components: {
         PhotoSetChip,
-        PhotoCard
+        PhotoCard,
+        draggable
     },
     data() {
         return {
@@ -92,9 +109,25 @@ export default {
             "photoSets",
             "activePhotoSet",
             "allPhotos",
-            "photos",
             "unclassifiedPhotos"
-        ])
+        ]),
+        photos: {
+            get() {
+                return this.$store.getters["gallery/photos"];
+            },
+            async set(value) {
+                let ids = value.map(x => x._id);
+                await this.$store.dispatch("gallery/reorderPhotos", {
+                    photoSet: this.activePhotoSet,
+                    photos: ids
+                });
+            }
+        },
+        reorderEnabled() {
+            return !["all", "unclassified", "trash"].includes(
+                this.activePhotoSet
+            );
+        }
     },
     methods: {
         crc: value => crc32.str(value),
@@ -102,7 +135,6 @@ export default {
             let promises = Array.from(files)
                 .filter(file => this.imageMimeTypes.includes(file.type))
                 .map(file => {
-
                     let result = {
                         name: file.name,
                         alt: file.name,
@@ -181,5 +213,10 @@ export default {
     .v-icon {
         font-size: 64px;
     }
+}
+
+.ghost {
+    opacity: 0.5;
+    background: #c8ebfb;
 }
 </style>

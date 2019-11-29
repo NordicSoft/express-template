@@ -4,6 +4,8 @@
 * `Dashboard/Gallery` added;
 * `Dashboard/Gallery`:
     * upload photos - pre-populate `alt`, `title` and `description` with data from XMP if available (custom package [xmp-js](https://www.npmjs.com/package/xmp-js) created for this);
+    * reorder photos within photo set with drag & drop;
+    * other improvements;
 
 ## **1.0.2** - *2019-11-25*
 * `Facade` - contacts page updated;
