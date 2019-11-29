@@ -18,7 +18,10 @@ router.get("/", function (req, res) {
 });
 
 router.get("/gallery", function (req, res) {
-    return res.render("facade/gallery/index");
+    if (res.locals.photoSets && res.locals.photoSets.length > 0) {
+        return res.render("facade/gallery/index");
+    }
+    return res.error(404);
 });
 
 router.get("/gallery/:photoSet", async function (req, res) {
@@ -33,8 +36,6 @@ router.get("/gallery/:photoSet", async function (req, res) {
             photos: await store.photos.all(undefined, false)
         };
     }
-
-    console.log(photoSet);
 
     if (!photoSet|| photoSet.photos.length === 0) {
         return res.error(404);
