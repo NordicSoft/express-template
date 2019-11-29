@@ -30,13 +30,13 @@ router.get("/gallery/:photoSet", async function (req, res) {
         photoSet = {
             title: "All photos",
             code: "all",
-            photos: await store.photos.all()
+            photos: await store.photos.all(undefined, false)
         };
     }
 
     console.log(photoSet);
 
-    if (!photoSet) {
+    if (!photoSet|| photoSet.photos.length === 0) {
         return res.error(404);
     }
 
@@ -186,7 +186,7 @@ module.exports = function (express) {
     express.use(async function (req, res, next) {
         res.locals = res.locals || {};
         Object.assign(res.locals, {
-            photoSets: await store.photoSets.all()
+            photoSets: await store.photoSets.getNotEmpty()
         });
         next();
     });

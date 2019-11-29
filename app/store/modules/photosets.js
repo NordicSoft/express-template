@@ -6,22 +6,12 @@ class PhotoSetsStore extends Store {
         logger.debug("PhotoSetsStore created");
         super("photosets");
     }
+
     async getByCode(code) {
         return await this.getCollection().findOne({ code: code });
     }
+
     async getByCodeWithPhotos(code) {
-        /*let cursor = this.getCollection().aggregate([
-            { $match : { code } },
-            {
-                // replace photoSet.photos array of ids with related photo objects
-                $lookup: {
-                    from: "photos", 
-                    localField: "photos", 
-                    foreignField: "_id", 
-                    as: "photos2"
-                }
-            },
-        ]);*/
 
         let cursor = this.getCollection().aggregate([
             { $match : { code } },
@@ -31,7 +21,7 @@ class PhotoSetsStore extends Store {
                 from: "photos", 
                 localField: "photos", 
                 foreignField: "_id", 
-                as: "photos2"
+                as: "photos"
             }*/
 
             // replace photoSet.photos array of ids with related photo objects
@@ -43,7 +33,7 @@ class PhotoSetsStore extends Store {
                     { $match: {
                         $and: [
                             { $expr: { $in: [ "$_id", "$$photosIds" ] } },
-                            { deleted: {$exists: false} }
+                            { deleted: { $exists: false } }
                         ]
                     }},
                     { $addFields: {
@@ -54,12 +44,41 @@ class PhotoSetsStore extends Store {
                     { $sort: { sort: 1 } },
                     { $addFields: { sort: "$$REMOVE" }}
                 ],
-                "as": "photos"
+                as: "photos"
             }}
         ]);
 
-
         return (await cursor.toArray())[0];
+    }
+
+    async getNotEmpty() {
+        let cursor = this.getCollection().aggregate([
+            {
+                $lookup: {
+                    from: "photos",
+                    let: { "photosIds": "$photos" },
+                    pipeline: [
+                        { $match: {
+                            $and: [
+                                { $expr: { $in: [ "$_id", "$$photosIds" ] } },
+                                { deleted: { $exists: false } }
+                            ]
+                        }},
+                    ],
+                    as: "photosObjects"
+                }
+            },
+            {
+                //$match: { $expr: { $gt: [ { $size: "$photosObjects"}, 0 ] } }
+                // better:
+                $match: { photosObjects: { $exists: true, $ne: [] } } 
+            },
+            { 
+                $addFields: { photosObjects: "$$REMOVE" }
+            }
+        ]);
+
+        return cursor.toArray();
     }
 }
 

@@ -21,6 +21,12 @@ class PhotosStore extends Store {
         }
         return super.insert(docs, options);
     }
+    async all(sort, includeDeleted = true) {
+        if (includeDeleted) {
+            return super.all(sort || { created: 1 });
+        }
+        return this.find({ deleted: { $exists: false } }, undefined, sort || { created: 1 });
+    }
 }
 
 module.exports = new PhotosStore();

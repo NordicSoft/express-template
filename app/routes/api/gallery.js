@@ -20,7 +20,7 @@ router.get("/photosets", async function (req, res) {
 });
 
 router.get("/photos", async function (req, res) {
-    let photos = await store.photos.all({created: 1});
+    let photos = await store.photos.all();
     return res.json(photos);
 });
 

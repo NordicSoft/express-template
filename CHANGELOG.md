@@ -1,7 +1,7 @@
 # Changelog
 
 ## **1.0.3** - *2019-xx-xx*
-* `Dashboard/Gallery` added;
+* `Facade/Gallery` added;
 * `Dashboard/Gallery`:
     * upload photos - pre-populate `alt`, `title` and `description` with data from XMP if available (custom package [xmp-js](https://www.npmjs.com/package/xmp-js) created for this);
     * reorder photos within photo set with drag & drop;
