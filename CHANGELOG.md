@@ -1,7 +1,10 @@
 # Changelog
 
-## **1.0.3** - *2019-xx-xx*
-* `Facade/Gallery` added;
+## **1.0.3** - *2019-11-30*
+* `Facade/Gallery` added:
+    * [Justified Gallery](http://miromannino.github.io/Justified-Gallery) used to display photo sets and photos thumbnails;
+    * hide Gallery dropdown menu when there are no photo sets with photos;
+    * hide Gallery link when there are no photo sets and photos to display;
 * `Dashboard/Gallery`:
     * upload photos - pre-populate `alt`, `title` and `description` with data from XMP if available (custom package [xmp-js](https://www.npmjs.com/package/xmp-js) created for this);
     * reorder photos within photo set with drag & drop;
