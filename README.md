@@ -10,6 +10,7 @@ Basic website template (boilerplate, skeleton, starter kit) based on Express.js 
 
 * Facade Pages:
     * Homepage
+    * Gallery
     * About
     * Contacts
     * Policies

@@ -17,10 +17,17 @@ router.get("/", function (req, res) {
     return res.render("facade/index");
 });
 
-router.get("/gallery", function (req, res) {
+router.get("/gallery", async function (req, res) {
     if (res.locals.photoSets && res.locals.photoSets.length > 0) {
         return res.render("facade/gallery/index");
     }
+
+    // if there are still photos to display (unclassified) - then redirect to /gallery/all
+    let allPhotos = await store.photos.all(undefined, false);
+    if (allPhotos.length > 0) {
+        return res.redirect("/gallery/all");
+    }
+
     return res.error(404);
 });
 
@@ -185,8 +192,18 @@ router.get("/*", function (req, res) {
 
 module.exports = function (express) {
     express.use(async function (req, res, next) {
+
+        let photoSets = await store.photoSets.getNotEmpty(),
+            isGalleryVisible = photoSets.length > 0;
+
+        if (!isGalleryVisible) {
+            let allPhotos = await store.photos.all(undefined, false);
+            isGalleryVisible = allPhotos.length > 0;
+        }
+
         res.locals = res.locals || {};
         Object.assign(res.locals, {
+            isGalleryVisible,
             photoSets: await store.photoSets.getNotEmpty()
         });
         next();
