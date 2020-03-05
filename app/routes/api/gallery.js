@@ -12,7 +12,25 @@ const express = require("express"),
     coversPath = path.resolve(rootPath, process.env.GALLERY_PHOTOSETS_PATH),
     photosPath = path.resolve(rootPath, process.env.GALLERY_PHOTOS_PATH),
     trashPath = path.resolve(rootPath, process.env.GALLERY_TRASH_PATH),
-    upload = multer({ dest: uploadPath });
+    upload = multer({ dest: uploadPath }),
+    jimp = require("jimp");
+
+const IMAGE_SIZES = [
+    process.env.GALLERY_IMAGE_SIZE_TS,
+    process.env.GALLERY_IMAGE_SIZE_TM,
+    process.env.GALLERY_IMAGE_SIZE_TL,
+    process.env.GALLERY_IMAGE_SIZE_S,
+    process.env.GALLERY_IMAGE_SIZE_M,
+    process.env.GALLERY_IMAGE_SIZE_L,
+].map(x => { 
+    let size = x.split("_")[0],
+        suffix = x.split("_")[1];
+    return {
+        width: Number(size.split("x")[0]),
+        height: Number(size.split("x")[1]),
+        suffix
+    }; 
+});
 
 router.get("/photosets", async function (req, res) {
     let photoSets = await store.photoSets.all({code: 1});
@@ -90,7 +108,19 @@ router.post("/photo", upload.single("file"), async (req, res) => {
 
         // set source file path
         photo.src = `/${relativePhotosPath}/${photo._id}${extension}`;
-        await rename(req.file.path, `${photosPath}/${photo._id}${extension}`);
+        let file = await jimp.read(req.file.path),
+            filename = `${photosPath}/${photo._id}`;
+
+        // create thumbnails and other sizes
+        for (let size of IMAGE_SIZES) {
+            await file
+                .clone()
+                .scaleToFit(size.width, size.height)
+                .quality(Number(process.env.GALLERY_JPG_QUALITY))
+                .writeAsync(`${filename}_${size.suffix}${extension}`);
+        }
+        // move original photo file
+        await rename(req.file.path, `${filename}${extension}`);
     }
 
     await store.photos.save(photo);

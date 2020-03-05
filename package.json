@@ -1,6 +1,6 @@
 {
   "name": "express-template",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Website template (skeleton) based on Express.js 4, Vue.js and Vuetify 2",
   "author": "NordicSoft",
   "license": "MIT",
@@ -49,6 +49,7 @@
     "express-hbs": "^2.1.2",
     "express-session": "1.x.x",
     "google-maps-api-loader": "^1.1.1",
+    "jimp": "^0.9.5",
     "jquery": "^3.4.1",
     "jquery-validation": "^1.19.1",
     "justifiedGallery": "^3.7.0",

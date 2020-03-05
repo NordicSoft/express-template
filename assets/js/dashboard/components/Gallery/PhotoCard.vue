@@ -104,7 +104,7 @@ export default {
 
         return {
             loading: false,
-            newPhotoSrc: this.blank ? "" : this.photo.src || "",
+            newPhotoSrc: this.blank ? "" : this.thumbnailSrc(this.photo.src) || "",
             newSets: this.blank ? blankPhotoSets : [...this.photo.sets] || [],
             newPhotoFile: this.file,
             newAlt: this.photo.alt,
@@ -119,6 +119,12 @@ export default {
         ...mapGetters(["activePhotoSet"])
     },
     methods: {
+        thumbnailSrc(src) {
+            let lastDotIndex = src.lastIndexOf("."),
+                extension = src.substring(lastDotIndex),
+                name = src.substring(0, lastDotIndex);
+            return `${name}_tm${extension}`;
+        },
         crc: value => crc32.str(value),
         async save() {
             this.loading = true;

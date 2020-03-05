@@ -1,10 +1,11 @@
 # Changelog
 
-## **1.0.4** - *2020-03-xx*
+## **1.0.4** - *2020-03-05*
 * `Dashboard/Gallery`:
     * pre-populate with XMP data fixed;
     * editing photo's photoSets fixed;
     * confirm deleting photo set;
+    * store photos in different sizes (6 sizes + original);
 
 ## **1.0.3** - *2019-11-30*
 * `Facade/Gallery` added:

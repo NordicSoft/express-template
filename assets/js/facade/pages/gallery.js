@@ -19,7 +19,14 @@ export function photoSet() {
     $(".photos").justifiedGallery({
         rowHeight : 250,
         lastRow : "nojustify",
-        margins : 3
+        margins : 3,
+        sizeRangeSuffixes: {
+            160: "_ts",
+            320: "_tm",
+            640: "_tl",
+            800: "_m",
+            1020: "_l",
+        }
     });
 }
 
