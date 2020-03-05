@@ -52,7 +52,7 @@ export default {
     },
     methods: {
         tabChanged(tab) {
-            this.$router.push("/profile/" + tab);
+            this.$router.push("/profile/" + tab).catch(() => { /* silent */ });
         }
     }
 };

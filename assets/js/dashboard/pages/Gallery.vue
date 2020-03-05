@@ -27,7 +27,7 @@ export default {
     },
     watch:{
         activePhotoSet(photoSet){
-            this.$router.push("/gallery/" + photoSet);
+            this.$router.push("/gallery/" + photoSet).catch(() => { /* silent */ });
         }
     },
     created() {

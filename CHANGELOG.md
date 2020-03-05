@@ -1,11 +1,13 @@
 # Changelog
 
 ## **1.0.4** - *2020-03-05*
+* node.js packages updated;
 * `Dashboard/Gallery`:
     * pre-populate with XMP data fixed;
     * editing photo's photoSets fixed;
     * confirm deleting photo set;
     * store photos in different sizes (6 sizes + original);
+    * Vue Router silent push;
 
 ## **1.0.3** - *2019-11-30*
 * `Facade/Gallery` added:
