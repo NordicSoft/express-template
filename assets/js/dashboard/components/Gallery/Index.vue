@@ -156,9 +156,9 @@ export default {
                             let xmp = new XMP(result.src);
                             let xmpJson = xmp.parse();
                             if (xmpJson) {
-                                result.alt = xmpJson.title;
-                                result.title = xmpJson.title;
-                                result.description = xmpJson.description;
+                                result.alt = xmpJson.title || "";
+                                result.title = xmpJson.title || "";
+                                result.description = xmpJson.description || "";
                             }
                             resolve(result);
                         };
