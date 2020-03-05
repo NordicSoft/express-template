@@ -1,5 +1,11 @@
 # Changelog
 
+## **1.0.4** - *2020-03-xx*
+* `Dashboard/Gallery`:
+    * pre-populate with XMP data fixed;
+    * editing photo's photoSets fixed;
+    * confirm deleting photo set;
+
 ## **1.0.3** - *2019-11-30*
 * `Facade/Gallery` added:
     * [Justified Gallery](http://miromannino.github.io/Justified-Gallery) used to display photo sets and photos thumbnails;

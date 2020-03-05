@@ -5,6 +5,7 @@
         :close-on-content-click="false"
         :disabled="!editable || !active"
     >
+        <confirm ref="confirm"></confirm>
         <template v-slot:activator="{ on }">
             <!-- <v-avatar v-if="blank" v-on="on" @click="$emit('click')"></v-avatar> -->
             <v-btn
@@ -75,6 +76,7 @@
 
 <script>
 import crc32 from "crc-32";
+import Confirm from "./../Confirm.vue";
 
 export default {
     props: {
@@ -88,6 +90,9 @@ export default {
         pillColor: { type: String, default: "grey lighten-2" },
         activeColor: { type: String, default: "green lighten-1" },
         activePillColor: { type: String, default: "green lighten-3" }
+    },
+    components: {
+        Confirm
     },
     data() {
         return {
@@ -115,13 +120,21 @@ export default {
             this.loading = false;
         },
         async remove() {
-            this.loading = true;
-            await this.$store.dispatch(
-                "gallery/deletePhotoSet",
-                this.photoSet._id
+            let confirmed = await this.$refs.confirm.open(
+                "Delete?",
+                `Are you sure<br>you want to delete the "${this.photoSet.title}" photo set?
+                Photos related to this photo set will <b>not</b> be deleted`
             );
-            this.$toast.success("Photo set deleted");
-            this.loading = false;
+
+            if (confirmed) {
+                this.loading = true;
+                await this.$store.dispatch(
+                    "gallery/deletePhotoSet",
+                    this.photoSet._id
+                );
+                this.$toast.success("Photo set deleted");
+                this.loading = false;
+            }
         },
         changeCover(event) {
             this.loading = true;
