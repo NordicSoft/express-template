@@ -145,6 +145,11 @@ export default {
                         file,
                         extension: file.name.split(".").pop()
                     };
+                    // check if
+                    // url = URL.createObjectURL(file)
+                    // ...
+                    // URL.revokeObjectURL(url);
+                    // performs better
                     return new Promise(resolve => {
                         var reader = new FileReader();
                         reader.onload = function(e) {

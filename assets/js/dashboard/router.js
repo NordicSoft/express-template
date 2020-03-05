@@ -10,6 +10,14 @@ import Profile from "./pages/Profile";
 
 Vue.use(Router);
 
+// make router.push silent
+// https://github.com/vuejs/vue-router/issues/2881#issuecomment-520554378
+/*const originalPush = Router.prototype.push;
+Router.prototype.push = function push(location, onResolve, onReject) {
+    if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject);
+    return originalPush.call(this, location).catch(err => err);
+};*/
+
 export default new Router({
     mode: "history",
     base: "/dashboard/",

@@ -1,4 +1,5 @@
 import Vue from "vue";
+import _ from "lodash";
 
 const state = {
     photoSets: [],
@@ -87,10 +88,34 @@ const mutations = {
         let photo = state.photos.find(item => {
             return item._id === payload._id;
         });
-        if (photo) {
+        if (photo) { // existed photo
+            if (!_.isEqual(photo.sets, payload.sets)) { // if sets changed
+                // update all related photoSets
+                let addToSets = _.difference(payload.sets, photo.sets),
+                    removeFromSets = _.difference(photo.sets, payload.sets);
+                
+                // add to sets
+                state.photoSets.filter(set => addToSets.includes(set.code)).forEach(set => {
+                    set.photos.push(photo._id);
+                });
+
+                // remove from sets
+                state.photoSets.filter(set => removeFromSets.includes(set.code)).forEach(set => {
+                    let index = set.photos.indexOf(photo._id);
+                    if (index !== -1) {
+                        set.photos.splice(index, 1);
+                    }
+                });
+            }
+            
             Object.assign(photo, payload);
-        } else {
+        } else { // new photo
             state.photos.push(payload);
+            // add new photo to all selected photo sets
+            payload.sets.forEach(code => {
+                let photoSet = state.photoSets.find(x => x.code === code);
+                photoSet.photos.push(payload._id);
+            });
         }
     },
     deletePhotoSet(state, _id) {
@@ -118,6 +143,14 @@ const mutations = {
 
         if (index !== -1) {
             state.photos.splice(index, 1);
+            
+            // remove from photoSets
+            state.photoSets.forEach(set => {
+                let index = set.photos.indexOf(_id);
+                if (index !== -1) {
+                    set.photos.splice(index, 1);
+                }
+            });
         }
     },
     restorePhoto(state, _id) {
