@@ -21,9 +21,10 @@ export function photoSet() {
         lastRow : "nojustify",
         margins : 3,
         sizeRangeSuffixes: {
-            160: "_ts",
-            320: "_tm",
-            640: "_tl",
+            192: "_ts",
+            256: "_tm",
+            512: "_tl",
+            600: "_s",
             800: "_m",
             1020: "_l",
         }

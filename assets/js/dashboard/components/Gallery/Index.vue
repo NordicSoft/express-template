@@ -137,7 +137,7 @@ export default {
                 .map(file => {
                     let result = {
                         name: file.name,
-                        alt: file.name,
+                        alt: "", // file.name,
                         title: "",
                         description: "",
                         type: file.type,

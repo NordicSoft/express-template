@@ -2,6 +2,7 @@ const express = require("express"),
     router = express.Router(),
     _ = require("lodash"),
     fsPromises = require("fs").promises,
+    unlink = fsPromises.unlink,
     rename = fsPromises.rename,
     path = require("path"),
     multer = require("multer"),
@@ -12,25 +13,53 @@ const express = require("express"),
     coversPath = path.resolve(rootPath, process.env.GALLERY_PHOTOSETS_PATH),
     photosPath = path.resolve(rootPath, process.env.GALLERY_PHOTOS_PATH),
     trashPath = path.resolve(rootPath, process.env.GALLERY_TRASH_PATH),
-    upload = multer({ dest: uploadPath }),
-    jimp = require("jimp");
+    upload = multer({ dest: uploadPath });
 
-const IMAGE_SIZES = [
-    process.env.GALLERY_IMAGE_SIZE_TS,
-    process.env.GALLERY_IMAGE_SIZE_TM,
-    process.env.GALLERY_IMAGE_SIZE_TL,
-    process.env.GALLERY_IMAGE_SIZE_S,
-    process.env.GALLERY_IMAGE_SIZE_M,
-    process.env.GALLERY_IMAGE_SIZE_L,
-].map(x => { 
-    let size = x.split("_")[0],
-        suffix = x.split("_")[1];
+const IMAGE_SIZES = process.env.GALLERY_IMAGE_SIZES.split(",").map(x => { 
+    let suffix = x.split(":")[0],
+        size = x.split(":")[1];
     return {
         width: Number(size.split("x")[0]),
         height: Number(size.split("x")[1]),
         suffix
     }; 
 });
+
+// creates thumbnails and other image sizes
+async function resizeImage(sourcePath, outPath) {
+    let extension = path.extname(outPath),
+        filename = outPath.slice(0, -extension.length);
+
+    switch (process.env.GALLERY_IMAGE_PROCESSING_MODULE) {
+        case "sharp": {
+            const sharp = require("sharp");
+            let file = sharp(sourcePath).jpeg({
+                quality: Number(process.env.GALLERY_JPG_QUALITY),
+            });
+            for (let size of IMAGE_SIZES) {
+                await file
+                    .clone()
+                    .resize(size.width, size.height, {
+                        fit: "inside",
+                    })
+                    .toFile(`${filename}_${size.suffix}${extension}`);
+            }
+            break;
+        }
+        case "jimp": {
+            const jimp = require("jimp");
+            let file = await jimp.read(sourcePath);
+            for (let size of IMAGE_SIZES) {
+                await file
+                    .clone()
+                    .scaleToFit(size.width, size.height)
+                    .quality(Number(process.env.GALLERY_JPG_QUALITY))
+                    .writeAsync(`${filename}_${size.suffix}${extension}`);
+            }
+            break;
+        }
+    }
+}
 
 router.get("/photosets", async function (req, res) {
     let photoSets = await store.photoSets.all({code: 1});
@@ -108,19 +137,13 @@ router.post("/photo", upload.single("file"), async (req, res) => {
 
         // set source file path
         photo.src = `/${relativePhotosPath}/${photo._id}${extension}`;
-        let file = await jimp.read(req.file.path),
-            filename = `${photosPath}/${photo._id}`;
+        
+        let filename = `${photosPath}/${photo._id}${extension}`;
 
-        // create thumbnails and other sizes
-        for (let size of IMAGE_SIZES) {
-            await file
-                .clone()
-                .scaleToFit(size.width, size.height)
-                .quality(Number(process.env.GALLERY_JPG_QUALITY))
-                .writeAsync(`${filename}_${size.suffix}${extension}`);
-        }
+        await resizeImage(req.file.path, filename);
+
         // move original photo file
-        await rename(req.file.path, `${filename}${extension}`);
+        await rename(req.file.path, filename);
     }
 
     await store.photos.save(photo);
@@ -180,9 +203,28 @@ router.delete("/photo/:id", async (req, res) => {
         // delete permanently
         await store.photos.delete(_id);
 
-        // move related file to trash
-        let src = path.resolve(req.app.get("static-path"), photo.src.slice(1));
-        await rename(src, `${trashPath}/${path.basename(src)}`);
+        if (photo.src) {
+            // build path to original file in filesystem
+            let src = path.resolve(req.app.get("static-path"), photo.src.slice(1));
+        
+            // remove thumbnails and other image sizes permanently
+            for (let { suffix } of IMAGE_SIZES) {
+                try {
+                    let extension = path.extname(src);
+                    await unlink(`${src.slice(0, -extension.length)}_${suffix}${extension}`);
+                } catch (error) {
+                    // silent
+                }
+            }
+
+            try {
+                // move original file to trash
+                await rename(src, `${trashPath}/${path.basename(src)}`);
+            } catch (error) {
+                // silent
+            }
+        }
+
         return res.json({ _id });
     } else {
         // set deleted flag to current timestamp

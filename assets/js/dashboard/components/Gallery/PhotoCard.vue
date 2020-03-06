@@ -120,10 +120,15 @@ export default {
     },
     methods: {
         thumbnailSrc(src) {
-            let lastDotIndex = src.lastIndexOf("."),
-                extension = src.substring(lastDotIndex),
-                name = src.substring(0, lastDotIndex);
-            return `${name}_tm${extension}`;
+            try {
+                let lastDotIndex = src.lastIndexOf("."),
+                    extension = src.substring(lastDotIndex),
+                    name = src.substring(0, lastDotIndex);
+                return `${name}_tm${extension}`;
+            } catch (err) {
+                // silent
+                return src;
+            }
         },
         crc: value => crc32.str(value),
         async save() {
