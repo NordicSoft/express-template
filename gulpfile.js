@@ -80,11 +80,11 @@ function cssMinify() {
  * 
  * Used plugins:
  * Babel - https://www.npmjs.com/package/rollup-plugin-babel
- * Alias - https://www.npmjs.com/package/rollup-plugin-alias
- * Replace - https://www.npmjs.com/package/rollup-plugin-replace
- * CommonJS - https://www.npmjs.com/package/rollup-plugin-commonjs
- * Node Resolve - https://www.npmjs.com/package/rollup-plugin-node-resolve
- * JSON - https://www.npmjs.com/package/rollup-plugin-json
+ * Alias - https://www.npmjs.com/package/@rollup/plugin-alias
+ * Replace - https://www.npmjs.com/package/@rollup/plugin-replace
+ * CommonJS - https://www.npmjs.com/package/@rollup/plugin-commonjs
+ * Node Resolve - https://www.npmjs.com/package/@rollup/plugin-node-resolve
+ * JSON - https://www.npmjs.com/package/@rollup/plugin-json
  * SASS - https://www.npmjs.com/package/rollup-plugin-sass
  * Vue.js - https://www.npmjs.com/package/rollup-plugin-vue
  * CSS Only - https://www.npmjs.com/package/rollup-plugin-css-only
@@ -97,11 +97,11 @@ function cssMinify() {
 async function rollup(input, output, watch, callback) {
     let rollup = require("rollup"),
         babel = require("rollup-plugin-babel"),
-        alias = require("rollup-plugin-alias"),
-        replace = require("rollup-plugin-replace"),
-        commonjs = require("rollup-plugin-commonjs"),
-        noderesolve = require("rollup-plugin-node-resolve"),
-        json = require("rollup-plugin-json"),
+        alias = require("@rollup/plugin-alias"),
+        replace = require("@rollup/plugin-replace"),
+        commonjs = require("@rollup/plugin-commonjs"),
+        noderesolve = require("@rollup/plugin-node-resolve"),
+        json = require("@rollup/plugin-json"),
         sass = require("rollup-plugin-sass"),
         css = require("rollup-plugin-css-only"),
         vue = require("rollup-plugin-vue");
@@ -123,11 +123,13 @@ async function rollup(input, output, watch, callback) {
                 "process.env.GALLERY_DASHBOARD_THUMBNAIL_SUFFIX": JSON.stringify(process.env.GALLERY_DASHBOARD_THUMBNAIL_SUFFIX),
             }),
             alias({
-                "vue": require.resolve("vue/dist/vue.esm.js"),
-                "axios": require.resolve("axios/dist/axios"),
-                "babel-polyfill": require.resolve("@babel/polyfill/lib"),
-                "core": "assets/js/core.js",
-                "options": "assets/js/options.js"
+                entries: {
+                    "vue": require.resolve("vue/dist/vue.esm.js"),
+                    "axios": require.resolve("axios/dist/axios"),
+                    "babel-polyfill": require.resolve("@babel/polyfill/lib"),
+                    "core": "assets/js/core.js",
+                    "options": "assets/js/options.js"
+                }
             }),
             noderesolve({ extensions: [".js", ".json", ".vue"] }),
             commonjs(),
