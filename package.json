@@ -67,6 +67,7 @@
     "passport-twitter": "1.x.x",
     "popper.js": "^1.16.1",
     "serve-favicon": "2.x.x",
+    "sharp": "^0.24.1",
     "shush": "^1.0.0",
     "slick-carousel": "^1.8.1",
     "socket.io": "2.3.x",
