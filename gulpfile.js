@@ -1,5 +1,8 @@
 /* eslint-disable no-console */
 
+// load environment variables from `.env`
+require("dotenv-defaults").config();
+
 let gulp = require("gulp"),
     sass = require("gulp-sass"),
     uglify = require("gulp-uglify-es").default,
@@ -116,7 +119,8 @@ async function rollup(input, output, watch, callback) {
                 "exclude": ["node_modules/**", "assets/js/vendor/**"]
             }),
             replace({
-                "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+                "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+                "process.env.GALLERY_DASHBOARD_THUMBNAIL_SUFFIX": JSON.stringify(process.env.GALLERY_DASHBOARD_THUMBNAIL_SUFFIX),
             }),
             alias({
                 "vue": require.resolve("vue/dist/vue.esm.js"),
@@ -256,6 +260,7 @@ function deploy() {
         "*.md",
         ".foreverignore",
         // ignore the following files:
+        "!www/files/**/*",
         "!config.json",
         "!package.json", // will be added separately
         "!package-lock.json",

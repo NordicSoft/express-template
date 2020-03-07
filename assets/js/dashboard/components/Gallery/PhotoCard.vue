@@ -123,8 +123,9 @@ export default {
             try {
                 let lastDotIndex = src.lastIndexOf("."),
                     extension = src.substring(lastDotIndex),
-                    name = src.substring(0, lastDotIndex);
-                return `${name}_tm${extension}`;
+                    name = src.substring(0, lastDotIndex),
+                    suffix = process.env.GALLERY_DASHBOARD_THUMBNAIL_SUFFIX;
+                return `${name}_${suffix}${extension}`;
             } catch (err) {
                 // silent
                 return src;
