@@ -3,6 +3,7 @@
 ## **1.0.4** - *2020-03-06*
 * node.js packages updated;
 * Rollup.js updated to v2;
+* nodemon added as Gulp task;
 * `Dashboard/Gallery`:
     * pre-populate with XMP data fixed;
     * editing photo's photoSets fixed;

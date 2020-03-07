@@ -10,6 +10,7 @@ let gulp = require("gulp"),
     autoprefixer = require("autoprefixer"),
     cssnano = require("cssnano"),
     touch = require("gulp-touch-fd"),
+    nodemon = require("gulp-nodemon"),
     browserSync = require("browser-sync").create();
 
 /**
@@ -25,6 +26,29 @@ function browserSyncInit(callback) {
     });
 
     callback();
+}
+
+/*
+nodemon setup. https://www.npmjs.com/package/gulp-nodemon
+this task is disabled by default because independent nodemon is much faster
+to disable this task pass `--nodemon` command line argument:
+    --nodemon    enable this task
+*/
+function nodemonInit(done) {
+    let argv = require("minimist")(process.argv.slice(2)),
+        enabled = argv.nodemon;
+
+    if (!enabled) {
+        console.log("[nodemon] disabled");
+        return done();
+    }
+
+    nodemon()
+        .on("restart", () => {
+            browserSync.reload();
+        });
+
+    done();
 }
 
 /**
@@ -279,7 +303,7 @@ function deploy() {
 
 // default task is for development purposes
 exports.default = gulp.series(
-    gulp.parallel(jsFacadeRollup(true), jsDashboardRollup(true), jsServiceWorker, fontAwesome, fontMdi, watch),
+    gulp.parallel(nodemonInit, jsFacadeRollup(true), jsDashboardRollup(true), jsServiceWorker, fontAwesome, fontMdi, watch),
     cssBundle, // cssBundle is after jsDashboardRollup because of extracted Vue Single File Component styles (vue-components.scss)
     browserSyncInit
 );
