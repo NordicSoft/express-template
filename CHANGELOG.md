@@ -1,5 +1,9 @@
 # Changelog
 
+## **1.0.5** - *2020-03-xx*
+* `Facade/Gallery`:
+    * photos navigation inside photo sets (prev/next);
+
 ## **1.0.4** - *2020-03-06*
 * node.js packages updated;
 * Rollup.js updated to v2;

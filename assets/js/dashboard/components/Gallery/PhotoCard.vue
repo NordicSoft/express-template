@@ -1,7 +1,7 @@
 <template>
     <v-card :elevation="blank ? 10 : 0" class="ma-2" :loading="loading">
         <v-img :src="newPhotoSrc" width="296px" height="222px" :key="crc(newPhotoSrc)"></v-img>
-        <v-btn class="btn-change-cover" @click="$refs.inputCoverUpload.click()">
+        <v-btn :disabled="loading" class="btn-change-cover" @click="$refs.inputCoverUpload.click()">
             <v-icon>mdi-square-edit-outline</v-icon>
             <input
                 v-show="false"
@@ -56,26 +56,26 @@
             <div class="flex-grow-1"></div>
             <template v-if="blank">
                 <v-btn depressed @click="cancel">
-                    <v-icon left>mdi-cancel</v-icon>Cancel
+                    <v-icon left :disabled="loading">mdi-cancel</v-icon>Cancel
                 </v-btn>
                 <v-btn depressed color="info" @click="save">
-                    <v-icon left>mdi-upload-outline</v-icon>Upload
+                    <v-icon left :disabled="loading">mdi-upload-outline</v-icon>Upload
                 </v-btn>
             </template>
             <template v-else-if="photo.deleted">
                 <v-btn depressed color="error" @click="remove">
-                    <v-icon left>mdi-delete-outline</v-icon>Delete
+                    <v-icon left :disabled="loading">mdi-delete-outline</v-icon>Delete
                 </v-btn>
                 <v-btn depressed color="success" @click="restore">
-                    <v-icon left>mdi-undo-variant</v-icon>Restore
+                    <v-icon left :disabled="loading">mdi-undo-variant</v-icon>Restore
                 </v-btn>
             </template>
             <template v-else>
                 <v-btn depressed color="warning" @click="remove">
-                    <v-icon left>mdi-delete-outline</v-icon>Delete
+                    <v-icon left :disabled="loading">mdi-delete-outline</v-icon>Delete
                 </v-btn>
                 <v-btn depressed color="success" @click="save">
-                    <v-icon left>mdi-check</v-icon>Save
+                    <v-icon left :disabled="loading">mdi-check</v-icon>Save
                 </v-btn>
             </template>
         </v-card-actions>

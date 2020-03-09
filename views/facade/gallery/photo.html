@@ -1,12 +1,22 @@
 {{#contentFor "title"}}Gallery Photo - {{model.photo.title}}{{/contentFor}}
 {{#contentFor "description"}}Lorem ipsum{{/contentFor}}
 {{#contentFor "keywords"}}lorem ipsum{{/contentFor}}
-{{#contentFor "cssClass"}}gallery{{/contentFor}}
+{{#contentFor "cssClass"}}gallery photo{{/contentFor}}
 
+{{#with model}}
 <div class="container">
-    <h1>Gallery <small>/ <a href="/gallery/{{model.photoSet.code}}">{{model.photoSet.title}}</a></small></h1>
-
-    {{#with model.photo}}
-    <img src="{{src}}" alt="{{alt}}" title="{{title}}" class="img-fluid">
-    {{/with}}
+    <h1>Gallery <small>/ <a href="/gallery/{{photoSet.code}}">{{photoSet.title}}</a></small></h1>
+    <div class="photo-wrapper">
+        <div id="photo" class="anchor"></div>
+        <img src="{{photo.src}}" alt="{{photo.alt}}" title="{{photo.title}}" class="img-fluid">
+        <div class="photo-nav">
+            {{#if prevPhotoId}}
+            <a class="prev" href="/gallery/{{photoSet.code}}/{{prevPhotoId}}#photo"><i class="fas fa-chevron-left"></i></a>
+            {{/if}}
+            {{#if nextPhotoId}}
+            <a class="next" href="/gallery/{{photoSet.code}}/{{nextPhotoId}}#photo"><i class="fas fa-chevron-right"></i></a>
+            {{/if}}
+        </div>
+    </div>
 </div>
+{{/with}}

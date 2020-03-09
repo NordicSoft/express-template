@@ -2,22 +2,77 @@
 /* Gallery page
 /*************************************************************/
 
-.gallery main {
-    .caption {
-        h5 {
-            font-size: 1.05rem;
-            margin: 0;
+.gallery {
+    main {
+        .caption {
+            h5 {
+                font-size: 1.05rem;
+                margin: 0;
 
-            &:empty {
-                display: none;
+                &:empty {
+                    display: none;
+                }
+            }
+
+            div {
+                &:empty {
+                    display: none;
+                }
             }
         }
+    }
 
-        div {
-            
+    &.photo main {
+        .photo-wrapper {
+            text-align: center;
+            position: relative;
+            .photo-nav {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
 
-            &:empty {
-                display: none;
+                .prev,
+                .next {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    
+                    i {
+                        color: #fff;
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        font-size: 3rem;
+                        text-shadow: 0 0 5px rgba($color: #000, $alpha: 0.33);
+                        opacity: 0;
+                        transition: 0.5s ease opacity;
+                    }
+
+                    &:hover i,
+                    &.focus i {
+                        opacity: 0.7;
+                    }
+                }
+
+                .prev {
+                    left: 0;
+                    right: 75%;
+
+                    i {
+                        left: 10px;
+                    }
+                }
+
+                .next {
+                    right: 0;
+                    left: 25%;
+
+                    i {
+                        right: 10px;
+                    }
+                }
             }
         }
     }

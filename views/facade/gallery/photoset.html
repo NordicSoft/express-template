@@ -1,13 +1,13 @@
 {{#contentFor "title"}}Gallery PhotoSet - {{model.photoSet.title}}{{/contentFor}}
 {{#contentFor "description"}}Lorem ipsum{{/contentFor}}
 {{#contentFor "keywords"}}lorem ipsum{{/contentFor}}
-{{#contentFor "cssClass"}}gallery{{/contentFor}}
+{{#contentFor "cssClass"}}gallery photoset{{/contentFor}}
 
 <div class="container">
     <h1>Gallery <small>/ {{model.photoSet.title}}</small></h1>
     <div class="photos">
         {{#each model.photoSet.photos}}
-        <a href="/gallery/{{@root.model.photoSet.code}}/{{_id}}">
+        <a href="/gallery/{{@root.model.photoSet.code}}/{{_id}}#photo">
             <img src="{{src}}" alt="{{alt}}" title="{{title}}">
             {{#if (or title description)}}
             <div class="caption">

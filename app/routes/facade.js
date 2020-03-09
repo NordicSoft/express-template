@@ -69,9 +69,26 @@ router.get("/gallery/:photoSet/:photoId(\\d+)", async function (req, res) {
         return res.error(404);
     }
 
+    let nextPhotoId, prevPhotoId;
+
+    if (photoSet.code !== "all") {
+        let photos = photoSet.photos,
+            currentPhotoIndex = photos.indexOf(photo._id);
+        
+        nextPhotoId = currentPhotoIndex < photos.length - 1 ?
+            photos[currentPhotoIndex + 1]
+            : photos[0];
+        
+        prevPhotoId = currentPhotoIndex > 0 ?
+            photos[currentPhotoIndex - 1]
+            : photos[photos.length - 1];
+    }
+
     res.locals.model = {
         photoSet,
-        photo
+        photo,
+        nextPhotoId,
+        prevPhotoId
     };
 
     return res.render("facade/gallery/photo");
