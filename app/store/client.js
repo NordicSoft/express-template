@@ -1,6 +1,7 @@
 let mongodb = require("mongodb"),
+    config = require("@config"),
     client = new mongodb.MongoClient(
-        process.env.MONGODB_URL,
+        config.mongoDb.url,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true

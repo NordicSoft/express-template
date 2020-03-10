@@ -1,6 +1,6 @@
-const logger = require("./../../lib/logger"),
-    config = require("./../../lib/config"),
-    store = require("./../../store");
+const logger = require("@logger"),
+    config = require("@config"),
+    store = require("@store");
 
 module.exports = function (router) {
 
@@ -48,7 +48,7 @@ module.exports = function (router) {
             return res.status(400).send("New password is required");
         }
 
-        const security = require("./../../lib/security"),
+        const security = require("@lib/security"),
             user = await store.users.getById(req.user._id);
 
         switch (config.passwordHashAlgorithm) {

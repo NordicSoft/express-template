@@ -1,5 +1,5 @@
 const Store = require("./../store"),
-    logger = require("./../../lib/logger");
+    logger = require("@logger");
 
 class PhotosStore extends Store {
     constructor() {

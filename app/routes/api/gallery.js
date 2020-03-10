@@ -6,16 +6,17 @@ const express = require("express"),
     rename = fsPromises.rename,
     path = require("path"),
     multer = require("multer"),
-    logger = require("./../../lib/logger"),
-    store = require("./../../store"),
-    uploadPath = path.resolve(process.cwd(), process.env.GALLERY_UPLOAD_PATH),
-    rootPath = path.resolve(process.cwd(), process.env.GALLERY_ROOT_PATH),
-    coversPath = path.resolve(rootPath, process.env.GALLERY_PHOTOSETS_PATH),
-    photosPath = path.resolve(rootPath, process.env.GALLERY_PHOTOS_PATH),
-    trashPath = path.resolve(rootPath, process.env.GALLERY_TRASH_PATH),
+    config = require("@config"),
+    logger = require("@logger"),
+    store = require("@store"),
+    uploadPath = config.gallery.uploadPath,
+    rootPath = config.gallery.rootPath,
+    coversPath = path.resolve(rootPath, config.gallery.photoSetsPath),
+    photosPath = path.resolve(rootPath, config.gallery.photosPath),
+    trashPath = path.resolve(rootPath, config.gallery.trashPath),
     upload = multer({ dest: uploadPath });
 
-const IMAGE_SIZES = process.env.GALLERY_IMAGE_SIZES.split(",").map(x => { 
+const IMAGE_SIZES = config.gallery.imageSizes.split(",").map(x => { 
     let suffix = x.split(":")[0],
         size = x.split(":")[1];
     return {
@@ -30,11 +31,11 @@ async function resizeImage(sourcePath, outPath) {
     let extension = path.extname(outPath),
         filename = outPath.slice(0, -extension.length);
 
-    switch (process.env.GALLERY_IMAGE_PROCESSING_MODULE) {
+    switch (config.gallery.imageProcessingModule) {
         case "sharp": {
             const sharp = require("sharp");
             let file = sharp(sourcePath).jpeg({
-                quality: Number(process.env.GALLERY_JPG_QUALITY),
+                quality: config.gallery.jpgQuality,
             });
             for (let size of IMAGE_SIZES) {
                 await file
@@ -53,7 +54,7 @@ async function resizeImage(sourcePath, outPath) {
                 await file
                     .clone()
                     .scaleToFit(size.width, size.height)
-                    .quality(Number(process.env.GALLERY_JPG_QUALITY))
+                    .quality(config.gallery.jpgQuality)
                     .writeAsync(`${filename}_${size.suffix}${extension}`);
             }
             break;

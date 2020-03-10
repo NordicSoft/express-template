@@ -1,7 +1,7 @@
 module.exports.init = function (server, session) {
 
     var io = require("socket.io")(server, { path: "/ws", serveClient: false }),
-        logger = require("./../lib/logger"),
+        logger = require("@logger"),
         clone = require("clone"),
         minimatch = require("minimatch");
 

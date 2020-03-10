@@ -1,6 +1,8 @@
 # Changelog
 
 ## **1.0.5** - *2020-03-xx*
+* store all configs in `.env` files and use `config.js` to access them easily;
+* `module-alias` npm package added;
 * error pages changed;
 * `Dashboard` - link to `Facade` added;
 * `Facade/Gallery`:

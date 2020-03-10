@@ -13,9 +13,9 @@ var security = require("./security"),
     //TwitterStrategy = require('passport-twitter').Strategy,
     //GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     //User = require('./../models/user'),
-    config = require("./config"),
-    logger = require("./logger"),
-    store = require("./../store"),
+    config = require("@config"),
+    logger = require("@logger"),
+    store = require("@store"),
     strategies = {
         local: new LocalStrategy({
             // by default, local strategy uses username and password, we will override with email
@@ -75,7 +75,27 @@ var security = require("./security"),
                 }
             });
         }),
-        /*facebook: new FacebookStrategy({
+        /*
+        required configuration:
+        "configAuth": {
+            "facebookAuth": {
+                "clientID": "your-secret-clientID-here",
+                "clientSecret": "your-client-secret-here",
+                "callbackURL": "http://localhost:8080/auth/facebook/callback"
+            },
+            "twitterAuth": {
+                "consumerKey": "your-consumer-key-here",
+                "consumerSecret": "your-client-secret-here",
+                "callbackURL": "http://localhost:8080/auth/twitter/callback"
+            },
+            "googleAuth": {
+                "clientID": "your-secret-clientID-here",
+                "clientSecret": "your-client-secret-here",
+                "callbackURL": "http://localhost:8080/auth/google/callback"
+            }
+        }
+        
+        facebook: new FacebookStrategy({
                 // pull in our app id and secret from our auth.js file
                 clientID: configAuth.facebookAuth.clientID,
                 clientSecret: configAuth.facebookAuth.clientSecret,

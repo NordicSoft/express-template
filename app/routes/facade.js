@@ -1,7 +1,7 @@
 var router = require("express").Router(),
-    config = require("./../lib/config"),
-    logger = require("./../lib/logger"),
-    store = require("./../store");
+    config = require("@config"),
+    logger = require("@logger"),
+    store = require("@store");
 
 function signin(req, res) {
     req.signin(function (err, user, info) {
@@ -151,7 +151,7 @@ router.post("/register", async function (req, res) {
     }
 
     let usersCollection = await store.users.getCollection();
-    let security = require("./../lib/security");
+    let security = require("@lib/security");
     let user = {
         name,
         email,
@@ -179,8 +179,8 @@ router.post("/register", async function (req, res) {
 router.post("/send-message", async (req, res) => {
     let axios = require("axios");
     let text = `*${req.body.name}* (_${req.body.email}_) says:\n${req.body.message}`;
-    await axios.post(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
-        { chat_id: process.env.TELEGRAM_CHAT_ID, text, parse_mode: "Markdown" }
+    await axios.post(`https://api.telegram.org/bot${config.telegram.botToken}/sendMessage`,
+        { chat_id: config.telegram.chatId, text, parse_mode: "Markdown" }
     );
     res.sendStatus(200);
 });

@@ -9,9 +9,8 @@ var express = require("express"),
     hbs = require("express-hbs"),
     hbsHelpers = require("./lib/hbs-helpers"),
     cors = require("cors"),
-    compression = require("compression");
-//router = require('./router');
-//langs = require('./langs');
+    compression = require("compression"),
+    config = require("@config");
 
 module.exports = function (config) {
 
@@ -24,7 +23,7 @@ module.exports = function (config) {
     app.set("view cache", true);
 
     // on production app is behind a front-facing proxy, so use X-Forwarded-* header to determine client's IP
-    app.set("trust proxy", "production" === config.env);
+    app.set("trust proxy", config.prod);
 
     // enable CORS
     app.use(cors());
@@ -46,7 +45,7 @@ module.exports = function (config) {
     app.use(favicon(process.cwd() + "/www/favicon.ico"));
 
     // set the static files location /www/img will be /img for users
-    app.set("static-path", path.resolve(process.cwd(), process.env.STATIC_PATH));
+    app.set("static-path", path.resolve(process.cwd(), config.staticPath));
     app.use(express.static(app.get("static-path")));
 
     // log every request to the console and forever's log

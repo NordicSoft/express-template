@@ -4,26 +4,20 @@ process.chdir(__dirname);
 // load environment variables from `.env`
 require("dotenv-defaults").config();
 
+// init module-alias
+require("module-alias/register");
+
 // init config
-var config = require("./app/lib/config");
+var config = require("@config");
 
 // init logger
-var logger = require("./app/lib/logger").init(config.logFilesPath + "all.log");
+var logger = require("@logger").init(config.logger.logsPath + "all.log");
 
 logger.info("Express Template v%s started%s. Path: %s", config.version, process.env.RUNNING_FOREVER ? " as daemon" : "", process.cwd());
-if (config.useProcessEnv) {
-    logger.info("Environment vars: %s=%s, %s=%s",
-        config.processEnvVar,
-        process.env[config.processEnvVar],
-        config.processPortVar,
-        process.env[config.processPortVar]
-    );
-}
-
 logger.info("Environment: " + config.env);
 
 // connect to MongoDB
-require("./app/store/client").connect((err, client) => {
+require("@store/client").connect((err, client) => {
     if (err) {
         logger.error("MongoDB connection failed:");
         logger.error(err);
@@ -65,7 +59,7 @@ require("./app/store/client").connect((err, client) => {
     require("./app/io").init(server, session);
 
     // init authentication module
-    require("./app/lib/auth")(express);
+    require("@lib/auth")(express);
 
     // define global response locals
     var devCacheHash = require("crypto").randomBytes(20).toString("hex").slice(0, 7);
