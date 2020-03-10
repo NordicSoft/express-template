@@ -1,14 +1,14 @@
 # Changelog
 
-## **1.0.5** - *2020-03-xx*
+## **1.0.5** - *2020-03-10*
 * store all configs in `.env` files and use `config.js` to access them easily;
 * `module-alias` npm package added;
 * error pages changed;
 * `config.json` dropped;
 * ESLint errors fixed;
+* `npm run dev` task changed to run `lint`, `nodemon` and `gulp` concurrently;
 * `Dashboard` - link to `Facade` added;
-* `Facade/Gallery`:
-    * photos navigation inside photo sets (prev/next);
+* `Facade/Gallery` - photos navigation inside photo sets (prev/next);
 
 ## **1.0.4** - *2020-03-06*
 * node.js packages updated;
