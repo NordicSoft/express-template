@@ -4,6 +4,7 @@
 * store all configs in `.env` files and use `config.js` to access them easily;
 * `module-alias` npm package added;
 * error pages changed;
+* `config.json` dropped;
 * `Dashboard` - link to `Facade` added;
 * `Facade/Gallery`:
     * photos navigation inside photo sets (prev/next);
