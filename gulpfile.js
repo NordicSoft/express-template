@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
-
 // load environment variables from `.env`
 require("dotenv-defaults").config();
 
 let gulp = require("gulp"),
+    log = require("fancy-log"),
     sass = require("gulp-sass"),
     uglify = require("gulp-uglify-es").default,
     postcss = require("gulp-postcss"),
@@ -39,7 +38,7 @@ function nodemonInit(done) {
         enabled = argv.nodemon;
 
     if (!enabled) {
-        console.log("[nodemon] disabled");
+        log("gulp-nodemon disabled");
         return done();
     }
 
@@ -189,10 +188,10 @@ async function rollup(input, output, watch, callback) {
     watcher.on("event", e => {
         switch (e.code) {
             case "BUNDLE_START":
-                console.log(`Rollup ${e.input} started`);
+                log(`Rollup ${e.input} started`);
                 break;
             case "BUNDLE_END":
-                console.log(`Rollup ${e.input} finished in ${e.duration} ms`);
+                log(`Rollup ${e.input} finished in ${e.duration} ms`);
                 break;
             case "END":
                 browserSync.reload();
@@ -200,8 +199,8 @@ async function rollup(input, output, watch, callback) {
                 break;
             case "ERROR":
             case "FATAL":
-                console.log(`ERROR while rollup ${e.input}`);
-                console.log(e);
+                log(`ERROR while rollup ${e.input}`);
+                log(e);
                 typeof callback === "function" && callback();
                 break;
         }
@@ -275,7 +274,7 @@ function deploy() {
         commit = argv.commit || "---",
         backup = argv.backup || "---";
 
-    console.log(`Deploying commit '${commit}' into folder: ${dest}`);
+    log(`Deploying commit '${commit}' into folder: ${dest}`);
     var files = [
         "app/**/*",
         "www/**/*",
