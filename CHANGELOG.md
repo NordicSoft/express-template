@@ -2,6 +2,7 @@
 
 ## **1.0.5** - *2020-03-xx*
 * error pages changed;
+* `Dashboard` - link to `Facade` added;
 * `Facade/Gallery`:
     * photos navigation inside photo sets (prev/next);
 

@@ -17,8 +17,11 @@
                 </v-btn>
             </v-toolbar-title>
             <v-spacer></v-spacer>
+            <v-btn text href="/" target="_blank">
+                <v-icon class="mr-2">mdi-feature-search-outline</v-icon>Facade
+            </v-btn>
             <v-btn text to="/profile">
-                <v-icon class="mr-2">mdi-account-box</v-icon>Profile
+                <v-icon class="mr-2">mdi-account-box-outline</v-icon>Profile
             </v-btn>
             <v-btn text href="/signout">
                 <v-icon class="mr-2">mdi-exit-to-app</v-icon>Sign Out
