@@ -9,8 +9,7 @@ var express = require("express"),
     hbs = require("express-hbs"),
     hbsHelpers = require("./lib/hbs-helpers"),
     cors = require("cors"),
-    compression = require("compression"),
-    config = require("@config");
+    compression = require("compression");
 
 module.exports = function (config) {
 
@@ -53,7 +52,7 @@ module.exports = function (config) {
         return req.user ? req.user._id.toString() : "?";
     });
     morgan.format("production", ":date[iso] :method :url :status - :res[content-length]bytes :response-time[3]ms ip=:remote-addr user=:user referrer=:referrer agent=:user-agent");
-    app.use(morgan("production" === config.env ? "production" : "dev"));
+    app.use(morgan(config.prod ? "production" : "dev"));
 
     // init cookie parser
     app.use(cookieParser());
@@ -69,7 +68,7 @@ module.exports = function (config) {
     app.use(methodOverride());
 
     // for development environment
-    if ("development" === config.env) {
+    if (config.dev) {
         // init error handler
         app.use(errorHandler());
     }

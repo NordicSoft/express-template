@@ -46,7 +46,7 @@ function sendMessage(e) {
     loader.show();
     $.post("/send-message", data)
         .always(loader.hide)
-        .done((response) => {
+        .done(() => {
             contactForm.find(".alert-success").fadeIn();
             contactForm[0].reset();
             setTimeout(function () {

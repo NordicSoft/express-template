@@ -5,6 +5,7 @@
 * `module-alias` npm package added;
 * error pages changed;
 * `config.json` dropped;
+* ESLint errors fixed;
 * `Dashboard` - link to `Facade` added;
 * `Facade/Gallery`:
     * photos navigation inside photo sets (prev/next);
