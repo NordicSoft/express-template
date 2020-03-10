@@ -1,6 +1,7 @@
 # Changelog
 
 ## **1.0.5** - *2020-03-xx*
+* error pages changed;
 * `Facade/Gallery`:
     * photos navigation inside photo sets (prev/next);
 
