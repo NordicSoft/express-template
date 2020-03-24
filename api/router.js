@@ -32,9 +32,7 @@ module.exports = function (express) {
         next();
     };
 
-    // TODO: fix authentication
-    //express.use("/", signinRequired, xhrOnly, require("./routes"));
-    express.use("/", xhrOnly, require("./routes"));
+    express.use("/", signinRequired, xhrOnly, require("./routes"));
 
     // handle 404
     express.use(function (req, res) {

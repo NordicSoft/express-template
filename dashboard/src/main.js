@@ -15,7 +15,8 @@ Vue.config.productionTip = false;
 
 // setup axios
 Vue.axios = Vue.prototype.$http = axios.create({
-    baseURL: "http://localhost:8081",
+    baseURL: process.env.VUE_APP_API_BASE_URL,
+    withCredentials: true,
     headers: {
         "X-Requested-With": "XMLHttpRequest"
     }

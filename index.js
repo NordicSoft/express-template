@@ -12,7 +12,7 @@ const express = require("express"),
 
 const app = express();
 
-app.use("/api", createProxyMiddleware({ target: "http://localhost:8081", changeOrigin: true }));
+app.use("/api", createProxyMiddleware({ target: "http://localhost:8081", changeOrigin: true, pathRewrite: {"^/api" : ""} }));
 app.use("/dashboard", createProxyMiddleware({ target: "http://localhost:8083", changeOrigin: true }));
 app.use("/", createProxyMiddleware({ target: "http://localhost:8082", changeOrigin: true }));
 app.listen(port, () => {

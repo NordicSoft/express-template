@@ -17,6 +17,7 @@ let gulp = require("gulp"),
 function browserSyncInit(callback) {
     browserSync.init({
         port: 3001,
+        logPrefix: "facade browsersync"
         /*proxy: {
             target: "http://localhost:" + (process.env.PORT || 8082),
             ws: true
