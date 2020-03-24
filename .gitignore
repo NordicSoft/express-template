@@ -5,6 +5,7 @@ node_modules
 /facade/public/css/facade.css
 /facade/public/js/dashboard.js
 /facade/public/js/facade.js
+/facade/public/fonts
 /public
 package-lock.json
 .env

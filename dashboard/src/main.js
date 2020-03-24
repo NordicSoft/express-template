@@ -33,5 +33,5 @@ let app = new Vue({
 errorHandler(app);
 
 console.log(
-    `Welcome to NordicSoft Express 4 Template! Environment: ${process.env}`
+    `Welcome to NordicSoft Express 4 Template! Environment: ${process.env.NODE_ENV}`
 );

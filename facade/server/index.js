@@ -81,7 +81,8 @@ require("@store/client").connect((err, client) => {
             lang: require("@server/langs").en,
             user: req.user,
             isAuthenticated: req.isAuthenticated(),
-            production: "production" === config.env,
+            production: config.prod,
+            development: config.dev,
             cacheHash: "production" === config.env ? config.commit : devCacheHash
         };
         next();

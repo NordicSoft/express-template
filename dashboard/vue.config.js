@@ -7,7 +7,8 @@ module.exports = {
             path.resolve(__dirname, "dist"),
             path.resolve(__dirname, process.env.COMMON_STATIC_PATH)
         ],
-        port: process.env.PORT || 8083
+        port: process.env.PORT || 8083,
+        progress: false,
         //open: true,
     }
 };

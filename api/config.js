@@ -4,8 +4,8 @@ const path = require("path"),
 
 const config = {
     // environment
-    env: process.env.NODE_ENV,
-    dev: process.env.NODE_ENV === "development",
+    env: process.env.NODE_ENV || "development",
+    dev: process.env.NODE_ENV === undefined || process.env.NODE_ENV === "development",
     prod: process.env.NODE_ENV === "production",
 
 

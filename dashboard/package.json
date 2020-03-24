@@ -4,12 +4,12 @@
   "private": true,
   "main": "server.js",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --progress",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "dev": "npm run serve",
+    "dev": "vue-cli-service serve",
     "start": "node server.js"
   },
   "dependencies": {
