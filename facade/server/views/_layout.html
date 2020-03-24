@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="{{{block "cssClass"}}}">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>{{{block "title"}}}</title>
+        <meta name="description" content="{{{block "description"}}}" />
+        <meta name="keywords" content="{{{block "keywords"}}}" />
+        <meta name="robots" content="index, follow" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="apple-mobile-web-app-title" content="Lorem">
+        {{!
+        <link href="https://plus.google.com/+Lorem" rel="publisher" />
+        <meta name="geo.region" content="GB" />
+        <meta name="geo.placename" content="London" />
+        <meta name="geo.position" content="0.000000;0.000000" />
+        <meta name="ICBM" content="0.000000, 0.00000" />
+        }}
+        {{#if canonical}}
+        <link rel="canonical" href="{{canonical}}"/>
+        {{/if}}
+        
+        <link rel="stylesheet" href="/css/facade.css">
+    </head>
+    <body>
+        <!--[if lte IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+        <![endif]-->
+
+        {{> _header this}}
+        <main>
+            {{{body}}}
+        </main>
+        {{> _footer}}
+
+        <div id="loader" class="loader" style="display: none;"><span></span></div>
+
+        <script src="/js/facade.js"></script>
+
+        {{#production}}
+        <!-- GA -->
+        {{/production}}
+
+        {{{block "scripts"}}}
+    </body>
+</html>

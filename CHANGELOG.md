@@ -1,5 +1,8 @@
 # Changelog
 
+## **2.0.0** - *2020-xx-xx*
+Great refactoring - split into `api`, `dashboard` and `facade`;
+
 ## **1.0.5** - *2020-03-10*
 * store all configs in `.env` files and use `config.js` to access them easily;
 * `module-alias` npm package added;

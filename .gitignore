@@ -1,11 +1,10 @@
 node_modules
 *.log
-/assets/scss/dashboard/vue-components.scss
-/www/service-worker.js
-/www/css/dashboard.css
-/www/css/facade.css
-/www/js/dashboard.js
-/www/js/facade.js
-/www/files
+/facade/public/service-worker.js
+/facade/public/css/dashboard.css
+/facade/public/css/facade.css
+/facade/public/js/dashboard.js
+/facade/public/js/facade.js
+/public
 package-lock.json
 .env
