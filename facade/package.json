@@ -1,5 +1,5 @@
 {
-  "name": "express-template",
+  "name": "express-template-facade",
   "version": "1.0.5",
   "description": "Website template (skeleton) based on Express.js 4, Vue.js and Vuetify 2",
   "author": "NordicSoft",
@@ -15,7 +15,7 @@
     "build": "npx gulp build",
     "deploy": "npx gulp deploy",
     "dev": "npx concurrently npm:lint \"npx nodemon\" gulp --raw --kill-others-on-fail",
-    "start": "npm run mkdir && node index.js"
+    "start": "node server/index.js"
   },
   "_moduleAliases": {
     "@root": ".",

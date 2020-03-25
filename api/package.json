@@ -1,5 +1,5 @@
 {
-  "name": "express-template",
+  "name": "express-template-api",
   "version": "1.0.5",
   "description": "Website template (skeleton) based on Express.js 4, Vue.js and Vuetify 2",
   "author": "NordicSoft",
@@ -25,6 +25,7 @@
   "dependencies": {
     "aws-sdk": "^2.635.0",
     "body-parser": "1.x.x",
+    "chalk": "^3.0.0",
     "clone": "2.x.x",
     "compression": "^1.7.4",
     "connect-redis": "^4.0.4",

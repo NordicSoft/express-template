@@ -2,23 +2,23 @@ var winston = require("winston"),
     format = require("logform").format,
     defaultLogLevel = process.env.NODE_ENV === "production" ? "info" : "debug";
 
-var formatFile = format.combine(
-    format.splat(),
-    format.timestamp(),
-    format.printf(log => {
-        return `${log.timestamp} ${log.level}: ${log.message}`;
-    })
-);
+module.exports.init = (filename, prefix, level) => {
 
-var formatConsole = format.combine(
-    format.splat(),
-    format.colorize(),
-    format.printf(log => {
-        return `${log.level}: ${log.message}`;
-    })
-);
-
-module.exports.init = (filename, level) => {
+    var formatFile = format.combine(
+        format.splat(),
+        format.timestamp(),
+        format.printf(log => {
+            return `${log.timestamp} ${log.level}: ${log.message}`;
+        })
+    );
+    
+    var formatConsole = format.combine(
+        format.splat(),
+        format.colorize(),
+        format.printf(log => {
+            return `${prefix ? prefix + " " : ""}${log.level}: ${log.message}`;
+        })
+    );
 
     var logger = winston.createLogger({
         ///format: format,

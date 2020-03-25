@@ -9,8 +9,7 @@ var express = require("express"),
     hbs = require("express-hbs"),
     hbsHelpers = require("./lib/hbs-helpers"),
     cors = require("cors"),
-    compression = require("compression"),
-    cwd = process.cwd();
+    compression = require("compression");
 
 module.exports = function (config) {
 
@@ -29,20 +28,21 @@ module.exports = function (config) {
     app.use(cors());
 
     // setup Handlebars view engine (express-hbs)
+    const viewsPath = path.resolve("server/views");
     app.engine("html", hbs.express4({
-        partialsDir: cwd + "/server/views",
-        layoutsDir: cwd + "/server/views",
-        defaultLayout: cwd + "/server/views/_layout",
+        partialsDir: viewsPath,
+        layoutsDir: viewsPath,
+        defaultLayout: path.join(viewsPath, "_layout"),
         extname: ".html",
     }));
     app.set("view engine", "html");
-    app.set("views", cwd + "/server/views");
+    app.set("views", viewsPath);
 
     // register custom Handlebars helpers
     hbsHelpers(hbs);
 
-    const staticPath = path.resolve(cwd, config.staticPath),
-        commonStaticPath = path.resolve(cwd, config.commonStaticPath);
+    const staticPath = path.resolve(config.staticPath),
+        commonStaticPath = path.resolve(config.commonStaticPath);
 
     // set favicon
     app.use(favicon(staticPath + "/favicon.ico"));

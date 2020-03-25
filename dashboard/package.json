@@ -1,5 +1,5 @@
 {
-  "name": "dashboard",
+  "name": "express-template-dashboard",
   "version": "0.1.0",
   "private": true,
   "main": "server.js",

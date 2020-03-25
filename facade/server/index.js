@@ -4,16 +4,19 @@ process.chdir(path.resolve(__dirname, ".."));
 
 // load environment variables from `.env`
 require("dotenv-defaults").config();
-console.log("Facade port", process.env.PORT);
 
 // init module-alias
 require("module-alias/register");
 
 // init config
-var config = require("@config");
+const config = require("@config");
 
 // init logger
-var logger = require("@logger").init(config.logger.logsPath + "all.log");
+const chalk = require("chalk"),
+    logPrefix = chalk
+        .keyword(config.logger.consoleFgColor)
+        .bgKeyword(config.logger.consoleBgColor)(` ${config.logger.consolePrefix} `),
+    logger = require("@logger").init(path.resolve(config.logger.logsPath), logPrefix);
 
 logger.info("Express Template v%s started%s. Path: %s", config.version, process.env.RUNNING_FOREVER ? " as daemon" : "", process.cwd());
 logger.info("Environment: " + config.env);

@@ -1,6 +1,5 @@
 const path = require("path"),
-    cwd = process.cwd(),
-    packageJson = require(cwd + "/package.json");
+    packageJson = require(process.cwd() + "/package.json");
 
 const config = {
     // environment
@@ -29,7 +28,10 @@ const config = {
     logger: {
         logEnabled: process.env.LOG_ENABLED.toLowerCase() === "true",
         debugEnabled: process.env.DEBUG_ENABLED.toLowerCase() === "true",
-        logsPath: process.env.LOG_FILES_PATH
+        logsPath: process.env.LOG_FILE_PATH,
+        consolePrefix: process.env.LOG_CONSOLE_PREFIX,
+        consoleFgColor: process.env.LOG_CONSOLE_FG_COLOR,
+        consoleBgColor: process.env.LOG_CONSOLE_BG_COLOR,
     },
     
     session: {
@@ -62,15 +64,15 @@ const config = {
     },
     
     fileBrowser: {
-        uploadPath: path.resolve(cwd, process.env.FILEBROWSER_UPLOAD_PATH),
-        rootPath: path.resolve(cwd, process.env.FILEBROWSER_ROOT_PATH)
+        uploadPath: path.resolve(process.env.FILEBROWSER_UPLOAD_PATH),
+        rootPath: path.resolve(process.env.FILEBROWSER_ROOT_PATH)
     },
     
     gallery: {
         // currently only `local` gallery storage is supported
         storage: process.env.GALLERY_STORAGE,
-        uploadPath: path.resolve(cwd, process.env.GALLERY_UPLOAD_PATH),
-        rootPath: path.resolve(cwd, process.env.GALLERY_ROOT_PATH),
+        uploadPath: path.resolve(process.env.GALLERY_UPLOAD_PATH),
+        rootPath: path.resolve(process.env.GALLERY_ROOT_PATH),
         photosPath: process.env.GALLERY_PHOTOS_PATH,
         photoSetsPath: process.env.GALLERY_PHOTOSETS_PATH,
         trashPath: process.env.GALLERY_TRASH_PATH,
