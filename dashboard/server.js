@@ -10,11 +10,7 @@ const path = require("path");
 const history = require("connect-history-api-fallback");
 
 const app = express();
-console.log("Dashboard dist", path.join(__dirname, "/dist"))
-app.use((req, res, next) => {
-    console.log(req.url);
-    next();
-})
+
 const distMiddleware = express.static(path.join(__dirname, "/dist"));
 const publicMiddleware = express.static(
     path.resolve(__dirname, process.env.PUBLIC_PATH)

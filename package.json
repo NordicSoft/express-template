@@ -9,8 +9,10 @@
   "commit": "${commit}",
   "backup": "${backup}",
   "scripts": {
-    "lint": "npx eslint --ext .js,.vue .",
-    "lint-fix": "npm run lint -- --fix",
+    "lint:api": "(cd api && npm run lint)",
+    "lint:facade": "(cd facade && npm run lint)",
+    "lint:dashboard": "(cd dashboard && npm run lint)",
+    "lint": "npm run lint:api; npm run lint:facade; npm run lint:dashboard",
     "build": "(cd facade && npm gulp build); (cd dashboard && npm run build)",
     "deploy": "npx gulp deploy",
     "dev:api": "(cd api && npm run dev)",
@@ -22,13 +24,6 @@
     "start:facade": "node facade",
     "start:dashboard": "node dashboard",
     "start": "npm run start:api & npm run start:facade & npm run start:dashboard & node index.js"
-  },
-  "_moduleAliases": {
-    "@root": ".",
-    "@lib": "app/lib",
-    "@store": "app/store",
-    "@config": "config.js",
-    "@logger": "app/lib/logger.js"
   },
   "dependencies": {
     "dotenv-defaults": "^1.1.1",

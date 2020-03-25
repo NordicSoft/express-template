@@ -9,11 +9,8 @@ export function log (message) {
     return undefined;
 }
 
-export function debug (object, title) {
+export function debug (object) {
     if (options.debugEnabled && console && console.debug) {
-        if (title) {
-            app.debug(title + ":");
-        }
         return console.debug(object);
     }
     return undefined;

@@ -9,8 +9,7 @@
   "commit": "${commit}",
   "backup": "${backup}",
   "scripts": {
-    "lint": "npx eslint --ext .js .",
-    "lint-fix": "npm run lint -- --fix",
+    "lint": "npx eslint --fix --ext .js .",
     "forever-start": "npx cross-env PORT=8082 RUNNING_FOREVER=1 npx cross-var npx forever start -a -l $INIT_CWD/logs/forever.log --uid express-template-facade index.js",
     "forever-stop": "npx forever stop express-template-facade",
     "build": "npx gulp build",
