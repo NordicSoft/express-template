@@ -3,18 +3,18 @@ process.chdir(__dirname);
 
 // load environment variables from `.env`
 require("dotenv-defaults").config();
-console.log("Main port", process.env.PORT);
-console.log("Main environment", process.env.NODE_ENV);
 
 const express = require("express"),
-    { createProxyMiddleware } = require("http-proxy-middleware"),
+    { createProxyMiddleware: proxy } = require("http-proxy-middleware"),
+    chalk = require("chalk"),
+    logPrefix = chalk.keyword("azure").bgRed(' proxy '),
     port = process.env.PORT || 8080;
 
 const app = express();
 
-app.use("/api", createProxyMiddleware({ target: "http://localhost:8081", changeOrigin: true, pathRewrite: {"^/api" : ""} }));
-app.use("/dashboard", createProxyMiddleware({ target: "http://localhost:8083", changeOrigin: true }));
-app.use("/", createProxyMiddleware({ target: "http://localhost:8082", changeOrigin: true }));
+app.use("/api", proxy({ target: "http://localhost:8081", logLevel: "error", changeOrigin: true, pathRewrite: {"^/api" : ""} }));
+app.use("/dashboard", proxy({ target: "http://localhost:8083", logLevel: "error", changeOrigin: true }));
+app.use("/", proxy({ target: "http://localhost:8082", logLevel: "error", changeOrigin: true }));
 app.listen(port, () => {
-    console.log(`Main app listening on port ${port}`);
+    console.log(`${logPrefix} Development proxy running at ${chalk.blue("http://localhost:" + port)}`);
 });

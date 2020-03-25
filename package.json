@@ -18,7 +18,7 @@
     "dev:api": "(cd api && npm run dev)",
     "dev:facade": "(cd facade && npm run dev)",
     "dev:dashboard": "(cd dashboard && npm run dev)",
-    "dev": "npx concurrently npm:dev:* \"node index.js\" --raw --kill-others-on-fail",
+    "dev": "npx concurrently \"node index.js\" npm:dev:* --raw --kill-others-on-fail",
     "postinstall": "(cd api && npm install); (cd facade && npm install); (cd dashboard && npm install)",
     "start:api": "node api",
     "start:facade": "node facade",
@@ -26,22 +26,14 @@
     "start": "npm run start:api & npm run start:facade & npm run start:dashboard & node index.js"
   },
   "dependencies": {
+    "chalk": "^3.0.0",
     "dotenv-defaults": "^1.1.1",
     "express": "^4.17.1",
     "http-proxy": "^1.18.0",
-    "http-proxy-middleware": "^1.0.3",
-    "http-proxy-rules": "^1.1.3"
+    "http-proxy-middleware": "^1.0.3"
   },
   "devDependencies": {},
   "nodemonConfig": {
-    "ignore": [
-      "data/*",
-      "logs/*",
-      "www/*",
-      "assets/*",
-      "views/app/templates/*",
-      "gulpfile.js"
-    ],
-    "ext": "js,json,html"
+    "watch": ["index.js"]
   }
 }
