@@ -7,7 +7,6 @@ const config = {
     dev: process.env.NODE_ENV === undefined || process.env.NODE_ENV === "development",
     prod: process.env.NODE_ENV === "production",
 
-
     // Express.js backend port
     port: parseInt(process.env.PORT || 8081),
     
@@ -17,6 +16,8 @@ const config = {
     // current Git commit short hash
     commit: packageJson.commit,
     
+    facadeToken: process.env.FACADE_TOKEN,
+
     //password hashing algorithm (md5 or bcrypt; for bcrypt install https://www.npmjs.com/package/bcrypt)
     passwordHashAlgorithm: process.env.PASSWORD_HASH_ALGORITHM,
     

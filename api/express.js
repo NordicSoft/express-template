@@ -1,5 +1,4 @@
 var express = require("express"),
-    morgan = require("morgan"),
     bodyParser = require("body-parser"),
     cookieParser = require("cookie-parser"),
     methodOverride = require("method-override"),
@@ -22,13 +21,6 @@ module.exports = function (config) {
 
     // enable CORS
     app.use(cors());
-
-    // log every request to the console and forever's log
-    morgan.token("user", function (req) {
-        return req.user ? req.user._id.toString() : "?";
-    });
-    morgan.format("production", ":date[iso] :method :url :status - :res[content-length]bytes :response-time[3]ms ip=:remote-addr user=:user referrer=:referrer agent=:user-agent");
-    app.use(morgan(config.prod ? "production" : "dev"));
 
     // init cookie parser
     app.use(cookieParser());

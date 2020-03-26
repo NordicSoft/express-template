@@ -61,7 +61,7 @@ export default {
                     newPassword: this.newPassword
                 };
 
-                await this.$http.post("/change-password", data);
+                await this.$http.post("/profile/change-password", data);
 
                 this.$toast.success("Password changed");
             }

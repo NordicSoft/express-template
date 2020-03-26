@@ -1,7 +1,7 @@
-var router = require("express").Router(),
+const router = require("express").Router(),
     config = require("@config"),
     logger = require("@logger"),
-    store = require("@store");
+    api = require("@api");
 
 function signin(req, res) {
     req.signin(function (err, user, info) {
@@ -23,7 +23,7 @@ router.get("/gallery", async function (req, res) {
     }
 
     // if there are still photos to display (unclassified) - then redirect to /gallery/all
-    let allPhotos = await store.photos.all(undefined, false);
+    let allPhotos = await api.photos.all(undefined, false);
     if (allPhotos.length > 0) {
         return res.redirect("/gallery/all");
     }
@@ -35,12 +35,12 @@ router.get("/gallery/:photoSet", async function (req, res) {
     let photoSet;
 
     if (req.params.photoSet !== "all") {
-        photoSet = await store.photoSets.getByCodeWithPhotos(req.params.photoSet);
+        photoSet = await api.photoSets.getWithPhotos(req.params.photoSet);
     } else {
         photoSet = {
             title: "All photos",
             code: "all",
-            photos: await store.photos.all(undefined, false)
+            photos: await api.photos.all(undefined, false)
         };
     }
 
@@ -58,12 +58,12 @@ router.get("/gallery/:photoSet/:photoId(\\d+)", async function (req, res) {
     let photoSet, photo;
 
     if (req.params.photoSet !== "all") {
-        photoSet = await store.photoSets.getByCode(req.params.photoSet);
+        photoSet = await api.photoSets.get(req.params.photoSet);
     } else {
         photoSet = { title: "All photos", code: "all" };
     }
 
-    photo = await store.photos.getById(Number(req.params.photoId));
+    photo = await api.photos.get(req.params.photoId);
 
     if (!photoSet || !photo) {
         return res.error(404);
@@ -120,7 +120,7 @@ router.get("/register", function (req, res) {
 router.get("/check-email", async function (req, res) {
     if (req.xhr) {
         var email = req.query.email,
-            user = await store.users.getByEmail(email);
+            user = await api.users.get(email);
         res.send(!user);
     } else {
         return res.error(404);
@@ -146,11 +146,10 @@ router.post("/register", async function (req, res) {
     }
 
     // check username
-    if (await store.users.getByEmail(email)) {
+    if (await api.users.get(email)) {
         return res.error(400, { json: { message: "This email is already taken" } });
     }
 
-    let usersCollection = await store.users.getCollection();
     let security = require("@lib/security");
     let user = {
         name,
@@ -160,13 +159,13 @@ router.post("/register", async function (req, res) {
     switch (config.passwordHashAlgorithm) {
         case "md5":
             user.password = security.md5(password);
-            await usersCollection.insertOne(user);
+            await api.users.add(user);
             signin(req, res);
             break;
         case "bcrypt":
             security.bcryptHash(password, async function (err, passwordHash) {
                 user.password = passwordHash;
-                await usersCollection.insertOne(user);
+                await api.users.add(user);
                 signin(req, res);
             });
             break;
@@ -211,18 +210,18 @@ router.get("/*", function (req, res) {
 module.exports = function (express) {
     express.use(async function (req, res, next) {
 
-        let photoSets = await store.photoSets.getNotEmpty(),
+        let photoSets = await api.photoSets.notEmpty(),
             isGalleryVisible = photoSets.length > 0;
 
         if (!isGalleryVisible) {
-            let allPhotos = await store.photos.all(undefined, false);
+            let allPhotos = await api.photos.all(undefined, false);
             isGalleryVisible = allPhotos.length > 0;
         }
 
         res.locals = res.locals || {};
         Object.assign(res.locals, {
             isGalleryVisible,
-            photoSets: await store.photoSets.getNotEmpty()
+            photoSets
         });
         next();
     });

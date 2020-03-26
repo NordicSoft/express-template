@@ -7,7 +7,10 @@ class UsersStore extends Store {
         super("users");
     }
     async getByEmail(email) {
-        return await this.getCollection().findOne({ email: email });
+        return await this.getCollection().findOne({ email });
+    }
+    async getByUsername(username) {
+        return await this.getCollection().findOne({ username });
     }
 }
 

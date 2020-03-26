@@ -1,7 +1,7 @@
 const path = require("path"),
     packageJson = require(process.cwd() + "/package.json");
 
-const config = {
+module.exports = {
     // environment
     env: process.env.NODE_ENV || "development",
     dev: process.env.NODE_ENV === undefined || process.env.NODE_ENV === "development",
@@ -21,6 +21,11 @@ const config = {
     staticPath: process.env.STATIC_PATH,
     commonStaticPath: process.env.COMMON_STATIC_PATH,
     
+    api: {
+        baseUrl: process.env.API_BASE_URL,
+        token: process.env.API_TOKEN,
+    },
+
     //password hashing algorithm (md5 or bcrypt; for bcrypt install https://www.npmjs.com/package/bcrypt)
     passwordHashAlgorithm: process.env.PASSWORD_HASH_ALGORITHM,
     
@@ -43,19 +48,6 @@ const config = {
     redis: {
         host: process.env.REDIS_HOST,
         port: parseInt(process.env.REDIS_PORT),
-    },
-    
-    mongoDb: {
-        url: process.env.MONGODB_URL
-    },
-    
-    aws:{
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-        region: process.env.AWS_REGION,
-        s3Bucket: process.env.AWS_S3_BUCKET,
-        sesFrom: process.env.AWS_SES_FROM,
-        sesSendRate: parseInt(process.env.AWS_SES_SEND_RATE)
     },
     
     telegram: {
@@ -84,4 +76,3 @@ const config = {
         dashboardThumbnailSuffix: process.env.GALLERY_DASHBOARD_THUMBNAIL_SUFFIX
     }
 };
-module.exports = config;

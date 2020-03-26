@@ -1,4 +1,5 @@
-var logger = require("./lib/logger");
+const config = require("@config"),
+    logger = require("@logger");
 
 module.exports = function (express) {
     logger.info("Init Router");
@@ -32,7 +33,19 @@ module.exports = function (express) {
         next();
     };
 
-    express.use("/", signinRequired, xhrOnly, require("./routes"));
+    var facadeOnly = function (req, res, next) {
+        if (req.headers.authorization !== "Bearer " + config.facadeToken) {
+            return res.sendStatus(401);
+        }
+        next();
+    };
+
+    express.use(xhrOnly);
+    
+    express.use("/profile", signinRequired, require("./routes/profile"));
+    express.use("/gallery", signinRequired, require("./routes/gallery"));
+    express.use("/facade", facadeOnly, require("./routes/facade"));
+    express.use("/", signinRequired, require("./routes"));
 
     // handle 404
     express.use(function (req, res) {

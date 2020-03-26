@@ -15,7 +15,7 @@ var security = require("./security"),
     //User = require('./../models/user'),
     config = require("@config"),
     logger = require("@logger"),
-    store = require("@store"),
+    api = require("@api"),
     strategies = {
         local: new LocalStrategy({
             // by default, local strategy uses username and password, we will override with email
@@ -24,26 +24,25 @@ var security = require("./security"),
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         async function (req, username, password, done) {
-            logger.info(username);
-            logger.info(password);
             // asynchronous
             process.nextTick(async function () {
                 // find a user
                 let user;
                 try {
-                    user = await store.users.getByEmail(username);
-                    logger.dir(user);
+                    user = await api.users.get(username);
+                    console.log(user);
                 } catch (err) {
                     logger.error(err);
                     return done(null, false, "Unknown error");
                 }
 
-                // if no user is found or password is wrong return error
+                // if no user is found - return error
                 if (!user) {
                     logger.info("User not found");
                     return done(null, false, "User was not found or password is incorrect");
                 }
 
+                // if password is wrong - return error
                 switch (config.passwordHashAlgorithm) {
                     case "md5":
                         if (md5(password) !== user.password) {

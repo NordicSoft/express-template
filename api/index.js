@@ -36,6 +36,15 @@ require("@store/client").connect((err, client) => {
     express = require("./express")(config);
     server = require("http").createServer(express);
 
+    // log every request to the console and forever's log
+    const morgan = require("morgan");
+    morgan.token("user", function (req) {
+        return req.user ? req.user._id.toString() : "?";
+    });
+    morgan.format("production", ":date[iso] :method :url :status - :res[content-length]bytes :response-time[3]ms ip=:remote-addr user=:user referrer=:referrer agent=:user-agent");
+    morgan.format("dev", `${logPrefix} ${chalk.bold(":method")} :url :status - :res[content-length]bytes :response-time[3]ms user=:user`);
+    express.use(morgan(config.prod ? "production" : "dev"));
+
     // init sessions
     var expressSession = require("express-session");
     var sessionStore;
