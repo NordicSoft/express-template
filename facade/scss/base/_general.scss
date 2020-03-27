@@ -104,3 +104,11 @@ a {
     position: relative;
     top: -100px;
 }
+
+.container,
+.container-fluid {
+    @include media-breakpoint-down(sm) {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}

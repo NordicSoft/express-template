@@ -9,7 +9,7 @@ export function gallery() {
     log("Gallery");
     $(".photosets").justifiedGallery({
         rowHeight : 250,
-        lastRow : "nojustify",
+        lastRow : "center",
         margins : 3
     });
 }
@@ -18,7 +18,7 @@ export function photoSet() {
     log("Gallery PhotoSet");
     $(".photos").justifiedGallery({
         rowHeight : 250,
-        lastRow : "nojustify",
+        lastRow : "center",
         margins : 3,
         sizeRangeSuffixes: {
             192: "_ts",
@@ -27,6 +27,11 @@ export function photoSet() {
             600: "_s",
             800: "_m",
             1020: "_l",
+        },
+        captionSettings: {
+            animationDuration: 500,
+            visibleOpacity: 1.0,
+            nonVisibleOpacity: 0.0
         }
     });
 }

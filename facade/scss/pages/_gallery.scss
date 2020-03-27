@@ -5,6 +5,10 @@
 .gallery {
     main {
         .caption {
+            text-align: center;
+            opacity: 1 !important;
+            background: rgba($color: #000000, $alpha: 0.35);
+
             h5 {
                 font-size: 1.05rem;
                 margin: 0;
@@ -22,10 +26,26 @@
         }
     }
 
+    &.index main .caption {
+        display: block;
+        font-size: 1.5rem;
+    }
+
+    &.photoset {
+        .container-fluid {
+            max-width: 1800px;
+        }
+    }
+
     &.photo main {
-        .photo-wrapper {
+        .container {
             text-align: center;
+        }
+
+        .photo-wrapper {
             position: relative;
+            display: inline-block;
+
             .photo-nav {
                 position: absolute;
                 top: 0;

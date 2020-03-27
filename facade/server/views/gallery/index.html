@@ -1,7 +1,7 @@
 {{#contentFor "title"}}Gallery{{/contentFor}}
 {{#contentFor "description"}}Lorem ipsum{{/contentFor}}
 {{#contentFor "keywords"}}lorem ipsum{{/contentFor}}
-{{#contentFor "cssClass"}}gallery{{/contentFor}}
+{{#contentFor "cssClass"}}gallery index{{/contentFor}}
 
 <div class="container">
     <h1>Gallery <small>/ Photo Sets</small></h1>
@@ -9,7 +9,11 @@
     <div class="photosets">
         {{#photoSets}}
         <a href="/gallery/{{code}}">
+            {{#if cover}}
             <img src="{{cover}}" alt="{{title}}" title="{{title}}">
+            {{else}}
+            <img src="/img/photoset-cover.svg" alt="{{title}}" title="{{title}}">
+            {{/if}}
             <div class="caption">{{title}}</div>
         </a>
         {{/photoSets}}
