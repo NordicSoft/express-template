@@ -186,6 +186,7 @@ router.post("/send-message", async (req, res) => {
 
 router.get("/signout", function (req, res) {
     req.signout();
+    req.session.destroy();
     return res.redirect("/");
 });
 

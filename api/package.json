@@ -28,6 +28,7 @@
     "chalk": "^3.0.0",
     "clone": "2.x.x",
     "compression": "^1.7.4",
+    "connect-mongo": "^3.2.0",
     "connect-redis": "^4.0.4",
     "cookie": "^0.4.0",
     "cookie-parser": "1.x.x",

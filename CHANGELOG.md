@@ -1,5 +1,8 @@
 # Changelog
 
+## **2.0.1** - *2020-xx-xx*
+* ability to use MongoDB as session storage added;
+
 ## **2.0.0** - *2020-03-29*
 Break the rock - split the monolith into smaller parts: `api`, `dashboard` and `facade`.
 

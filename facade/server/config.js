@@ -50,6 +50,10 @@ module.exports = {
         port: parseInt(process.env.REDIS_PORT),
     },
     
+    mongoDb: {
+        url: process.env.MONGODB_URL
+    },
+    
     telegram: {
         botToken: process.env.TELEGRAM_BOT_TOKEN,
         chatId: process.env.TELEGRAM_CHAT_ID

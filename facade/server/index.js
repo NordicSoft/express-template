@@ -43,13 +43,22 @@ var sessionStore;
 switch (config.session.store) {
     case "memory":
         // leave sessionStore undefined
+        logger.info("Use memory session storage");
         break;
     case "redis": {
+        logger.info(`Use Redis session storage: ${config.redis.host}:${config.redis.port}`);
         const redis = require("redis"),
             redisClient = redis.createClient(config.redis),
             RedisStore = require("connect-redis")(expressSession);
             
         sessionStore = new RedisStore({ client: redisClient });
+        break;
+    }
+    case "mongo": {
+        logger.info("Use Mongo session storage");
+        const MongoStore = require("connect-mongo")(expressSession);
+        
+        sessionStore = new MongoStore(config.mongoDb);
         break;
     }
 }
