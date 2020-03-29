@@ -23,7 +23,7 @@ router.get("/gallery", async function (req, res) {
     }
 
     // if there are still photos to display (unclassified) - then redirect to /gallery/all
-    let allPhotos = await api.photos.all(undefined, false);
+    let allPhotos = await api.photos.all();
     if (allPhotos.length > 0) {
         return res.redirect("/gallery/all");
     }
@@ -40,7 +40,7 @@ router.get("/gallery/:photoSet", async function (req, res) {
         photoSet = {
             title: "All photos",
             code: "all",
-            photos: await api.photos.all(undefined, false)
+            photos: await api.photos.all()
         };
     }
 
@@ -214,7 +214,7 @@ module.exports = function (express) {
             isGalleryVisible = photoSets.length > 0;
 
         if (!isGalleryVisible) {
-            let allPhotos = await api.photos.all(undefined, false);
+            let allPhotos = await api.photos.all();
             isGalleryVisible = allPhotos.length > 0;
         }
 

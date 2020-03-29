@@ -43,7 +43,7 @@ router.get("/gallery/photoset/:code", async function (req, res) {
 
 
 router.get("/gallery/photos", async function (req, res) {
-    let photos = await store.photos.all();
+    let photos = await store.photos.all(undefined, false);
     return res.json(photos);
 });
 
