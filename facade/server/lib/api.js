@@ -10,6 +10,14 @@ const config = require("@config"),
 class ApiError extends Error {
     constructor(e) {
         let response = e.response;
+
+        if (!response) {
+            console.error(e);
+            super(e.message);
+            this.status = 500;
+            return;
+        }
+
         super(`${response.status} ${response.statusText}`);
         this.status = response.status;
         if (response.statusText !== response.data) {
@@ -25,11 +33,11 @@ const call = new Proxy(axios, {
             return async function() {
                 try {
                     let response = await target[name].apply(target, arguments);
-                    if (response.status >= 200 && response.status < 300) {
+                    if (response && response.status >= 200 && response.status < 300) {
                         return response.data;
                     }
                 } catch (e) {
-                    if (e.response.status === 404 && e.response.statusText === e.response.data) {
+                    if (e.response && e.response.status === 404 && e.response.statusText === e.response.data) {
                         return null;
                     }
                     throw new ApiError(e);
