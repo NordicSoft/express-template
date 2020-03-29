@@ -9,3 +9,4 @@ node_modules
 /public
 package-lock.json
 .env
+!/dashboard/.env

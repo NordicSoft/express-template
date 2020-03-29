@@ -19,8 +19,8 @@ module.exports = function (config) {
     // on production app is behind a front-facing proxy, so use X-Forwarded-* header to determine client's IP
     app.set("trust proxy", config.prod);
 
-    // enable CORS
-    app.use(cors());
+    // TODO: setup API CORS properly
+    app.use(cors({origin: true, credentials: true}));
 
     // init cookie parser
     app.use(cookieParser());

@@ -2,7 +2,7 @@ const express = require("express"),
     router = express.Router(),
     store = require("@store");
 
-router.get("/users/:usernameOrEmail", async function (req, res) { 
+router.get("/user/:usernameOrEmail", async function (req, res) { 
     let usernameOrEmail = req.params.usernameOrEmail,
         user;
 
@@ -17,6 +17,12 @@ router.get("/users/:usernameOrEmail", async function (req, res) {
     }
 
     return res.sendStatus(404);
+});
+
+router.post("/user", async function (req, res) { 
+    let user = req.body;
+    await store.users.insert(user);
+    return res.end();
 });
 
 

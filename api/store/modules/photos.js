@@ -7,8 +7,11 @@ class PhotosStore extends Store {
         super("photos");
     }
     async getNextId() {
-        var result = await this.client.db().collection("counters").findOneAndUpdate({ _id: "photos" }, { $inc: { next: 1 } }, { upsert: true });
-        return result.value.next;
+        let result = await this.client.db().collection("counters").findOneAndUpdate({ _id: "photos" }, { $inc: { last: 1 } }, { upsert: true });
+        if (!result.value || ! result.value.last) {
+            return 1;
+        }
+        return result.value.last + 1;
     }
     async insert(docs, options) {
         if (!Array.isArray(docs)) {

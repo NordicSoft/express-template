@@ -29,6 +29,9 @@ const call = new Proxy(axios, {
                         return response.data;
                     }
                 } catch (e) {
+                    if (e.response.status === 404 && e.response.statusText === e.response.data) {
+                        return null;
+                    }
                     throw new ApiError(e);
                 }
             };
@@ -38,7 +41,8 @@ const call = new Proxy(axios, {
 });
 
 module.exports.users = {
-    get: async usernameOrEmail => call.get("users/" + usernameOrEmail)
+    get: async usernameOrEmail => call.get("user/" + usernameOrEmail),
+    add: async user => call.post("user", user)
 };
 
 module.exports.photos = {

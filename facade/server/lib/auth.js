@@ -30,7 +30,6 @@ var security = require("./security"),
                 let user;
                 try {
                     user = await api.users.get(username);
-                    console.log(user);
                 } catch (err) {
                     logger.error(err);
                     return done(null, false, "Unknown error");
