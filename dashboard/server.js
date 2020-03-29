@@ -3,11 +3,11 @@ process.chdir(__dirname);
 
 // load environment variables from `.env`
 require("dotenv-defaults").config();
-console.log("Dashboard port", process.env.PORT);
 
-const express = require("express");
-const path = require("path");
-const history = require("connect-history-api-fallback");
+const express = require("express"),
+    path = require("path"),
+    history = require("connect-history-api-fallback"),
+    port = parseInt(process.env.DASHBOARD_PORT || process.env.PORT || 8083);
 
 const app = express();
 
@@ -36,7 +36,6 @@ app.get("/", function(req, res) {
     res.render(path.join(__dirname + "/dist/index.html"));
 });
 
-const port = process.env.PORT || 8083;
 app.listen(port, function() {
     console.log(`Dashboard server running on port ${port}`);
 });

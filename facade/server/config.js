@@ -7,9 +7,10 @@ module.exports = {
     dev: process.env.NODE_ENV === undefined || process.env.NODE_ENV === "development",
     prod: process.env.NODE_ENV === "production",
 
+    heroku: process.env._ && process.env._.indexOf("heroku"),
 
     // Express.js backend port
-    port: parseInt(process.env.PORT || 8082),
+    port: parseInt(process.env.FACADE_PORT || process.env.PORT || 8082),
     
     // get version and commit from package.json
     version: packageJson.version,
@@ -49,7 +50,7 @@ module.exports = {
         host: process.env.REDIS_HOST,
         port: parseInt(process.env.REDIS_PORT),
     },
-    
+
     mongoDb: {
         url: process.env.MONGODB_URL
     },
