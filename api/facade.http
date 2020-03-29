@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:8081/facade
+@auth = Authorization: Bearer {{$dotenv FACADE_TOKEN}}
+@ajax = X-Requested-With: XMLHttpRequest
+
+### Get user
+GET {{baseUrl}}/users/mail@ysemeniuk.com
+{{auth}}
+{{ajax}}
+
+### Get not empty photo sets
+GET {{baseUrl}}/gallery/photosets/not-empty
+{{auth}}
+{{ajax}}
+
+### Get all photos
+GET {{baseUrl}}/gallery/photos
+{{auth}}
+{{ajax}}
+
+### Get `best` photo set
+GET {{baseUrl}}/gallery/photoset/best
+{{auth}}
+{{ajax}}
+
+### Get `best` photo set with photos
+GET {{baseUrl}}/gallery/photoset/best?photos=true
+{{auth}}
+{{ajax}}

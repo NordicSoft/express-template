@@ -1,0 +1,8 @@
+@baseUrl = http://localhost:8081
+@auth = Authorization: Bearer {{$dotenv FACADE_TOKEN}}
+@ajax = X-Requested-With: XMLHttpRequest
+
+### Get user
+GET {{baseUrl}}/profile
+{{auth}}
+{{ajax}}

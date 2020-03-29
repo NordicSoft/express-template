@@ -63,3 +63,22 @@ Basic website template (boilerplate, skeleton, starter kit) based on Express.js 
 * [Gulp](https://gulpjs.com)
 * [Babel](https://babeljs.io/)
 * [Rollup](https://rollupjs.org)
+
+## Setup
+
+### MongoDB
+
+```js
+// set db name
+use express-template
+db.createUser(
+   {
+        // set username
+        user: "express-template-user",
+        // set password
+        pwd: "express-template-password",  // Or  passwordPrompt()
+        // set roles
+        roles: [ "readWrite" ]
+   }
+)
+```

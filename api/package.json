@@ -1,0 +1,67 @@
+{
+  "name": "express-template-api",
+  "version": "1.0.5",
+  "description": "Website template (skeleton) based on Express.js 4, Vue.js and Vuetify 2",
+  "author": "NordicSoft",
+  "license": "MIT",
+  "private": true,
+  "main": "index.js",
+  "commit": "${commit}",
+  "backup": "${backup}",
+  "scripts": {
+    "lint": "npx eslint --fix --ext .js .",
+    "forever-start": "npx cross-env PORT=8081 RUNNING_FOREVER=1 npx cross-var npx forever start -a -l $INIT_CWD/logs/forever.log --uid express-template-api index.js",
+    "forever-stop": "npx forever stop express-template-api",
+    "dev": "npx concurrently npm:lint \"npx nodemon\" --raw --kill-others-on-fail",
+    "start": "node index.js"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@lib": "lib",
+    "@store": "store",
+    "@config": "config.js",
+    "@logger": "lib/logger.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.635.0",
+    "body-parser": "1.x.x",
+    "chalk": "^3.0.0",
+    "clone": "2.x.x",
+    "compression": "^1.7.4",
+    "connect-redis": "^4.0.4",
+    "cookie": "^0.4.0",
+    "cookie-parser": "1.x.x",
+    "cors": "^2.8.5",
+    "dotenv-defaults": "^1.1.1",
+    "errorhandler": "^1.5.1",
+    "express": "^4.17.1",
+    "express-session": "1.x.x",
+    "lodash": "^4.17.15",
+    "method-override": "3.x.x",
+    "minimatch": "^3.0.4",
+    "module-alias": "^2.2.2",
+    "mongodb": "^3.5.4",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.4.4",
+    "passport": "0.4.x",
+    "passport-facebook": "3.x.x",
+    "passport-google-oauth": "2.x.x",
+    "passport-local": "1.x.x",
+    "passport-twitter": "1.x.x",
+    "redis": "^3.0.2",
+    "sharp": "^0.24.1",
+    "socket.io": "2.3.x",
+    "vuetify-file-browser-server": "^1.0.2",
+    "winston": "3.x.x"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "logs/*"
+    ],
+    "ext": "js,json"
+  }
+}
