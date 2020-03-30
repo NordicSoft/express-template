@@ -32,6 +32,7 @@
     "aos": "^2.3.4",
     "aws-sdk": "^2.635.0",
     "axios": "^0.19.2",
+    "axios-retry": "^3.1.2",
     "body-parser": "1.x.x",
     "bootstrap": "^4.4.1",
     "bootstrap-sass": "^3.4.1",

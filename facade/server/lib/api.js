@@ -1,4 +1,6 @@
 const config = require("@config"),
+    logger = require("@logger"),
+    axiosRetry = require("axios-retry"),
     axios = require("axios").create({
         baseURL: config.api.baseUrl,
         headers: {
@@ -6,6 +8,23 @@ const config = require("@config"),
             "X-Requested-With": "XMLHttpRequest"
         }
     });
+
+axiosRetry(axios, {
+    retries: 3,
+    retryDelay: (retryCount, error) => {
+        logger.error("Api call error:", error.code, error.response ? error.response.status : "no response");
+        logger.info("Retry "+ retryCount);
+        if (!error) {
+            return 0;
+        }
+        if (error.code === "ECONNREFUSED"
+            || error.code === "ECONNRESET" 
+            || (error.response && error.response.status === 504)) {
+            return retryCount * retryCount * 1000; // 1 sec, 4 sec, 9 sec
+        }
+        return 0;
+    }
+});
 
 class ApiError extends Error {
     constructor(e) {
