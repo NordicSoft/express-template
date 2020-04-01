@@ -2,8 +2,6 @@
 
 Basic website template (boilerplate, skeleton, starter kit) based on Express.js 4, Vue.js and Vuetify 2 with some preconfigured useful tools and libraries.
 
-> ⚠ **CAUTION** ⚠ **Monolithic Architecture** - best for MVP, quick prototyping and small projects. Simple to develop, test and deploy. For medium to large projects consider splitting into separate microservices.
-
 [💣 Demo](https://nordicsoft-express-template.herokuapp.com/)
 
 ## Structure
