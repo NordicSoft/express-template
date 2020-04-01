@@ -1,4 +1,6 @@
 const config = require("@config"),
+    logger = require("@logger"),
+    axiosRetry = require("axios-retry"),
     axios = require("axios").create({
         baseURL: config.api.baseUrl,
         headers: {
@@ -7,9 +9,34 @@ const config = require("@config"),
         }
     });
 
+axiosRetry(axios, {
+    retries: 3,
+    retryDelay: (retryCount, error) => {
+        logger.error("Api call error:", error.code, error.response ? error.response.status : "no response");
+        logger.info("Retry "+ retryCount);
+        if (!error) {
+            return 0;
+        }
+        if (error.code === "ECONNREFUSED"
+            || error.code === "ECONNRESET" 
+            || (error.response && error.response.status === 504)) {
+            return retryCount * retryCount * 1000; // 1 sec, 4 sec, 9 sec
+        }
+        return 0;
+    }
+});
+
 class ApiError extends Error {
     constructor(e) {
         let response = e.response;
+
+        if (!response) {
+            console.error(e);
+            super(e.message);
+            this.status = 500;
+            return;
+        }
+
         super(`${response.status} ${response.statusText}`);
         this.status = response.status;
         if (response.statusText !== response.data) {
@@ -25,11 +52,11 @@ const call = new Proxy(axios, {
             return async function() {
                 try {
                     let response = await target[name].apply(target, arguments);
-                    if (response.status >= 200 && response.status < 300) {
+                    if (response && response.status >= 200 && response.status < 300) {
                         return response.data;
                     }
                 } catch (e) {
-                    if (e.response.status === 404 && e.response.statusText === e.response.data) {
+                    if (e.response && e.response.status === 404 && e.response.statusText === e.response.data) {
                         return null;
                     }
                     throw new ApiError(e);

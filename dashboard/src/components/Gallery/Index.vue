@@ -158,12 +158,16 @@ export default {
                             //let parser = exifParser.create(blob);
                             //let exif = parser.parse();
 
-                            let xmp = new XMP(result.src);
-                            let xmpJson = xmp.parse();
-                            if (xmpJson) {
-                                result.alt = xmpJson.title || "";
-                                result.title = xmpJson.title || "";
-                                result.description = xmpJson.description || "";
+                            try {
+                                let xmp = new XMP(result.src);
+                                let xmpJson = xmp.parse();
+                                if (xmpJson) {
+                                    result.alt = xmpJson.title || "";
+                                    result.title = xmpJson.title || "";
+                                    result.description = xmpJson.description || "";
+                                }
+                            } catch (err) {
+                                console.error(err);
                             }
                             resolve(result);
                         };

@@ -7,8 +7,10 @@ const config = {
     dev: process.env.NODE_ENV === undefined || process.env.NODE_ENV === "development",
     prod: process.env.NODE_ENV === "production",
 
+    heroku: process.env._ && process.env._.indexOf("heroku"),
+
     // Express.js backend port
-    port: parseInt(process.env.PORT || 8081),
+    port: parseInt(process.env.API_PORT || process.env.PORT || 8081),
     
     // get version and commit from package.json
     version: packageJson.version,

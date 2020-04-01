@@ -1,6 +1,6 @@
 {
   "name": "express-template-api",
-  "version": "1.0.5",
+  "version": "2.0.1",
   "description": "Website template (skeleton) based on Express.js 4, Vue.js and Vuetify 2",
   "author": "NordicSoft",
   "license": "MIT",
@@ -28,6 +28,7 @@
     "chalk": "^3.0.0",
     "clone": "2.x.x",
     "compression": "^1.7.4",
+    "connect-mongo": "^3.2.0",
     "connect-redis": "^4.0.4",
     "cookie": "^0.4.0",
     "cookie-parser": "1.x.x",

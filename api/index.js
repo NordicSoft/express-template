@@ -30,11 +30,17 @@ require("@store/client").connect((err, client) => {
     }
 
     let mongoServer = client.s.options.servers[0];
-    logger.info(`MongoDB connection opened: ${mongoServer.host}:${mongoServer.port}`);
+    let mongoDbName = client.s.options.dbName;
+    logger.info(`MongoDB connection opened: ${mongoServer.host}:${mongoServer.port}/${mongoDbName}`);
 
     // init Express
     express = require("./express")(config);
     server = require("http").createServer(express);
+
+    express.use((req, res, next) => {
+        logger.info(`${req.method} ${req.url}`);
+        next();
+    });
 
     // log every request to the console and forever's log
     const morgan = require("morgan");
@@ -52,13 +58,22 @@ require("@store/client").connect((err, client) => {
     switch (config.session.store) {
         case "memory":
             // leave sessionStore undefined
+            logger.info("Use memory session storage");
             break;
         case "redis": {
+            logger.info(`Use Redis session storage: ${config.redis.host}:${config.redis.port}`);
             const redis = require("redis"),
                 redisClient = redis.createClient(config.redis),
                 RedisStore = require("connect-redis")(expressSession);
             
             sessionStore = new RedisStore({ client: redisClient });
+            break;
+        }
+        case "mongo": {
+            logger.info(`Use Mongo session storage: ${mongoServer.host}:${mongoServer.port}/${mongoDbName}`);
+            const MongoStore = require("connect-mongo")(expressSession);
+            
+            sessionStore = new MongoStore({ client });
             break;
         }
     }
