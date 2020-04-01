@@ -37,6 +37,11 @@ require("@store/client").connect((err, client) => {
     express = require("./express")(config);
     server = require("http").createServer(express);
 
+    express.use((req, res, next) => {
+        logger.info(`${req.method} ${req.url}`);
+        next();
+    });
+
     // log every request to the console and forever's log
     const morgan = require("morgan");
     morgan.token("user", function (req) {
