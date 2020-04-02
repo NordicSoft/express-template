@@ -2,8 +2,13 @@
 @auth = Authorization: Bearer {{$dotenv FACADE_TOKEN}}
 @ajax = X-Requested-With: XMLHttpRequest
 
+### Can register
+GET {{baseUrl}}/users/can-register
+{{auth}}
+{{ajax}}
+
 ### Get user
-GET {{baseUrl}}/users/mail@ysemeniuk.com
+GET {{baseUrl}}/user/mail@ysemeniuk.com
 {{auth}}
 {{ajax}}
 

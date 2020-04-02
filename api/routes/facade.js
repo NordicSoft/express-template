@@ -1,6 +1,14 @@
 const express = require("express"),
     router = express.Router(),
+    config = require("@config"),
     store = require("@store");
+
+router.get("/users/can-register", async function (req, res) {
+    if (config.registrationMode === "open" || await store.users.count() === 0) {
+        return res.send(true).end();
+    }
+    return res.send(false).end();
+});
 
 router.get("/user/:usernameOrEmail", async function (req, res) { 
     let usernameOrEmail = req.params.usernameOrEmail,
@@ -19,10 +27,17 @@ router.get("/user/:usernameOrEmail", async function (req, res) {
     return res.sendStatus(404);
 });
 
-router.post("/user", async function (req, res) { 
-    let user = req.body;
-    await store.users.insert(user);
-    return res.end();
+router.post("/user", async function (req, res) {
+    let usersCount = await store.users.count();
+    if (config.registrationMode === "open" || usersCount === 0) {
+        let user = req.body;
+        if (usersCount === 0) {
+            user.role = "owner";
+        }
+        await store.users.insert(user);
+        return res.end();
+    }
+    return res.sendStatus(404);
 });
 
 

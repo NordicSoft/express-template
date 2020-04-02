@@ -20,6 +20,8 @@ const config = {
     
     facadeToken: process.env.FACADE_TOKEN,
 
+    registrationMode: process.env.REGISTRATION_MODE,
+
     //password hashing algorithm (md5 or bcrypt; for bcrypt install https://www.npmjs.com/package/bcrypt)
     passwordHashAlgorithm: process.env.PASSWORD_HASH_ALGORITHM,
     

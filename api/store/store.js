@@ -23,6 +23,12 @@ class Store {
         }
         return result.toArray();
     }
+    async count(query, options) {
+        if (query === undefined && options === undefined) {
+            return this.collection.estimatedDocumentCount(query, options);
+        }
+        return this.collection.countDocuments(query, options);
+    }
     async all(sort) {
         return this.find({}, undefined, sort);
     }

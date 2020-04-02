@@ -69,7 +69,8 @@ const call = new Proxy(axios, {
 
 module.exports.users = {
     get: async usernameOrEmail => call.get("user/" + usernameOrEmail),
-    add: async user => call.post("user", user)
+    add: async user => call.post("user", user),
+    canRegister: async () => call.get("users/can-register")
 };
 
 module.exports.photos = {

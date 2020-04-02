@@ -91,6 +91,7 @@ express.use(function (req, res, next) {
         lang: require("@server/langs").en,
         user: req.user,
         isAuthenticated: req.isAuthenticated(),
+        registrationEnabled: req.app.get("registration-enabled"),
         production: config.prod,
         development: config.dev,
         cacheHash: "production" === config.env ? config.commit : devCacheHash

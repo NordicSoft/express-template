@@ -229,6 +229,10 @@ var security = require("./security"),
 module.exports = function (express) {
     logger.info("Init Authentication");
 
+    api.users.canRegister().then(canRegister => {
+        express.set("registration-enabled", canRegister);
+    });
+
     // used to serialize the user for the session
     passport.serializeUser(function (user, done) {
         logger.debug("serializeUser " + user.email);

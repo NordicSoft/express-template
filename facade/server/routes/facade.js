@@ -13,6 +13,12 @@ function signin(req, res) {
     });
 }
 
+function refreshRegistrationEnabled(app) {
+    api.users.canRegister().then(canRegister => {
+        app.set("registration-enabled", canRegister);
+    });
+}
+
 router.get("/", function (req, res) {
     return res.render("index");
 });
@@ -115,15 +121,20 @@ router.get("/signin", function (req, res) {
     }
 });
 
-router.get("/register", function (req, res) {
+router.get("/register", async function (req, res) {
     if (req.isAuthenticated()) {
         return res.redirect("/dashboard");
     }
+
     if (req.xhr) {
         return res.error(404);
-    } else {
-        return res.render("register");
     }
+
+    if (!req.app.get("registration-enabled")) {
+        return res.error(404);
+    }
+
+    return res.render("register");
 });
 
 router.get("/check-email", async function (req, res) {
@@ -141,6 +152,10 @@ router.post("/signin", signin);
 router.post("/register", async function (req, res) {
     if (req.isAuthenticated()) {
         return res.redirect("/dashboard");
+    }
+
+    if (!req.app.get("registration-enabled")) {
+        return res.error(404);
     }
 
     let name = req.body.name,
@@ -169,12 +184,14 @@ router.post("/register", async function (req, res) {
         case "md5":
             user.password = security.md5(password);
             await api.users.add(user);
+            refreshRegistrationEnabled(req.app);
             signin(req, res);
             break;
         case "bcrypt":
             security.bcryptHash(password, async function (err, passwordHash) {
                 user.password = passwordHash;
                 await api.users.add(user);
+                refreshRegistrationEnabled(req.app);
                 signin(req, res);
             });
             break;
