@@ -23,6 +23,7 @@ router.get("/gallery", async function (req, res) {
     }
 
     // if there are still photos to display (unclassified) - then redirect to /gallery/all
+    // TODO: implement api.photos.count() method
     let allPhotos = await api.photos.all();
     if (allPhotos.length > 0) {
         return res.redirect("/gallery/all");
@@ -44,8 +45,12 @@ router.get("/gallery/:photoSet", async function (req, res) {
         };
     }
 
-    if (!photoSet|| photoSet.photos.length === 0) {
+    if (!photoSet|| !photoSet.photos || photoSet.photos.length === 0) {
         return res.error(404);
+    }
+
+    if (config.gallery.newPhotosFirst) {
+        photoSet.photos.reverse();
     }
 
     res.locals.model = {
@@ -67,6 +72,10 @@ router.get("/gallery/:photoSet/:photoId(\\d+)", async function (req, res) {
 
     if (!photoSet || !photo) {
         return res.error(404);
+    }
+
+    if (config.gallery.newPhotosFirst && photoSet.photos) {
+        photoSet.photos.reverse();
     }
 
     let nextPhotoId, prevPhotoId;

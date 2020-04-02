@@ -1,5 +1,8 @@
 # Changelog
 
+## **2.0.2** - *2020-xx-xx*
+* Gallery - `GALLERY_NEW_PHOTOS_FIRST` option added;
+
 ## **2.0.1** - *2020-04-01*
 * ability to use MongoDB as session storage added;
 * consider `FACADE_PORT`, `DASHBOARD_PORT`, `API_PORT` env vars;

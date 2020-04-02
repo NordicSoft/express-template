@@ -11,7 +11,7 @@ class ToastPlugin {
         this.options = {
             container: ".v-application", // default container to place toasts in
             property: "$toast", // Vue instance property name
-            queue: true // if queue is false then next toast will immediately close previous
+            queue: false // if queue is false then next toast will immediately close previous
         };
     }
 

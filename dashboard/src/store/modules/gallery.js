@@ -4,7 +4,8 @@ import _ from "lodash";
 const state = {
     photoSets: [],
     photos: [],
-    activePhotoSet: "all"
+    activePhotoSet: "all",
+    newPhotosFirst: process.env.VUE_APP_GALLERY_NEW_PHOTOS_FIRST === "true"
 };
 
 const getters = {
@@ -36,13 +37,17 @@ const getters = {
     },
     activePhotoSet: state => state.activePhotoSet,
     photos: (state, getters) => {
+        let result;
         switch (state.activePhotoSet) {
             case "all":
-                return getters.allPhotos;
+                result = getters.allPhotos;
+                break;
             case "unclassified":
-                return getters.unclassifiedPhotos;
+                result = getters.unclassifiedPhotos;
+                break;
             case "trash":
-                return getters.deletedPhotos;
+                result = getters.deletedPhotos;
+                break;
             default: {
                 let photoSet = state.photoSets.find(
                     photoSet => photoSet.code === getters.activePhotoSet
@@ -50,7 +55,7 @@ const getters = {
                 if (!photoSet) {
                     return [];
                 }
-                return photoSet.photos
+                result = photoSet.photos
                     .map(id => {
                         let photo = state.photos.find(x => x._id === id);
                         if (photo && !photo.deleted) {
@@ -58,8 +63,13 @@ const getters = {
                         }
                     })
                     .filter(x => !!x);
+                break;
             }
         }
+        if (state.newPhotosFirst) {
+            result.reverse();
+        }
+        return result;
     },
     allPhotos: state => state.photos.filter(photo => !photo.deleted),
     unclassifiedPhotos: state =>
@@ -68,7 +78,8 @@ const getters = {
                 !photo.deleted &&
                 (!Array.isArray(photo.sets) || !photo.sets.length)
         ),
-    deletedPhotos: state => state.photos.filter(photo => photo.deleted)
+    deletedPhotos: state => state.photos.filter(photo => photo.deleted),
+    newPhotosFirst: state => state.newPhotosFirst
 };
 
 const mutations = {
@@ -258,7 +269,10 @@ const actions = {
             commit("setActivePhotoSet", "all");
         }
     },
-    async reorderPhotos({ commit }, payload) {
+    async reorderPhotos({ commit, getters }, payload) {
+        if (getters.newPhotosFirst) {
+            payload.photos.reverse();
+        }
         await Vue.axios.post("/gallery/photos/reorder", payload);
         commit("reorderPhotos", payload);
     }

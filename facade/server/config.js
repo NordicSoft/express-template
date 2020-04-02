@@ -78,6 +78,7 @@ module.exports = {
         jpgQuality: parseInt(process.env.GALLERY_JPG_QUALITY),
         // comma-separated image sizes: "<suffix>:<width>x<height>"
         imageSizes: process.env.GALLERY_IMAGE_SIZES,
-        dashboardThumbnailSuffix: process.env.GALLERY_DASHBOARD_THUMBNAIL_SUFFIX
+        dashboardThumbnailSuffix: process.env.GALLERY_DASHBOARD_THUMBNAIL_SUFFIX,
+        newPhotosFirst: process.env.GALLERY_NEW_PHOTOS_FIRST === "true"
     }
 };
