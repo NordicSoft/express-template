@@ -1,5 +1,4 @@
-const path = require("path"),
-    packageJson = require(process.cwd() + "/package.json");
+const packageJson = require(process.cwd() + "/package.json");
 
 module.exports = {
     // environment

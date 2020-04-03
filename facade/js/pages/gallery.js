@@ -5,12 +5,23 @@ import justifiedGallery from "justifiedGallery";
 // register justifiedGallery as jQuery plugin
 justifiedGallery();
 
+function parseImageSizes(value) {
+    return value.split(",").reduce((acc, x) => { 
+        let splitted = x.split(":"),
+            suffix = splitted[0],
+            size = splitted[2];
+        acc[Number(size.split("x")[1])] = suffix ? "_" + suffix : "";
+        return acc;
+    }, {});
+}
+
 export function gallery() {
     log("Gallery");
     $(".photosets").justifiedGallery({
         rowHeight : 250,
         lastRow : "center",
-        margins : 3
+        margins : 3,
+        sizeRangeSuffixes: parseImageSizes(process.env.GALLERY_PHOTOSET_COVER_SIZES),
     });
 }
 
@@ -20,14 +31,7 @@ export function photoSet() {
         rowHeight : 250,
         lastRow : "center",
         margins : 3,
-        sizeRangeSuffixes: {
-            192: "_ts",
-            256: "_tm",
-            512: "_tl",
-            600: "_s",
-            800: "_m",
-            1020: "_l",
-        },
+        sizeRangeSuffixes: parseImageSizes(process.env.GALLERY_IMAGE_SIZES),
         captionSettings: {
             animationDuration: 500,
             visibleOpacity: 1.0,

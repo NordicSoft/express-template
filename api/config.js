@@ -74,11 +74,6 @@ const config = {
         sesSendRate: parseInt(process.env.AWS_SES_SEND_RATE)
     },
     
-    telegram: {
-        botToken: process.env.TELEGRAM_BOT_TOKEN,
-        chatId: process.env.TELEGRAM_CHAT_ID
-    },
-    
     fileBrowser: {
         uploadPath: path.resolve(process.env.FILEBROWSER_UPLOAD_PATH),
         rootPath: path.resolve(process.env.FILEBROWSER_ROOT_PATH)

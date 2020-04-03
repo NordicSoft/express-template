@@ -109,7 +109,9 @@ async function rollup(input, output, watch, callback) {
                 "exclude": ["node_modules/**", "js/vendor/**"]
             }),
             replace({
-                "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+                "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+                "process.env.GALLERY_PHOTOSET_COVER_SIZES": JSON.stringify(process.env.GALLERY_PHOTOSET_COVER_SIZES),
+                "process.env.GALLERY_IMAGE_SIZES": JSON.stringify(process.env.GALLERY_IMAGE_SIZES)
             }),
             alias({
                 entries: {
