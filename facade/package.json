@@ -22,6 +22,7 @@
     "@server": "server",
     "@lib": "server/lib",
     "@api": "server/lib/api",
+    "@utils": "server/lib/utils",
     "@config": "server/config.js",
     "@logger": "server/lib/logger.js"
   },

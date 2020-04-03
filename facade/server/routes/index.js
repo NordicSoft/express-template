@@ -1,7 +1,8 @@
 const router = require("express").Router(),
     config = require("@config"),
     logger = require("@logger"),
-    api = require("@api");
+    api = require("@api"),
+    { addFilenameSuffix } = require("@utils");
 
 function signin(req, res) {
     req.signin(function (err, user, info) {
@@ -59,6 +60,11 @@ router.get("/gallery/:photoSet", async function (req, res) {
         photoSet.photos.reverse();
     }
 
+    // load the smallest thumbnail by default
+    for (let photo of photoSet.photos) {
+        photo.src = addFilenameSuffix(photo.src, config.gallery.defaultPhotoThumbnailSuffix);
+    }
+
     res.locals.model = {
         photoSet
     };
@@ -98,6 +104,8 @@ router.get("/gallery/:photoSet/:photoId(\\d+)", async function (req, res) {
             photos[currentPhotoIndex - 1]
             : photos[photos.length - 1];
     }
+
+    photo.src = addFilenameSuffix(photo.src, config.gallery.defaultPhotoSuffix);
 
     res.locals.model = {
         photoSet,
