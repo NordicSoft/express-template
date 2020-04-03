@@ -136,6 +136,7 @@ export default {
                 title: this.newTitle,
                 code: this.newCode
             });
+            this.photoSet.cover = this.newCoverSrc;
             this.$toast.success(`Photo set ${this.blank ? "added" : "saved"}`);
             // close menu
             this.menu = false;
