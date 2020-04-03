@@ -4,6 +4,7 @@
 * Gallery:
     * `GALLERY_NEW_PHOTOS_FIRST` option added;
     * resize photoset cover;
+    * `jimp` support dropped;
 * API - `REGISTRATION_MODE` option added (possible values are `open` and `invite`);
 
 ## **2.0.1** - *2020-04-01*

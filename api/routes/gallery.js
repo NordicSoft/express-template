@@ -18,75 +18,16 @@ const express = require("express"),
     upload = multer({ dest: uploadPath });
 
 // creates thumbnails and other image sizes
-async function resizeImage(sourcePath, outPath) {
+async function resizeImage(sourcePath, outPath, sizes, quality) {
     let extension = path.extname(outPath),
         filename = outPath.slice(0, -extension.length);
-
-    switch (config.gallery.imageProcessingModule) {
-        case "sharp": {
-            const sharp = require("sharp");
-            let file = sharp(sourcePath).jpeg({
-                quality: config.gallery.jpgQuality,
-            });
-            for (let size of config.gallery.imageSizes) {
-                await file
-                    .clone()
-                    .resize(size.width, size.height, {
-                        fit: "inside",
-                    })
-                    .toFile(`${filename}${size.suffix ? "_" + size.suffix : ""}${extension}`);
-            }
-            break;
-        }
-        case "jimp": {
-            const jimp = require("jimp");
-            let file = await jimp.read(sourcePath);
-            for (let size of config.gallery.imageSizes) {
-                await file
-                    .clone()
-                    .scaleToFit(size.width, size.height)
-                    .quality(config.gallery.jpgQuality)
-                    .writeAsync(`${filename}${size.suffix ? "_" + size.suffix : ""}${extension}`);
-            }
-            break;
-        }
-    }
-}
-
-// resizes photo set cover
-// eslint-disable-next-line no-unused-vars
-async function resizePhotoSetCover(sourcePath, outPath) {
-    let extension = path.extname(outPath),
-        filename = outPath.slice(0, -extension.length);
-
-    switch (config.gallery.imageProcessingModule) {
-        case "sharp": {
-            const sharp = require("sharp");
-            let file = sharp(sourcePath).jpeg({
-                quality: config.gallery.jpgQuality,
-            });
-            for (let size of config.gallery.photoSetCoverSizes) {
-                await file
-                    .clone()
-                    .resize(size.width, size.height, {
-                        fit: "outside",
-                    })
-                    .toFile(`${filename}${size.suffix ? "_" + size.suffix : ""}${extension}`);
-            }
-            break;
-        }
-        case "jimp": {
-            const jimp = require("jimp");
-            let file = await jimp.read(sourcePath);
-            for (let size of config.gallery.photoSetCoverSizes) {
-                await file
-                    .clone()
-                    .cover(size.width, size.height)
-                    .quality(config.gallery.jpgQuality)
-                    .writeAsync(`${filename}${size.suffix ? "_" + size.suffix : ""}${extension}`);
-            }
-            break;
-        }
+    const sharp = require("sharp");
+    let file = sharp(sourcePath).jpeg({quality});
+    for (let size of sizes) {
+        await file
+            .clone()
+            .resize(size.width, size.height, { fit: size.fit })
+            .toFile(`${filename}${size.suffix ? "_" + size.suffix : ""}${extension}`);
     }
 }
 
@@ -180,7 +121,7 @@ router.post("/photo", upload.single("file"), async (req, res) => {
         
         let filename = `${photosPath}/${photo._id}${extension}`;
 
-        await resizeImage(req.file.path, filename);
+        await resizeImage(req.file.path, filename, config.gallery.imageSizes, config.gallery.jpgQuality);
 
         // move original photo file
         await rename(req.file.path, filename);
@@ -214,7 +155,7 @@ router.post("/photoset", upload.single("file"), async (req, res) => {
 
         let filename = `${coversPath}/${photoSet._id}${extension}`;
 
-        await resizePhotoSetCover(req.file.path, filename);
+        await resizeImage(req.file.path, filename, config.gallery.photoSetCoverSizes, config.gallery.jpgQuality);
 
         // remove original cover file
         await unlink(req.file.path);

@@ -3,12 +3,15 @@ const path = require("path"),
 
 function parseImageSizes(value) {
     return value.split(",").map(x => { 
-        let suffix = x.split(":")[0],
-            size = x.split(":")[1];
+        let splitted = x.split(":"),
+            suffix = splitted[0],
+            fit = splitted[1] || "cover",
+            size = splitted[2];
         return {
+            suffix,
+            fit,
             width: Number(size.split("x")[0]),
-            height: Number(size.split("x")[1]),
-            suffix
+            height: Number(size.split("x")[1])
         }; 
     });
 }
