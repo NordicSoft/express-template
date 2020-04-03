@@ -17,16 +17,6 @@ const express = require("express"),
     trashPath = path.resolve(rootPath, config.gallery.trashPath),
     upload = multer({ dest: uploadPath });
 
-const IMAGE_SIZES = config.gallery.imageSizes.split(",").map(x => { 
-    let suffix = x.split(":")[0],
-        size = x.split(":")[1];
-    return {
-        width: Number(size.split("x")[0]),
-        height: Number(size.split("x")[1]),
-        suffix
-    }; 
-});
-
 // creates thumbnails and other image sizes
 async function resizeImage(sourcePath, outPath) {
     let extension = path.extname(outPath),
@@ -38,25 +28,62 @@ async function resizeImage(sourcePath, outPath) {
             let file = sharp(sourcePath).jpeg({
                 quality: config.gallery.jpgQuality,
             });
-            for (let size of IMAGE_SIZES) {
+            for (let size of config.gallery.imageSizes) {
                 await file
                     .clone()
                     .resize(size.width, size.height, {
                         fit: "inside",
                     })
-                    .toFile(`${filename}_${size.suffix}${extension}`);
+                    .toFile(`${filename}${size.suffix ? "_" + size.suffix : ""}${extension}`);
             }
             break;
         }
         case "jimp": {
             const jimp = require("jimp");
             let file = await jimp.read(sourcePath);
-            for (let size of IMAGE_SIZES) {
+            for (let size of config.gallery.imageSizes) {
                 await file
                     .clone()
                     .scaleToFit(size.width, size.height)
                     .quality(config.gallery.jpgQuality)
-                    .writeAsync(`${filename}_${size.suffix}${extension}`);
+                    .writeAsync(`${filename}${size.suffix ? "_" + size.suffix : ""}${extension}`);
+            }
+            break;
+        }
+    }
+}
+
+// resizes photo set cover
+// eslint-disable-next-line no-unused-vars
+async function resizePhotoSetCover(sourcePath, outPath) {
+    let extension = path.extname(outPath),
+        filename = outPath.slice(0, -extension.length);
+
+    switch (config.gallery.imageProcessingModule) {
+        case "sharp": {
+            const sharp = require("sharp");
+            let file = sharp(sourcePath).jpeg({
+                quality: config.gallery.jpgQuality,
+            });
+            for (let size of config.gallery.photoSetCoverSizes) {
+                await file
+                    .clone()
+                    .resize(size.width, size.height, {
+                        fit: "outside",
+                    })
+                    .toFile(`${filename}${size.suffix ? "_" + size.suffix : ""}${extension}`);
+            }
+            break;
+        }
+        case "jimp": {
+            const jimp = require("jimp");
+            let file = await jimp.read(sourcePath);
+            for (let size of config.gallery.photoSetCoverSizes) {
+                await file
+                    .clone()
+                    .cover(size.width, size.height)
+                    .quality(config.gallery.jpgQuality)
+                    .writeAsync(`${filename}${size.suffix ? "_" + size.suffix : ""}${extension}`);
             }
             break;
         }
@@ -184,7 +211,13 @@ router.post("/photoset", upload.single("file"), async (req, res) => {
         }
 
         photoSet.cover = `/${config.gallery.photoSetsPath}/${photoSet._id}${extension}`;
-        await rename(req.file.path, `${coversPath}/${photoSet._id}${extension}`);
+
+        let filename = `${coversPath}/${photoSet._id}${extension}`;
+
+        await resizePhotoSetCover(req.file.path, filename);
+
+        // remove original cover file
+        await unlink(req.file.path);
     }
     if (isNew) {
         photoSet.photos = [];
@@ -220,7 +253,7 @@ router.delete("/photo/:id", async (req, res) => {
             let src = path.resolve(config.gallery.rootPath, photo.src.slice(1));
         
             // remove thumbnails and other image sizes permanently
-            for (let { suffix } of IMAGE_SIZES) {
+            for (let { suffix } of config.gallery.imageSizes) {
                 try {
                     let extension = path.extname(src);
                     await unlink(`${src.slice(0, -extension.length)}_${suffix}${extension}`);

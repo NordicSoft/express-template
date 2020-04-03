@@ -1,6 +1,18 @@
 const path = require("path"),
     packageJson = require(process.cwd() + "/package.json");
 
+function parseImageSizes(value) {
+    return value.split(",").map(x => { 
+        let suffix = x.split(":")[0],
+            size = x.split(":")[1];
+        return {
+            width: Number(size.split("x")[0]),
+            height: Number(size.split("x")[1]),
+            suffix
+        }; 
+    });
+}
+
 const config = {
     // environment
     env: process.env.NODE_ENV || "development",
@@ -81,7 +93,9 @@ const config = {
         imageProcessingModule: process.env.GALLERY_IMAGE_PROCESSING_MODULE,
         jpgQuality: parseInt(process.env.GALLERY_JPG_QUALITY),
         // comma-separated image sizes: "<suffix>:<width>x<height>"
-        imageSizes: process.env.GALLERY_IMAGE_SIZES
+        imageSizes: parseImageSizes(process.env.GALLERY_IMAGE_SIZES),
+        // comma-separated photoset cover sizes: "<suffix>:<width>x<height>"
+        photoSetCoverSizes: parseImageSizes(process.env.GALLERY_PHOTOSET_COVER_SIZES)
     }
 };
 module.exports = config;
