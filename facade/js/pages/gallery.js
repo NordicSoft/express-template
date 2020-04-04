@@ -23,6 +23,18 @@ export function gallery() {
         margins : 3,
         sizeRangeSuffixes: parseImageSizes(process.env.GALLERY_PHOTOSET_COVER_SIZES),
     });
+    
+    $(".photos").justifiedGallery({
+        rowHeight : 250,
+        lastRow : "center",
+        margins : 3,
+        sizeRangeSuffixes: parseImageSizes(process.env.GALLERY_IMAGE_SIZES),
+        captionSettings: {
+            animationDuration: 500,
+            visibleOpacity: 1.0,
+            nonVisibleOpacity: 0.0
+        }
+    });
 }
 
 export function photoSet() {

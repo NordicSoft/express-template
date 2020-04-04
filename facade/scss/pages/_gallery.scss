@@ -4,6 +4,7 @@
 
 .gallery {
     main {
+
         .caption {
             text-align: center;
             opacity: 1 !important;
@@ -26,9 +27,21 @@
         }
     }
 
-    &.index main .caption {
-        display: block;
-        font-size: 1.5rem;
+    &.index main {
+        .photosets {
+            margin-bottom: 35px;
+
+            .caption {
+                display: block;
+                font-size: 1.5rem;
+            }
+        }
+
+        .btn-all-photos {
+            display: block;
+            width: 220px;
+            margin: 20px auto;
+        }
     }
 
     &.photoset {

@@ -11,6 +11,8 @@
     * view photo set - load the smallest thumbnails by default;
     * Facade - consider `GALLERY_IMAGE_SIZES` and `GALLERY_PHOTOSET_COVER_SIZES` options in `justifiedGallery`;
     * image loading adjusted (show blurred thumbnail while loading larger image);
+    * show last `GALLERY_LAST_PHOTOS_COUNT` photos below photo sets;
+    * navigation in `All Photos` photo set;
 
 ## **2.0.1** - *2020-04-01*
 * ability to use MongoDB as session storage added;

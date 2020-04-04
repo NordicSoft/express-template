@@ -29,8 +29,8 @@ class Store {
         }
         return this.collection.countDocuments(query, options);
     }
-    async all(sort) {
-        return this.find({}, undefined, sort);
+    async all(sort, options) {
+        return this.find({}, options, sort);
     }
     async insert(docs, options) {
         if (!Array.isArray(docs)) {

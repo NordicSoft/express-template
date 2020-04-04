@@ -74,12 +74,12 @@ module.exports.users = {
 };
 
 module.exports.photos = {
-    all: () => call.get("/gallery/photos"),
+    all: (sort, skip, limit) => call.get("/gallery/photos", { params: { sort, skip, limit } }),
     get: id => call.get("/gallery/photo/" + id)
 };
 
 module.exports.photoSets = {
     notEmpty: () => call.get("/gallery/photosets/not-empty"),
     get: code => call.get("/gallery/photoset/" + code),
-    getWithPhotos: code => call.get(`/gallery/photoset/${code}?photos=true`)
+    getWithPhotos: code => call.get(`/gallery/photoset/${code}`, { params: { photos: true } })
 };

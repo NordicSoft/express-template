@@ -63,5 +63,6 @@ module.exports = {
         newPhotosFirst: process.env.GALLERY_NEW_PHOTOS_FIRST === "true",
         defaultPhotoThumbnailSuffix: process.env.GALLERY_DEFAULT_PHOTO_THUMBNAIL_SUFFIX,
         defaultPhotoSuffix: process.env.GALLERY_DEFAULT_PHOTO_SUFFIX,
+        lastPhotosCount: parseInt(process.env.GALLERY_LAST_PHOTOS_COUNT),
     }
 };

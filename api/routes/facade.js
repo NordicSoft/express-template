@@ -47,18 +47,34 @@ router.get("/gallery/photosets/not-empty", async function (req, res) {
 });
 
 router.get("/gallery/photoset/:code", async function (req, res) {
-    let photoSet;
-    if (req.query.photos === "true") {
-        photoSet = await store.photoSets.getByCodeWithPhotos(req.params.code);
+    let photoSet,
+        code = req.params.code;
+    
+    if (code === "all") {
+        photoSet = { title: "All photos", code: "all" };
+        if (req.query.photos === "true") {
+            photoSet.photos = await store.photos.all(undefined, false);
+        } else {
+            let photos = await store.photos.all(undefined, false, { projection: { _id: 1 } });
+            photoSet.photos = photos.map(x => x._id);
+        }
     } else {
-        photoSet = await store.photoSets.getByCode(req.params.code);
+        photoSet = req.query.photos === "true"
+            ? await store.photoSets.getByCodeWithPhotos(code)
+            : await store.photoSets.getByCode(code);
     }
+
     return res.json(photoSet);
 });
 
 
 router.get("/gallery/photos", async function (req, res) {
-    let photos = await store.photos.all(undefined, false);
+    let sortStr = req.query.sort,
+        sort = sortStr ? [sortStr.split(":")[0], parseInt(sortStr.split(":")[1])] : undefined,
+        skip = req.query.skip ? parseInt(req.query.skip) : undefined,
+        limit = req.query.limit ? parseInt(req.query.limit) : undefined;
+
+    let photos = await store.photos.all(sort, false, { skip, limit });
     return res.json(photos);
 });
 

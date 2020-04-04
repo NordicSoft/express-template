@@ -26,6 +26,19 @@ router.get("/", function (req, res) {
 
 router.get("/gallery", async function (req, res) {
     if (res.locals.photoSets && res.locals.photoSets.length > 0) {
+        let lastPhotos = await api.photos.all(
+            `created:${config.gallery.newPhotosFirst ? -1 : 1}`,
+            0,
+            config.gallery.lastPhotosCount);
+
+        // load the smallest thumbnail by default
+        for (let photo of lastPhotos) {
+            photo.src = addFilenameSuffix(photo.src, config.gallery.defaultPhotoThumbnailSuffix);
+        }
+
+        res.locals.model = {
+            lastPhotos
+        };
         return res.render("gallery/index");
     }
 
@@ -44,20 +57,20 @@ router.get("/gallery/:photoSet", async function (req, res) {
 
     if (req.params.photoSet !== "all") {
         photoSet = await api.photoSets.getWithPhotos(req.params.photoSet);
+            
+        if (photoSet && photoSet.photos && config.gallery.newPhotosFirst) {
+            photoSet.photos.reverse();
+        }
     } else {
         photoSet = {
             title: "All photos",
             code: "all",
-            photos: await api.photos.all()
+            photos: await api.photos.all(`created:${config.gallery.newPhotosFirst ? -1 : 1}`)
         };
     }
 
     if (!photoSet|| !photoSet.photos || photoSet.photos.length === 0) {
         return res.error(404);
-    }
-
-    if (config.gallery.newPhotosFirst) {
-        photoSet.photos.reverse();
     }
 
     // load the smallest thumbnail by default
@@ -72,15 +85,8 @@ router.get("/gallery/:photoSet", async function (req, res) {
 });
 
 router.get("/gallery/:photoSet/:photoId(\\d+)", async function (req, res) {
-    let photoSet, photo;
-
-    if (req.params.photoSet !== "all") {
-        photoSet = await api.photoSets.get(req.params.photoSet);
-    } else {
-        photoSet = { title: "All photos", code: "all" };
-    }
-
-    photo = await api.photos.get(req.params.photoId);
+    let photoSet = await api.photoSets.get(req.params.photoSet),
+        photo = await api.photos.get(req.params.photoId);
 
     if (!photoSet || !photo) {
         return res.error(404);
@@ -90,20 +96,16 @@ router.get("/gallery/:photoSet/:photoId(\\d+)", async function (req, res) {
         photoSet.photos.reverse();
     }
 
-    let nextPhotoId, prevPhotoId;
-
-    if (photoSet.code !== "all") {
-        let photos = photoSet.photos,
-            currentPhotoIndex = photos.indexOf(photo._id);
+    let photos = photoSet.photos,
+        currentPhotoIndex = photos.indexOf(photo._id);
         
-        nextPhotoId = currentPhotoIndex < photos.length - 1 ?
-            photos[currentPhotoIndex + 1]
-            : photos[0];
+    let nextPhotoId = currentPhotoIndex < photos.length - 1 ?
+        photos[currentPhotoIndex + 1]
+        : photos[0];
         
-        prevPhotoId = currentPhotoIndex > 0 ?
-            photos[currentPhotoIndex - 1]
-            : photos[photos.length - 1];
-    }
+    let prevPhotoId = currentPhotoIndex > 0 ?
+        photos[currentPhotoIndex - 1]
+        : photos[photos.length - 1];
 
     photo.src = addFilenameSuffix(photo.src, config.gallery.defaultPhotoSuffix);
 
