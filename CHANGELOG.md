@@ -1,6 +1,8 @@
 # Changelog
 
 ## **2.0.2** - *2020-xx-xx*
+* Facade - show Slick header slideshow only on homepage;
+* API - `REGISTRATION_MODE` option added (possible values are `open` and `invite`);
 * Gallery:
     * `GALLERY_NEW_PHOTOS_FIRST` option added;
     * resize photoset cover;
@@ -9,7 +11,6 @@
     * view photo set - load the smallest thumbnails by default;
     * Facade - consider `GALLERY_IMAGE_SIZES` and `GALLERY_PHOTOSET_COVER_SIZES` options in `justifiedGallery`;
     * image loading adjusted (show blurred thumbnail while loading larger image);
-* API - `REGISTRATION_MODE` option added (possible values are `open` and `invite`);
 
 ## **2.0.1** - *2020-04-01*
 * ability to use MongoDB as session storage added;

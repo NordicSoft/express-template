@@ -94,24 +94,6 @@ require("@store/client").connect((err, client) => {
     // init authentication module
     require("@lib/auth")(express);
 
-    // define global response locals
-    var devCacheHash = require("crypto").randomBytes(20).toString("hex").slice(0, 7);
-    express.use(function (req, res, next) {
-        if (req.user && req.user.config) {
-            //req.user.config.foo = "bar";
-        }
-
-        res.locals = {
-            config: config,
-            lang: require("./langs").en,
-            user: req.user,
-            isAuthenticated: req.isAuthenticated(),
-            production: "production" === config.env,
-            cacheHash: "production" === config.env ? config.commit : devCacheHash
-        };
-        next();
-    });
-
     // init Express' routes
     require("./router")(express);
 

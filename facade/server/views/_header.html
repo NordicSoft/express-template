@@ -59,6 +59,7 @@
             </div>
         </div>
     </nav>
+    {{#if (eq page "homepage")}}
     <div class="slideshow">
         <div class="slide slide-1">
             <div data-animation="bounceInLeft" data-delay="0.5s">
@@ -102,4 +103,5 @@
         </div>
     </div>
     {{> _social-links}}
+    {{/if}}
 </header>
