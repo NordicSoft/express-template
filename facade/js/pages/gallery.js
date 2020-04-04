@@ -42,6 +42,45 @@ export function photoSet() {
 
 export function photo() {
     log("Gallery Photo");
+
+    let photoContainer = document.querySelector(".photo-container"),
+        photoWrapper = photoContainer.querySelector(".photo-wrapper"),
+        photo = photoWrapper.querySelector("img[data-src]"),
+        photoPreview = photoWrapper.querySelector("img.preview"),
+        src = photo.getAttribute("data-src"),
+        width = photo.getAttribute("width"),
+        height = photo.getAttribute("height"),
+        aspectRatio = width / height,
+        suffixStart = src.lastIndexOf("_"),
+        suffixEnd = src.lastIndexOf(".");
+    
+    photo.onload = () => {
+        photoWrapper.classList.remove("loading");
+        photo.removeAttribute("width");
+        photo.removeAttribute("height");
+        photoPreview.setAttribute("width", photo.offsetWidth);
+        photoPreview.setAttribute("height", photo.offsetHeight);
+    };
+    
+    // TODO: load appropriate image size
+    photo.src = src.slice(0, suffixStart) + "_l" + src.slice(suffixEnd);
+
+    function fitHeight() {
+        // get viewport dimensions
+        const vh = document.documentElement.clientHeight;
+
+        if (vh < photo.offsetHeight) {
+            // fit height
+            let newHeight = vh - 20,
+                newWidth = newHeight * aspectRatio;
+
+            photo.style.width = photoPreview.style.width = newWidth + "px";
+            photo.style.height = photoPreview.style.height = newHeight + "px";
+        }
+    }
+
+    window.onresize = fitHeight;
+    fitHeight();
 }
 
 export default {

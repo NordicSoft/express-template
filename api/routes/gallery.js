@@ -17,8 +17,8 @@ const express = require("express"),
     trashPath = path.resolve(rootPath, config.gallery.trashPath),
     upload = multer({ dest: uploadPath });
 
-// creates thumbnails and other image sizes
-async function resizeImage(sourcePath, outPath, sizes, quality) {
+// creates thumbnails and other image sizes, returns image properties
+async function processImage(sourcePath, outPath, sizes, quality) {
     let extension = path.extname(outPath),
         filename = outPath.slice(0, -extension.length);
     const sharp = require("sharp");
@@ -29,6 +29,7 @@ async function resizeImage(sourcePath, outPath, sizes, quality) {
             .resize(size.width, size.height, { fit: size.fit })
             .toFile(`${filename}${size.suffix ? "_" + size.suffix : ""}${extension}`);
     }
+    return file.metadata();
 }
 
 async function makeDirs() {
@@ -121,7 +122,11 @@ router.post("/photo", upload.single("file"), async (req, res) => {
         
         let filename = `${photosPath}/${photo._id}${extension}`;
 
-        await resizeImage(req.file.path, filename, config.gallery.imageSizes, config.gallery.jpgQuality);
+        let metadata = await processImage(req.file.path, filename, config.gallery.imageSizes, config.gallery.jpgQuality);
+        if (metadata && metadata.width && metadata.height) {
+            photo.width = metadata.width;
+            photo.height = metadata.height;
+        }
 
         // move original photo file
         await rename(req.file.path, filename);
@@ -155,7 +160,7 @@ router.post("/photoset", upload.single("file"), async (req, res) => {
 
         let filename = `${coversPath}/${photoSet._id}${extension}`;
 
-        await resizeImage(req.file.path, filename, config.gallery.photoSetCoverSizes, config.gallery.jpgQuality);
+        await processImage(req.file.path, filename, config.gallery.photoSetCoverSizes, config.gallery.jpgQuality);
 
         // remove original cover file
         await unlink(req.file.path);

@@ -8,6 +8,7 @@
     * refresh photoset's cover after changing it;
     * view photo set - load the smallest thumbnails by default;
     * Facade - consider `GALLERY_IMAGE_SIZES` and `GALLERY_PHOTOSET_COVER_SIZES` options in `justifiedGallery`;
+    * image loading adjusted (show blurred thumbnail while loading larger image);
 * API - `REGISTRATION_MODE` option added (possible values are `open` and `invite`);
 
 ## **2.0.1** - *2020-04-01*

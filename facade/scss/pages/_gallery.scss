@@ -42,55 +42,98 @@
             text-align: center;
         }
 
-        .photo-wrapper {
-            position: relative;
-            display: inline-block;
+        .photo-container {
+            text-align: center;
+            padding: 20px;
 
-            .photo-nav {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
+            .photo-wrapper {
+                position: relative;
+                display: inline-block;
+                overflow: hidden;
+                
+                &.loading {
+                    &::after {
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                        background: linear-gradient(
+                            90deg, transparent, #fff, #fff, transparent);
+                        opacity: 0.25;
+                        animation: loading 1.5s infinite;
+                        transform: translateX(-100%);
+                    }
+                }
 
-                .prev,
-                .next {
+                img {
+                    //max-width: none;
+                    transition: opacity 0.5s linear;
+                }
+
+                img:not(.preview) {
+                    position:absolute;
+                    top: 0;
+                    left: 0;
+
+                    .loading & {
+                        opacity: 0;
+                    }
+                }
+
+                img.preview {
+                    filter: blur(5px);
+                    //transform: scale(1.07);
+                }
+
+                .photo-nav {
                     position: absolute;
                     top: 0;
-                    bottom: 0;
-                    
-                    i {
-                        color: #fff;
-                        position: absolute;
-                        top: 50%;
-                        transform: translateY(-50%);
-                        font-size: 3rem;
-                        text-shadow: 0 0 5px rgba($color: #000, $alpha: 0.33);
-                        opacity: 0;
-                        transition: 0.5s ease opacity;
-                    }
-
-                    &:hover i,
-                    &.focus i {
-                        opacity: 0.7;
-                    }
-                }
-
-                .prev {
                     left: 0;
-                    right: 75%;
-
-                    i {
-                        left: 10px;
-                    }
-                }
-
-                .next {
                     right: 0;
-                    left: 25%;
+                    bottom: 0;
 
-                    i {
-                        right: 10px;
+                    .prev,
+                    .next {
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        
+                        i {
+                            color: #fff;
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            font-size: 3rem;
+                            text-shadow: 0 0 5px rgba($color: #000, $alpha: 0.33);
+                            opacity: 0;
+                            transition: 0.5s ease opacity;
+                        }
+
+                        &:hover i,
+                        &.focus i {
+                            opacity: 0.7;
+                        }
+                    }
+
+                    .prev {
+                        left: 0;
+                        right: 75%;
+
+                        i {
+                            left: 10px;
+                        }
+                    }
+
+                    .next {
+                        right: 0;
+                        left: 25%;
+
+                        i {
+                            right: 10px;
+                        }
                     }
                 }
             }

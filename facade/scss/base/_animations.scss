@@ -21,3 +21,7 @@
         transform: perspective(600px) rotateX(0deg);
     }
 }
+
+@keyframes loading {
+    100% { transform: translateX(100%); }
+}
