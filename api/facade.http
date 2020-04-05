@@ -17,6 +17,11 @@ GET {{baseUrl}}/gallery/photosets/not-empty
 {{auth}}
 {{ajax}}
 
+### Get all photos count
+GET {{baseUrl}}/gallery/photos/count
+{{auth}}
+{{ajax}}
+
 ### Get all photos
 GET {{baseUrl}}/gallery/photos
 {{auth}}

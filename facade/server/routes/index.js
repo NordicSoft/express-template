@@ -43,9 +43,8 @@ router.get("/gallery", async function (req, res) {
     }
 
     // if there are still photos to display (unclassified) - then redirect to /gallery/all
-    // TODO: implement api.photos.count() method
-    let allPhotos = await api.photos.all();
-    if (allPhotos.length > 0) {
+    let allPhotosCount = await api.photos.count();
+    if (allPhotosCount > 0) {
         return res.redirect("/gallery/all");
     }
 
@@ -251,9 +250,8 @@ module.exports = function (express) {
             isGalleryVisible = photoSets.length > 0;
 
         if (!isGalleryVisible) {
-            // TODO: implement api.photos.count() method
-            let allPhotos = await api.photos.all();
-            isGalleryVisible = allPhotos.length > 0;
+            let allPhotosCount = await api.photos.count();
+            isGalleryVisible = allPhotosCount > 0;
         }
 
         res.locals = res.locals || {};

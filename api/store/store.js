@@ -25,7 +25,7 @@ class Store {
     }
     async count(query, options) {
         if (query === undefined && options === undefined) {
-            return this.collection.estimatedDocumentCount(query, options);
+            return this.collection.estimatedDocumentCount();
         }
         return this.collection.countDocuments(query, options);
     }

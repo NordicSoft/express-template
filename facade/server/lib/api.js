@@ -75,6 +75,7 @@ module.exports.users = {
 
 module.exports.photos = {
     all: (sort, skip, limit) => call.get("/gallery/photos", { params: { sort, skip, limit } }),
+    count: () => call.get("/gallery/photos/count"),
     get: id => call.get("/gallery/photo/" + id)
 };
 

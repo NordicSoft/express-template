@@ -5,9 +5,9 @@ const express = require("express"),
 
 router.get("/users/can-register", async function (req, res) {
     if (config.registrationMode === "open" || await store.users.count() === 0) {
-        return res.send(true).end();
+        return res.json(true);
     }
-    return res.send(false).end();
+    return res.json(false);
 });
 
 router.get("/user/:usernameOrEmail", async function (req, res) { 
@@ -75,6 +75,10 @@ router.get("/gallery/photoset/:code", async function (req, res) {
     return res.json(photoSet);
 });
 
+router.get("/gallery/photos/count", async function (req, res) {
+    let result = await store.photos.count({ deleted: { $exists: false } });
+    return res.json(result);
+});
 
 router.get("/gallery/photos", async function (req, res) {
     let sortStr = req.query.sort,
