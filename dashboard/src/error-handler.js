@@ -13,7 +13,9 @@ export default function(vueApp) {
 
                 case 401:
                     window.location =
-                        "/signin?return=" + location.pathname + location.search;
+                        process.env.VUE_APP_SIGNIN_URL +
+                        location.pathname +
+                        location.search;
                     return;
 
                 default:
@@ -44,7 +46,7 @@ export default function(vueApp) {
             console.log(url);
             console.log(line);
             console.log(col);
-            console.log(error);
+            console.error(error);
         }
     };
 
@@ -53,7 +55,7 @@ export default function(vueApp) {
         {
             //if (options.env === "development") {
             console.log("unhandledrejection");
-            console.log(event);
+            console.error(event);
         }
     });
 }
