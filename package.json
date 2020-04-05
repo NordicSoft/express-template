@@ -34,7 +34,9 @@
     "http-proxy": "^1.18.0",
     "http-proxy-middleware": "^1.0.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "clipboardy": "^2.3.0"
+  },
   "nodemonConfig": {
     "watch": [
       "index.js"

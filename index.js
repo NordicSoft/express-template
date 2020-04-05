@@ -35,7 +35,9 @@ app.use("/", proxy({
 }));
 
 app.listen(port, () => {
-    console.log(`${logPrefix} Development proxy running at ${chalk.blue("http://localhost:" + port)}`);
+    const clipboardy = require('clipboardy');
+    clipboardy.writeSync("http://localhost:" + port);
+    console.log(`${logPrefix} Development proxy running at ${chalk.blue("http://localhost:" + port)} (copied to clipboard)`);
 });
 
 // handle errors
