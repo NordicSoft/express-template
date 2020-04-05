@@ -79,7 +79,7 @@ module.exports.photos = {
 };
 
 module.exports.photoSets = {
-    notEmpty: () => call.get("/gallery/photosets/not-empty"),
+    all: (sort) => call.get("/gallery/photosets", { params: { sort } }),
     get: code => call.get("/gallery/photoset/" + code),
     getWithPhotos: code => call.get(`/gallery/photoset/${code}`, { params: { photos: true } })
 };

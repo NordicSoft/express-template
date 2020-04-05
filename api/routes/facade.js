@@ -41,8 +41,16 @@ router.post("/user", async function (req, res) {
 });
 
 
-router.get("/gallery/photosets/not-empty", async function (req, res) {
-    let photoSets = await store.photoSets.getNotEmpty();
+router.get("/gallery/photosets", async function (req, res) {
+    let sortStr = req.query.sort,
+        sort;
+
+    if (sortStr) {
+        sort = {};
+        sort[sortStr.split(":")[0]] = parseInt(sortStr.split(":")[1] || 1);
+    }
+    
+    let photoSets = await store.photoSets.getNotEmpty(sort);
     return res.json(photoSets);
 });
 
@@ -53,9 +61,9 @@ router.get("/gallery/photoset/:code", async function (req, res) {
     if (code === "all") {
         photoSet = { title: "All photos", code: "all" };
         if (req.query.photos === "true") {
-            photoSet.photos = await store.photos.all(undefined, false);
+            photoSet.photos = await store.photos.all({ created: 1 }, false);
         } else {
-            let photos = await store.photos.all(undefined, false, { projection: { _id: 1 } });
+            let photos = await store.photos.all({ created: 1 }, false, { projection: { _id: 1 } });
             photoSet.photos = photos.map(x => x._id);
         }
     } else {
@@ -70,7 +78,7 @@ router.get("/gallery/photoset/:code", async function (req, res) {
 
 router.get("/gallery/photos", async function (req, res) {
     let sortStr = req.query.sort,
-        sort = sortStr ? [sortStr.split(":")[0], parseInt(sortStr.split(":")[1])] : undefined,
+        sort = sortStr ? [sortStr.split(":")[0], parseInt(sortStr.split(":")[1] || 1)] : undefined,
         skip = req.query.skip ? parseInt(req.query.skip) : undefined,
         limit = req.query.limit ? parseInt(req.query.limit) : undefined;
 

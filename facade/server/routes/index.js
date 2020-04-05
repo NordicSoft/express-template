@@ -247,10 +247,11 @@ router.get("/*", function (req, res) {
 module.exports = function (express) {
     express.use(async function (req, res, next) {
 
-        let photoSets = await api.photoSets.notEmpty(),
+        let photoSets = await api.photoSets.all("order"),
             isGalleryVisible = photoSets.length > 0;
 
         if (!isGalleryVisible) {
+            // TODO: implement api.photos.count() method
             let allPhotos = await api.photos.all();
             isGalleryVisible = allPhotos.length > 0;
         }

@@ -136,7 +136,16 @@ export default {
                 title: this.newTitle,
                 code: this.newCode
             });
-            this.photoSet.cover = this.newCoverSrc;
+
+            // refresh cover
+            if (this.photoSet && this.newCoverSrc) {
+                this.photoSet.cover = this.newCoverSrc;
+            }
+
+            if (this.blank) {
+                this.reset();
+            }
+
             this.$toast.success(`Photo set ${this.blank ? "added" : "saved"}`);
             // close menu
             this.menu = false;
@@ -168,6 +177,12 @@ export default {
                 this.loading = false;
             };
             reader.readAsDataURL(this.newCoverFile);
+        },
+        reset() {
+            this.newCoverSrc = "";
+            this.newCoverFile = null;
+            this.newTitle = "";
+            this.newCode = "";
         }
     }
 };

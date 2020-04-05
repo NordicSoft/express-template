@@ -13,7 +13,9 @@
     * image loading adjusted (show blurred thumbnail while loading larger image);
     * show last `GALLERY_LAST_PHOTOS_COUNT` photos below photo sets;
     * navigation in `All Photos` photo set;
+    * photo sets order - init;
 * dev proxy - copy dev URL to clipboard;
+* minor changes;
 
 ## **2.0.1** - *2020-04-01*
 * ability to use MongoDB as session storage added;
