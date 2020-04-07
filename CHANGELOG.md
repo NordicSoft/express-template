@@ -1,5 +1,8 @@
 # Changelog
 
+## **2.1.1** - *2020-xx-xx*
+* Dashboard - browsers list adjusted (IE support dropped);
+
 ## **2.1.0** - *2020-04-07*
 * API - `REGISTRATION_MODE` option added (possible values are `open` and `invite`);
 * Facade - show Slick header slideshow only on homepage;
