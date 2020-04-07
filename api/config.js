@@ -1,6 +1,21 @@
 const path = require("path"),
     packageJson = require(process.cwd() + "/package.json");
 
+function parseImageSizes(value) {
+    return value.split(",").map(x => { 
+        let splitted = x.split(":"),
+            suffix = splitted[0],
+            fit = splitted[1] || "cover",
+            size = splitted[2];
+        return {
+            suffix,
+            fit,
+            width: Number(size.split("x")[0]),
+            height: Number(size.split("x")[1])
+        }; 
+    });
+}
+
 const config = {
     // environment
     env: process.env.NODE_ENV || "development",
@@ -19,6 +34,8 @@ const config = {
     commit: packageJson.commit,
     
     facadeToken: process.env.FACADE_TOKEN,
+
+    registrationMode: process.env.REGISTRATION_MODE,
 
     //password hashing algorithm (md5 or bcrypt; for bcrypt install https://www.npmjs.com/package/bcrypt)
     passwordHashAlgorithm: process.env.PASSWORD_HASH_ALGORITHM,
@@ -57,11 +74,6 @@ const config = {
         sesSendRate: parseInt(process.env.AWS_SES_SEND_RATE)
     },
     
-    telegram: {
-        botToken: process.env.TELEGRAM_BOT_TOKEN,
-        chatId: process.env.TELEGRAM_CHAT_ID
-    },
-    
     fileBrowser: {
         uploadPath: path.resolve(process.env.FILEBROWSER_UPLOAD_PATH),
         rootPath: path.resolve(process.env.FILEBROWSER_ROOT_PATH)
@@ -79,7 +91,9 @@ const config = {
         imageProcessingModule: process.env.GALLERY_IMAGE_PROCESSING_MODULE,
         jpgQuality: parseInt(process.env.GALLERY_JPG_QUALITY),
         // comma-separated image sizes: "<suffix>:<width>x<height>"
-        imageSizes: process.env.GALLERY_IMAGE_SIZES
+        imageSizes: parseImageSizes(process.env.GALLERY_IMAGE_SIZES),
+        // comma-separated photoset cover sizes: "<suffix>:<width>x<height>"
+        photoSetCoverSizes: parseImageSizes(process.env.GALLERY_PHOTOSET_COVER_SIZES)
     }
 };
 module.exports = config;

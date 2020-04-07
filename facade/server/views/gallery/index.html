@@ -6,6 +6,7 @@
 <div class="container">
     <h1>Gallery <small>/ Photo Sets</small></h1>
     
+    <h2>Photo Sets</h2>
     <div class="photosets">
         {{#photoSets}}
         <a href="/gallery/{{code}}">
@@ -18,4 +19,20 @@
         </a>
         {{/photoSets}}
     </div>
+
+    <h2>Latest Photos</h2>
+    <div class="photos">
+        {{#each model.lastPhotos}}
+        <a href="/gallery/all/{{_id}}#photo">
+            <img src="{{src}}" alt="{{alt}}" title="{{title}}">
+            {{#if (or title description)}}
+            <div class="caption">
+                <h5>{{title}}</h5>
+                <div>{{breaklines description}}</div>
+            </div>
+            {{/if}}
+        </a>
+        {{/each}}
+    </div>
+    <a href="/gallery/all" class="btn btn-light btn-lg btn-all-photos">All Photos</a>
 </div>

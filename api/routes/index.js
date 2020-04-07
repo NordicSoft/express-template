@@ -3,7 +3,7 @@ const express = require("express"),
     config = require("@config"),
     vuetifyFileBrowserSDK = require("vuetify-file-browser-server/sdk");
 
-router.post("/send-email", async function (req, res) {
+router.post("/send-email", async (req, res) => {
     let subject = req.body.subject,
         message = req.body.message;
 

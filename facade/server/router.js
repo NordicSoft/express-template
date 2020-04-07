@@ -33,7 +33,7 @@ module.exports = function (express) {
         next();
     };
 
-    express.use("/", require("./routes/facade")(express));
+    express.use("/", require("./routes")(express));
 
     // handle 404
     express.use(function (req, res) {

@@ -20,7 +20,7 @@
                 </v-btn>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn text href="/" target="_blank">
+            <v-btn text :href="facadeUrl" target="_blank">
                 <v-icon class="mr-2">mdi-feature-search-outline</v-icon>
                 Facade
             </v-btn>
@@ -28,7 +28,7 @@
                 <v-icon class="mr-2">mdi-account-box-outline</v-icon>
                 Profile
             </v-btn>
-            <v-btn text href="/signout">
+            <v-btn text @click="signOut">
                 <v-icon class="mr-2">mdi-exit-to-app</v-icon>
                 Sign Out
             </v-btn>
@@ -103,8 +103,15 @@
 <script>
 export default {
     data: () => ({
-        drawer: null
-    })
+        drawer: null,
+        facadeUrl: process.env.VUE_APP_FACADE_URL
+    }),
+    methods: {
+        async signOut() {
+            await this.$store.dispatch("signOut");
+            window.location = "/";
+        }
+    }
 };
 </script>
 

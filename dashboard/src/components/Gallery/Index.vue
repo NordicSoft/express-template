@@ -38,43 +38,45 @@
                 :imageMimeTypes="imageMimeTypes"
                 class="saved-photo"
             />
-            <template v-if="activePhotoSet != 'trash'">
-                <photo-card
-                    v-for="photo in uploadingPhotos"
-                    :key="crc(photo.src)"
-                    :photo="photo"
-                    :blank="true"
-                    :file="photo.file"
-                    :imageMimeTypes="imageMimeTypes"
-                    @delete="deleteUploadingPhoto(photo)"
-                    class="uploading-photo"
-                />
-            </template>
-            <v-card
-                v-if="activePhotoSet != 'trash'"
-                :loading="loading"
-                flat
-                class="ma-2"
-                width="296px"
-                min-height="222px"
-            >
-                <v-btn
-                    @click="$refs.inputUpload.click()"
-                    depressed
-                    color="blue-grey lighten-5"
-                    class="add-files"
-                >
-                    <v-icon color="white">mdi-plus</v-icon>
-                    <input
-                        v-show="false"
-                        ref="inputUpload"
-                        type="file"
-                        multiple
-                        :accept="imageMimeTypes.join(',')"
-                        @change="addPhotos"
+            <template :slot="newPhotosFirst ? 'header' : 'footer'">
+                <template v-if="activePhotoSet != 'trash'">
+                    <photo-card
+                        v-for="photo in uploadingPhotos"
+                        :key="crc(photo.src)"
+                        :photo="photo"
+                        :blank="true"
+                        :file="photo.file"
+                        :imageMimeTypes="imageMimeTypes"
+                        @delete="deleteUploadingPhoto(photo)"
+                        class="uploading-photo"
                     />
-                </v-btn>
-            </v-card>
+                </template>
+                <v-card
+                    v-if="activePhotoSet != 'trash'"
+                    :loading="loading"
+                    flat
+                    class="ma-2"
+                    width="296px"
+                    min-height="222px"
+                >
+                    <v-btn
+                        @click="$refs.inputUpload.click()"
+                        depressed
+                        color="blue-grey lighten-5"
+                        class="add-files"
+                    >
+                        <v-icon color="white">mdi-plus</v-icon>
+                        <input
+                            v-show="false"
+                            ref="inputUpload"
+                            type="file"
+                            multiple
+                            :accept="imageMimeTypes.join(',')"
+                            @change="addPhotos"
+                        />
+                    </v-btn>
+                </v-card>
+            </template>
         </draggable>
     </div>
 </template>
@@ -109,14 +111,15 @@ export default {
             "photoSets",
             "activePhotoSet",
             "allPhotos",
-            "unclassifiedPhotos"
+            "unclassifiedPhotos",
+            "newPhotosFirst"
         ]),
         photos: {
             get() {
                 return this.$store.getters["gallery/photos"];
             },
             async set(value) {
-                let ids = value.map(x => x._id);
+                let ids = value.filter(x => x).map(x => x._id);
                 await this.$store.dispatch("gallery/reorderPhotos", {
                     photoSet: this.activePhotoSet,
                     photos: ids
@@ -164,7 +167,8 @@ export default {
                                 if (xmpJson) {
                                     result.alt = xmpJson.title || "";
                                     result.title = xmpJson.title || "";
-                                    result.description = xmpJson.description || "";
+                                    result.description =
+                                        xmpJson.description || "";
                                 }
                             } catch (err) {
                                 console.error(err);

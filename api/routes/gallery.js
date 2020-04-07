@@ -17,50 +17,19 @@ const express = require("express"),
     trashPath = path.resolve(rootPath, config.gallery.trashPath),
     upload = multer({ dest: uploadPath });
 
-const IMAGE_SIZES = config.gallery.imageSizes.split(",").map(x => { 
-    let suffix = x.split(":")[0],
-        size = x.split(":")[1];
-    return {
-        width: Number(size.split("x")[0]),
-        height: Number(size.split("x")[1]),
-        suffix
-    }; 
-});
-
-// creates thumbnails and other image sizes
-async function resizeImage(sourcePath, outPath) {
+// creates thumbnails and other image sizes, returns image properties
+async function processImage(sourcePath, outPath, sizes, quality) {
     let extension = path.extname(outPath),
         filename = outPath.slice(0, -extension.length);
-
-    switch (config.gallery.imageProcessingModule) {
-        case "sharp": {
-            const sharp = require("sharp");
-            let file = sharp(sourcePath).jpeg({
-                quality: config.gallery.jpgQuality,
-            });
-            for (let size of IMAGE_SIZES) {
-                await file
-                    .clone()
-                    .resize(size.width, size.height, {
-                        fit: "inside",
-                    })
-                    .toFile(`${filename}_${size.suffix}${extension}`);
-            }
-            break;
-        }
-        case "jimp": {
-            const jimp = require("jimp");
-            let file = await jimp.read(sourcePath);
-            for (let size of IMAGE_SIZES) {
-                await file
-                    .clone()
-                    .scaleToFit(size.width, size.height)
-                    .quality(config.gallery.jpgQuality)
-                    .writeAsync(`${filename}_${size.suffix}${extension}`);
-            }
-            break;
-        }
+    const sharp = require("sharp");
+    let file = sharp(sourcePath).jpeg({quality});
+    for (let size of sizes) {
+        await file
+            .clone()
+            .resize(size.width, size.height, { fit: size.fit })
+            .toFile(`${filename}${size.suffix ? "_" + size.suffix : ""}${extension}`);
     }
+    return file.metadata();
 }
 
 async function makeDirs() {
@@ -153,7 +122,11 @@ router.post("/photo", upload.single("file"), async (req, res) => {
         
         let filename = `${photosPath}/${photo._id}${extension}`;
 
-        await resizeImage(req.file.path, filename);
+        let metadata = await processImage(req.file.path, filename, config.gallery.imageSizes, config.gallery.jpgQuality);
+        if (metadata && metadata.width && metadata.height) {
+            photo.width = metadata.width;
+            photo.height = metadata.height;
+        }
 
         // move original photo file
         await rename(req.file.path, filename);
@@ -184,7 +157,13 @@ router.post("/photoset", upload.single("file"), async (req, res) => {
         }
 
         photoSet.cover = `/${config.gallery.photoSetsPath}/${photoSet._id}${extension}`;
-        await rename(req.file.path, `${coversPath}/${photoSet._id}${extension}`);
+
+        let filename = `${coversPath}/${photoSet._id}${extension}`;
+
+        await processImage(req.file.path, filename, config.gallery.photoSetCoverSizes, config.gallery.jpgQuality);
+
+        // remove original cover file
+        await unlink(req.file.path);
     }
     if (isNew) {
         photoSet.photos = [];
@@ -220,7 +199,7 @@ router.delete("/photo/:id", async (req, res) => {
             let src = path.resolve(config.gallery.rootPath, photo.src.slice(1));
         
             // remove thumbnails and other image sizes permanently
-            for (let { suffix } of IMAGE_SIZES) {
+            for (let { suffix } of config.gallery.imageSizes) {
                 try {
                     let extension = path.extname(src);
                     await unlink(`${src.slice(0, -extension.length)}_${suffix}${extension}`);

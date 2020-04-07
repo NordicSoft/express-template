@@ -47,16 +47,19 @@
                     </li>
                     {{else}}
                     <li class="nav-item">
-                        <a class="nav-link" href="/signin">Sign In</a>
+                        <a class="nav-link" href="{{config.auth.signInUrl}}">Sign In</a>
                     </li>
+                    {{#if registrationEnabled}}
                     <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
+                        <a class="nav-link" href="{{config.auth.registerUrl}}">Register</a>
                     </li>
+                    {{/if}}
                     {{/if}}
                 </ul>
             </div>
         </div>
     </nav>
+    {{#if (eq page "homepage")}}
     <div class="slideshow">
         <div class="slide slide-1">
             <div data-animation="bounceInLeft" data-delay="0.5s">
@@ -100,4 +103,5 @@
         </div>
     </div>
     {{> _social-links}}
+    {{/if}}
 </header>

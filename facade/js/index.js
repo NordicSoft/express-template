@@ -5,8 +5,6 @@ import pages from "./pages";
 import $ from "jquery";
 import "bootstrap";
 import AOS from "aos";
-import slideshow from "./components/slideshow";
-
 log("Welcome to NordicSoft Express 4 Template! Environment: " + options.env);
 
 page("/", pages.homepage);
@@ -33,6 +31,3 @@ $.ajaxSetup({
 
 // setup AOS
 AOS.init({ once: true });
-
-// setup Slick
-slideshow($("header .slideshow"));

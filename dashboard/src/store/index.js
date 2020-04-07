@@ -19,6 +19,9 @@ const mutations = {
 const actions = {
     loading({ commit }, payload) {
         commit("loading", payload);
+    },
+    async signOut() {
+        await Vue.axios.get("/auth/signout");
     }
 };
 

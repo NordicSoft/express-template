@@ -1,5 +1,4 @@
-const path = require("path"),
-    packageJson = require(process.cwd() + "/package.json");
+const packageJson = require(process.cwd() + "/package.json");
 
 module.exports = {
     // environment
@@ -25,6 +24,11 @@ module.exports = {
     api: {
         baseUrl: process.env.API_BASE_URL,
         token: process.env.API_TOKEN,
+    },
+
+    auth: {
+        signInUrl: process.env.AUTH_SIGNIN_URL,
+        registerUrl: process.env.AUTH_REGISTER_URL
     },
 
     //password hashing algorithm (md5 or bcrypt; for bcrypt install https://www.npmjs.com/package/bcrypt)
@@ -60,24 +64,10 @@ module.exports = {
         chatId: process.env.TELEGRAM_CHAT_ID
     },
     
-    fileBrowser: {
-        uploadPath: path.resolve(process.env.FILEBROWSER_UPLOAD_PATH),
-        rootPath: path.resolve(process.env.FILEBROWSER_ROOT_PATH)
-    },
-    
     gallery: {
-        // currently only `local` gallery storage is supported
-        storage: process.env.GALLERY_STORAGE,
-        uploadPath: path.resolve(process.env.GALLERY_UPLOAD_PATH),
-        rootPath: path.resolve(process.env.GALLERY_ROOT_PATH),
-        photosPath: process.env.GALLERY_PHOTOS_PATH,
-        photoSetsPath: process.env.GALLERY_PHOTOSETS_PATH,
-        trashPath: process.env.GALLERY_TRASH_PATH,
-        // image processing module (sharp or jimp, must be installed)
-        imageProcessingModule: process.env.GALLERY_IMAGE_PROCESSING_MODULE,
-        jpgQuality: parseInt(process.env.GALLERY_JPG_QUALITY),
-        // comma-separated image sizes: "<suffix>:<width>x<height>"
-        imageSizes: process.env.GALLERY_IMAGE_SIZES,
-        dashboardThumbnailSuffix: process.env.GALLERY_DASHBOARD_THUMBNAIL_SUFFIX
+        newPhotosFirst: process.env.GALLERY_NEW_PHOTOS_FIRST === "true",
+        defaultPhotoThumbnailSuffix: process.env.GALLERY_DEFAULT_PHOTO_THUMBNAIL_SUFFIX,
+        defaultPhotoSuffix: process.env.GALLERY_DEFAULT_PHOTO_SUFFIX,
+        lastPhotosCount: parseInt(process.env.GALLERY_LAST_PHOTOS_COUNT),
     }
 };

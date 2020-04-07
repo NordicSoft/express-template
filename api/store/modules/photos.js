@@ -24,11 +24,11 @@ class PhotosStore extends Store {
         }
         return super.insert(docs, options);
     }
-    async all(sort, includeDeleted = true) {
+    async all(sort, includeDeleted = true, options) {
         if (includeDeleted) {
-            return super.all(sort || { created: 1 });
+            return super.all(sort || { created: 1 }, options);
         }
-        return this.find({ deleted: { $exists: false } }, undefined, sort || { created: 1 });
+        return this.find({ deleted: { $exists: false } }, options, sort || { created: 1 });
     }
 }
 

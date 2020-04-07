@@ -1,7 +1,8 @@
 const router = require("express").Router(),
     config = require("@config"),
     logger = require("@logger"),
-    api = require("@api");
+    api = require("@api"),
+    { addFilenameSuffix } = require("@utils");
 
 function signin(req, res) {
     req.signin(function (err, user, info) {
@@ -13,18 +14,37 @@ function signin(req, res) {
     });
 }
 
+function refreshRegistrationEnabled(app) {
+    api.users.canRegister().then(canRegister => {
+        app.set("registration-enabled", canRegister);
+    });
+}
+
 router.get("/", function (req, res) {
     return res.render("index");
 });
 
 router.get("/gallery", async function (req, res) {
     if (res.locals.photoSets && res.locals.photoSets.length > 0) {
+        let lastPhotos = await api.photos.all(
+            `created:${config.gallery.newPhotosFirst ? -1 : 1}`,
+            0,
+            config.gallery.lastPhotosCount);
+
+        // load the smallest thumbnail by default
+        for (let photo of lastPhotos) {
+            photo.src = addFilenameSuffix(photo.src, config.gallery.defaultPhotoThumbnailSuffix);
+        }
+
+        res.locals.model = {
+            lastPhotos
+        };
         return res.render("gallery/index");
     }
 
     // if there are still photos to display (unclassified) - then redirect to /gallery/all
-    let allPhotos = await api.photos.all();
-    if (allPhotos.length > 0) {
+    let allPhotosCount = await api.photos.count();
+    if (allPhotosCount > 0) {
         return res.redirect("/gallery/all");
     }
 
@@ -36,16 +56,25 @@ router.get("/gallery/:photoSet", async function (req, res) {
 
     if (req.params.photoSet !== "all") {
         photoSet = await api.photoSets.getWithPhotos(req.params.photoSet);
+            
+        if (photoSet && photoSet.photos && config.gallery.newPhotosFirst) {
+            photoSet.photos.reverse();
+        }
     } else {
         photoSet = {
             title: "All photos",
             code: "all",
-            photos: await api.photos.all()
+            photos: await api.photos.all(`created:${config.gallery.newPhotosFirst ? -1 : 1}`)
         };
     }
 
-    if (!photoSet|| photoSet.photos.length === 0) {
+    if (!photoSet|| !photoSet.photos || photoSet.photos.length === 0) {
         return res.error(404);
+    }
+
+    // load the smallest thumbnail by default
+    for (let photo of photoSet.photos) {
+        photo.src = addFilenameSuffix(photo.src, config.gallery.defaultPhotoThumbnailSuffix);
     }
 
     res.locals.model = {
@@ -55,34 +84,29 @@ router.get("/gallery/:photoSet", async function (req, res) {
 });
 
 router.get("/gallery/:photoSet/:photoId(\\d+)", async function (req, res) {
-    let photoSet, photo;
-
-    if (req.params.photoSet !== "all") {
-        photoSet = await api.photoSets.get(req.params.photoSet);
-    } else {
-        photoSet = { title: "All photos", code: "all" };
-    }
-
-    photo = await api.photos.get(req.params.photoId);
+    let photoSet = await api.photoSets.get(req.params.photoSet),
+        photo = await api.photos.get(req.params.photoId);
 
     if (!photoSet || !photo) {
         return res.error(404);
     }
 
-    let nextPhotoId, prevPhotoId;
-
-    if (photoSet.code !== "all") {
-        let photos = photoSet.photos,
-            currentPhotoIndex = photos.indexOf(photo._id);
-        
-        nextPhotoId = currentPhotoIndex < photos.length - 1 ?
-            photos[currentPhotoIndex + 1]
-            : photos[0];
-        
-        prevPhotoId = currentPhotoIndex > 0 ?
-            photos[currentPhotoIndex - 1]
-            : photos[photos.length - 1];
+    if (config.gallery.newPhotosFirst && photoSet.photos) {
+        photoSet.photos.reverse();
     }
+
+    let photos = photoSet.photos,
+        currentPhotoIndex = photos.indexOf(photo._id);
+        
+    let nextPhotoId = currentPhotoIndex < photos.length - 1 ?
+        photos[currentPhotoIndex + 1]
+        : photos[0];
+        
+    let prevPhotoId = currentPhotoIndex > 0 ?
+        photos[currentPhotoIndex - 1]
+        : photos[photos.length - 1];
+
+    photo.src = addFilenameSuffix(photo.src, config.gallery.defaultPhotoSuffix);
 
     res.locals.model = {
         photoSet,
@@ -106,15 +130,20 @@ router.get("/signin", function (req, res) {
     }
 });
 
-router.get("/register", function (req, res) {
+router.get("/register", async function (req, res) {
     if (req.isAuthenticated()) {
         return res.redirect("/dashboard");
     }
+
     if (req.xhr) {
         return res.error(404);
-    } else {
-        return res.render("register");
     }
+
+    if (!req.app.get("registration-enabled")) {
+        return res.error(404);
+    }
+
+    return res.render("register");
 });
 
 router.get("/check-email", async function (req, res) {
@@ -132,6 +161,10 @@ router.post("/signin", signin);
 router.post("/register", async function (req, res) {
     if (req.isAuthenticated()) {
         return res.redirect("/dashboard");
+    }
+
+    if (!req.app.get("registration-enabled")) {
+        return res.error(404);
     }
 
     let name = req.body.name,
@@ -160,12 +193,14 @@ router.post("/register", async function (req, res) {
         case "md5":
             user.password = security.md5(password);
             await api.users.add(user);
+            refreshRegistrationEnabled(req.app);
             signin(req, res);
             break;
         case "bcrypt":
             security.bcryptHash(password, async function (err, passwordHash) {
                 user.password = passwordHash;
                 await api.users.add(user);
+                refreshRegistrationEnabled(req.app);
                 signin(req, res);
             });
             break;
@@ -211,12 +246,12 @@ router.get("/*", function (req, res) {
 module.exports = function (express) {
     express.use(async function (req, res, next) {
 
-        let photoSets = await api.photoSets.notEmpty(),
+        let photoSets = await api.photoSets.all("order"),
             isGalleryVisible = photoSets.length > 0;
 
         if (!isGalleryVisible) {
-            let allPhotos = await api.photos.all();
-            isGalleryVisible = allPhotos.length > 0;
+            let allPhotosCount = await api.photos.count();
+            isGalleryVisible = allPhotosCount > 0;
         }
 
         res.locals = res.locals || {};

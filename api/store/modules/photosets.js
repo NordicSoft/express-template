@@ -51,7 +51,7 @@ class PhotoSetsStore extends Store {
         return (await cursor.toArray())[0];
     }
 
-    async getNotEmpty() {
+    async getNotEmpty(sort) {
         let cursor = this.getCollection().aggregate([
             {
                 $lookup: {
@@ -77,6 +77,10 @@ class PhotoSetsStore extends Store {
                 $addFields: { photosObjects: "$$REMOVE" }
             }
         ]);
+
+        if (sort) {
+            cursor.sort(sort);
+        }
 
         return cursor.toArray();
     }

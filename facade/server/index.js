@@ -80,7 +80,6 @@ require("@server/io").init(server, session);
 require("@lib/auth")(express);
 
 // define global response locals
-var devCacheHash = require("crypto").randomBytes(20).toString("hex").slice(0, 7);
 express.use(function (req, res, next) {
     if (req.user && req.user.config) {
         //req.user.config.foo = "bar";
@@ -91,9 +90,10 @@ express.use(function (req, res, next) {
         lang: require("@server/langs").en,
         user: req.user,
         isAuthenticated: req.isAuthenticated(),
+        registrationEnabled: req.app.get("registration-enabled"),
         production: config.prod,
         development: config.dev,
-        cacheHash: "production" === config.env ? config.commit : devCacheHash
+        page: req.url.slice(1) || "homepage"
     };
     next();
 });

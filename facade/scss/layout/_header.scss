@@ -3,15 +3,18 @@
 /*************************************************************/
 
 header {
-    min-height: 600px;
-    position: relative;
 
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-    border-bottom: 1px solid $white;
+    .homepage & {
+        min-height: 601px;
+        position: relative;
 
-    @include media-breakpoint-down(sm) {
-        min-height: 400px;
+        @include media-breakpoint-down(sm) {
+            min-height: 401px;
+        }
     }
+
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3), 0 1px 6px rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid $white;
 
     nav {
         box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
@@ -149,7 +152,7 @@ header {
     .slideshow {
         position: absolute;
         top: 0;
-        bottom: 0;
+        bottom: 1px;
         left: 0;
         right: 0;
         text-align: center;
