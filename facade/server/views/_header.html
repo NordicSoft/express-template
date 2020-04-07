@@ -47,11 +47,11 @@
                     </li>
                     {{else}}
                     <li class="nav-item">
-                        <a class="nav-link" href="/signin">Sign In</a>
+                        <a class="nav-link" href="{{config.auth.signInUrl}}">Sign In</a>
                     </li>
                     {{#if registrationEnabled}}
                     <li class="nav-item">
-                        <a class="nav-link" href="/register">Register</a>
+                        <a class="nav-link" href="{{config.auth.registerUrl}}">Register</a>
                     </li>
                     {{/if}}
                     {{/if}}

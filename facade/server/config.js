@@ -26,6 +26,11 @@ module.exports = {
         token: process.env.API_TOKEN,
     },
 
+    auth: {
+        signInUrl: process.env.AUTH_SIGNIN_URL,
+        registerUrl: process.env.AUTH_REGISTER_URL
+    },
+
     //password hashing algorithm (md5 or bcrypt; for bcrypt install https://www.npmjs.com/package/bcrypt)
     passwordHashAlgorithm: process.env.PASSWORD_HASH_ALGORITHM,
     

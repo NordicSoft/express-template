@@ -1,9 +1,11 @@
 # Changelog
 
-## **2.0.2** - *2020-xx-xx*
+## **2.1.0** - *2020-04-07*
 * API - `REGISTRATION_MODE` option added (possible values are `open` and `invite`);
 * Facade - show Slick header slideshow only on homepage;
-* Dashboard - check user authentication before rendering page;
+* Dashboard:
+    * check user authentication before rendering page;
+    * user authentication & registration implemented inside Dashboard;
 * Gallery:
     * `GALLERY_NEW_PHOTOS_FIRST` option added;
     * resize photoset cover;

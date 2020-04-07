@@ -45,6 +45,7 @@ module.exports = function (express) {
     express.use("/profile", signinRequired, require("./routes/profile"));
     express.use("/gallery", signinRequired, require("./routes/gallery"));
     express.use("/facade", facadeOnly, require("./routes/facade"));
+    express.use("/auth", require("./routes/auth"));
     express.use("/", signinRequired, require("./routes"));
 
     // handle 404

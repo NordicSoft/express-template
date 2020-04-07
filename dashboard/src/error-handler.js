@@ -4,12 +4,22 @@ import Vue from "vue";
 export default function(vueApp) {
     // handle errors
     Vue.config.errorHandler = function(error, vm, info) {
-        if (error.isAxiosError) {
+        if (error.isAxiosError && error.response) {
             let response = error.response;
             switch (response.status) {
                 case 400:
-                    vueApp.$toast.error(response.data);
-                    break;
+                    if (typeof response.data === "string") {
+                        vueApp.$toast.warning(response.data);
+                    } else if (
+                        typeof response.data === "object" &&
+                        response.data.message
+                    ) {
+                        vueApp.$toast.warning(response.data.message);
+                    } else {
+                        vueApp.$toast.error("Unknown error");
+                        console.error(error);
+                    }
+                    return;
 
                 case 401:
                     window.location =
@@ -20,10 +30,8 @@ export default function(vueApp) {
 
                 default:
                     vueApp.$toast.error("Request completed with error");
-                    break;
+                    return;
             }
-
-            return;
         }
 
         vueApp.$toast.error("Unknown error occurred");

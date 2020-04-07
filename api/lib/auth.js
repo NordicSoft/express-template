@@ -19,7 +19,7 @@ var security = require("./security"),
     strategies = {
         local: new LocalStrategy({
             // by default, local strategy uses username and password, we will override with email
-            usernameField: "email",
+            usernameField: "username",
             passwordField: "password",
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
@@ -31,23 +31,23 @@ var security = require("./security"),
                 // find a user
                 let user;
                 try {
-                    user = await store.users.getByEmail(username);
+                    user = await store.users[username.includes("@") ? "getByEmail": "getByUsername"](username);
                     logger.dir(user);
                 } catch (err) {
                     logger.error(err);
-                    return done(null, false, "Unknown error");
+                    return done(null, false, { message: "Unknown error" });
                 }
 
                 // if no user is found or password is wrong return error
                 if (!user) {
                     logger.info("User not found");
-                    return done(null, false, "User was not found or password is incorrect");
+                    return done(null, false, { message: "User was not found or password is incorrect" });
                 }
 
                 switch (config.passwordHashAlgorithm) {
                     case "md5":
                         if (md5(password) !== user.password) {
-                            return done(null, false, "User was not found or password is incorrect");
+                            return done(null, false, { message: "User was not found or password is incorrect" });
                         }
                         // all is well, return successful user
                         logger.info("Signin successful");
@@ -56,11 +56,11 @@ var security = require("./security"),
                         security.bcryptCheck(password, user.password, function (err, result) {
                             if (err) {
                                 logger.error("password check failed", err);
-                                return done(null, false, "Unknown error");
+                                return done(null, false, { message: "Unknown error" });
                             }
                             if (!result) {
                                 logger.info(!user ? "User not found" : "Password is incorrect");
-                                return done(null, false, "User was not found or password is incorrect");
+                                return done(null, false, { message: "User was not found or password is incorrect" });
                             }
 
                             // all is well, return successful user
@@ -231,6 +231,14 @@ var security = require("./security"),
 module.exports = function (express) {
     logger.info("Init Authentication");
 
+    if (config.registrationMode === "open") {
+        express.set("registration-enabled", true);
+    } else {
+        store.users.count().then(count => {
+            express.set("registration-enabled", count === 0);
+        });
+    }
+    
     // used to serialize the user for the session
     passport.serializeUser(function (user, done) {
         logger.debug("serializeUser " + user.email);

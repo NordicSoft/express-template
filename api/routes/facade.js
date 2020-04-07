@@ -4,10 +4,7 @@ const express = require("express"),
     store = require("@store");
 
 router.get("/users/can-register", async function (req, res) {
-    if (config.registrationMode === "open" || await store.users.count() === 0) {
-        return res.json(true);
-    }
-    return res.json(false);
+    return res.json(req.app.get("registration-enabled"));
 });
 
 router.get("/user/:usernameOrEmail", async function (req, res) { 
