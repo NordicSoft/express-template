@@ -1,8 +1,10 @@
 const express = require("express"),
     router = express.Router(),
+    passport = require("passport"),
     logger = require("@logger"),
     config = require("@config"),
-    store = require("@store");
+    store = require("@store"),
+    { xhrOnly } = require("@lib/filters");
 
 function signin(req, res) {
     req.signin(function (err, user, info) {
@@ -14,34 +16,35 @@ function signin(req, res) {
 }
 
 async function refreshRegistrationEnabled(app) {
-    let registrationEnabled = config.registrationMode === "open" || await store.users.count() === 0;
+    let registrationEnabled =
+        config.registrationMode === "open" || (await store.users.count()) === 0;
     app.set("registration-enabled", registrationEnabled);
 }
 
-router.get("/", function (req, res) {
+router.get("/", xhrOnly, function (req, res) {
     return res.json({
         isAuthenticated: req.isAuthenticated(),
-        registrationEnabled: req.app.get("registration-enabled")
+        registrationEnabled: req.app.get("registration-enabled"),
     });
 });
 
-router.get("/check-email/:email", async function (req, res) {
+router.get("/check-email/:email", xhrOnly, async function (req, res) {
     var email = req.params.email,
         user = await store.users.getByEmail(email);
     return res.json(!user);
 });
 
-router.get("/check-username/:username", async function (req, res) {
+router.get("/check-username/:username", xhrOnly, async function (req, res) {
     var username = req.params.username,
         user = await store.users.getByUsername(username);
     return res.json(!user);
 });
 
-router.post("/signin", signin);
+router.post("/signin", xhrOnly, signin);
 
-router.post("/register", async function (req, res) {
+router.post("/register", xhrOnly, async function (req, res) {
     if (req.isAuthenticated()) {
-        return res.status(400).json({ message: "User is authenticated"});
+        return res.status(400).json({ message: "User is authenticated" });
     }
 
     if (!req.app.get("registration-enabled")) {
@@ -64,7 +67,9 @@ router.post("/register", async function (req, res) {
 
     // check username
     if (await store.users.getByUsername(username)) {
-        return res.status(400).json({ message: "This username is already taken" });
+        return res
+            .status(400)
+            .json({ message: "This username is already taken" });
     }
 
     // check email
@@ -76,7 +81,7 @@ router.post("/register", async function (req, res) {
     let user = {
         name,
         email,
-        username
+        username,
     };
 
     let usersCount = await store.users.count();
@@ -100,15 +105,37 @@ router.post("/register", async function (req, res) {
             });
             break;
         default:
-            logger.error("Incorrect passwordHashAlgorithm specified in config.json");
+            logger.error(
+                "Incorrect passwordHashAlgorithm specified in config.json"
+            );
             break;
     }
 });
 
+// send to google to do the authentication
+// profile gets us their basic information including their name
+// email gets their emails
+router.get(
+    "/google",
+    passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+// the callback after google has authenticated the user
+router.get(
+    "/google/callback",
+    passport.authenticate("google", {
+        successRedirect: "/dashboard",
+        failureRedirect: "/dashboard/auth",
+    })
+);
+
 router.get("/signout", function (req, res) {
     req.signout();
     req.session.destroy();
-    return res.json(true);
+    if (req.xhr) {
+        return res.json(true);
+    }
+    return res.redirect("/");
 });
 
 module.exports = router;
