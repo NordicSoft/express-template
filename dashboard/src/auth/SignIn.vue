@@ -23,9 +23,9 @@
             maxlength="254"
             outlined
             required
-            class="mb-3"
+            class="mb-1"
         />
-        <div class="text-center mb-7">
+        <div class="text-center">
             <v-btn color="success" depressed x-large type="submit">
                 <v-icon left>
                     mdi-account-check-outline
@@ -33,15 +33,7 @@
                 Sign In
             </v-btn>
         </div>
-        <div class="text-center mb-7">
-            <v-btn text @click="google">
-                <v-icon left>
-                    mdi-google
-                </v-icon>
-                Sign in with Google
-            </v-btn>
-        </div>
-        <div class="text-center">
+        <div class="text-center py-5">
             Don't have an account?
             <router-link to="/register">Register</router-link>
         </div>
@@ -75,9 +67,6 @@ export default {
             });
             // TODO: consider `return` query param
             window.location = process.env.BASE_URL.slice(0, -1);
-        },
-        async google() {
-            window.location = process.env.VUE_APP_API_BASE_URL + "/auth/google";
         }
     }
 };

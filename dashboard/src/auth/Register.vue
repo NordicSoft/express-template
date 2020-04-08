@@ -63,9 +63,9 @@
             maxlength="254"
             outlined
             required
-            class="mb-3"
+            class="mb-1"
         />
-        <div class="text-center mb-7">
+        <div class="text-center">
             <v-btn color="success" depressed x-large type="submit">
                 <v-icon left>
                     mdi-account-plus-outline
@@ -73,7 +73,7 @@
                 Register
             </v-btn>
         </div>
-        <div class="text-center">
+        <div class="text-center py-5">
             Already have an account?
             <router-link to="/">Sign In</router-link>
         </div>
