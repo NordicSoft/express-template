@@ -40,6 +40,14 @@ const config = {
     //password hashing algorithm (md5 or bcrypt; for bcrypt install https://www.npmjs.com/package/bcrypt)
     passwordHashAlgorithm: process.env.PASSWORD_HASH_ALGORITHM,
     
+    auth: {
+        google: {
+            clientID: process.env.AUTH_GOOGLE_CLIENT_ID,
+            clientSecret: process.env.AUTH_GOOGLE_CLIENT_SECRET,
+            callbackURL: process.env.AUTH_GOOGLE_CALLBACK_URL
+        }
+    },
+
     // not used? can be removed?
     logger: {
         logEnabled: process.env.LOG_ENABLED.toLowerCase() === "true",

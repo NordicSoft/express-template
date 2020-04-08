@@ -11,7 +11,7 @@ var security = require("./security"),
     LocalStrategy = require("passport-local").Strategy,
     //FacebookStrategy = require('passport-facebook').Strategy,
     //TwitterStrategy = require('passport-twitter').Strategy,
-    //GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
+    GoogleStrategy = require("passport-google-oauth").OAuth2Strategy,
     //User = require('./../models/user'),
     config = require("@config"),
     logger = require("@logger"),
@@ -105,157 +105,81 @@ var security = require("./security"),
                 });
             }
         ),
-        /*
-        required configuration:
-        "configAuth": {
-            "facebookAuth": {
-                "clientID": "your-secret-clientID-here",
-                "clientSecret": "your-client-secret-here",
-                "callbackURL": "http://localhost:8080/auth/facebook/callback"
-            },
-            "twitterAuth": {
-                "consumerKey": "your-consumer-key-here",
-                "consumerSecret": "your-client-secret-here",
-                "callbackURL": "http://localhost:8080/auth/twitter/callback"
-            },
-            "googleAuth": {
-                "clientID": "your-secret-clientID-here",
-                "clientSecret": "your-client-secret-here",
-                "callbackURL": "http://localhost:8080/auth/google/callback"
-            }
-        }
-        
-        facebook: new FacebookStrategy({
-                // pull in our app id and secret from our auth.js file
-                clientID: configAuth.facebookAuth.clientID,
-                clientSecret: configAuth.facebookAuth.clientSecret,
-                callbackURL: configAuth.facebookAuth.callbackURL
-            },
-            // facebook will send back the token and profile
+        google: new GoogleStrategy(config.auth.google,
             function(token, refreshToken, profile, done) {
-
+                logger.info("GoogleStrategy");
+                logger.dir(profile);
                 // asynchronous
-                process.nextTick(function() {
+                process.nextTick(async function() {
+                    // find a user
+                    let user;
+                    try {
+                        user = await store.users.findOne({ "google.id" : profile.id });
 
-                    // find the user in the database based on their facebook id
-                    store.getUser({ 'facebook.id': profile.id }, function(err, user) {
-
-                        // if there is an error, stop everything and return that
-                        // ie an error connecting to the database
-                        if (err)
-                            return done(err);
-
-                        // if the user is found, then log them in
-                        if (user) {
-                            return done(null, user); // user found, return that user
-                        } else {
-                            // if there is no user found with that facebook id, create them
-                            var newUser = new User();
-
-                            // set all of the facebook information in our user model
-                            newUser.facebook.id = profile.id; // set the users facebook id	                
-                            newUser.facebook.token = token; // we will save the token that facebook provides to the user	                
-                            newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user profile to see how names are returned
-                            newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
-
-                            // save our user to the database
-                            newUser.save(function(err) {
-                                if (err)
-                                    throw err;
-
-                                // if successful, return the new user
-                                return done(null, newUser);
-                            });
+                        // if not found by google.id
+                        if (!user) {
+                            // try to find by google email
+                            user = await store.users.getByEmail(profile.emails[0].value);
                         }
 
-                    });
-                });
+                        logger.dir(user);
+                    } catch (err) {
+                        logger.error(err);
+                        return done(null, false, { message: "Unknown error" });
+                    }
 
-            }),
-        twitter: new TwitterStrategy({
-                consumerKey: configAuth.twitterAuth.consumerKey,
-                consumerSecret: configAuth.twitterAuth.consumerSecret,
-                callbackURL: configAuth.twitterAuth.callbackURL
-            },
-            function(token, tokenSecret, profile, done) {
+                    // if a user is found, log in
+                    if (user) {
 
-                // make the code asynchronous
-                // store.getUser won't fire until we have all our data back from Twitter
-                process.nextTick(function() {
+                        try {
+                        // update user info
+                            user.name = user.name || profile.displayName;
+                            user.email = user.email || profile.emails[0].value;
+                            if (!user.photo && profile.photos && profile.photos.length) {
+                                user.photo = profile.photos[0].value;
+                            }
+                            user.google = user.google || {};
+                            user.google.id = profile.id;
+                            user.google.token = token;
+                            user.google.name = profile.displayName;
+                            user.google.email = profile.emails[0].value;
 
-                    store.getUser({ 'twitter.id': profile.id }, function(err, user) {
-
-                        // if there is an error, stop everything and return that
-                        // ie an error connecting to the database
-                        if (err)
-                            return done(err);
-
-                        // if the user is found then log them in
-                        if (user) {
-                            return done(null, user); // user found, return that user
-                        } else {
-                            // if there is no user, create them
-                            var newUser = new User();
-
-                            // set all of the user data that we need
-                            newUser.twitter.id = profile.id;
-                            newUser.twitter.token = token;
-                            newUser.twitter.username = profile.username;
-                            newUser.twitter.displayName = profile.displayName;
-
-                            // save our user into the database
-                            newUser.save(function(err) {
-                                if (err)
-                                    throw err;
-                                return done(null, newUser);
-                            });
+                            await store.users.save(user);
+                        } catch (err) {
+                            // silent
                         }
-                    });
+                        logger.info("Google signin successful");
+                        return done(null, user);
+                    }
 
-                });
-
-            }),
-        google: new GoogleStrategy({
-                clientID: configAuth.googleAuth.clientID,
-                clientSecret: configAuth.googleAuth.clientSecret,
-                callbackURL: configAuth.googleAuth.callbackURL,
-            },
-            function(token, refreshToken, profile, done) {
-
-                // make the code asynchronous
-                // store.getUser won't fire until we have all our data back from Google
-                process.nextTick(function() {
-
-                    // try to find the user based on their google id
-                    store.getUser({ 'google.id': profile.id }, function(err, user) {
-                        if (err)
-                            return done(err);
-
-                        if (user) {
-
-                            // if a user is found, log them in
-                            return done(null, user);
-                        } else {
-                            // if the user isnt in our database, create a new user
-                            var newUser = new User();
-
-                            // set all of the relevant information
-                            newUser.google.id = profile.id;
-                            newUser.google.token = token;
-                            newUser.google.name = profile.displayName;
-                            newUser.google.email = profile.emails[0].value; // pull the first email
-
-                            // save the user
-                            newUser.save(function(err) {
-                                if (err)
-                                    throw err;
-                                return done(null, newUser);
-                            });
+                    // if the user isn't in database - create a new user
+                    user = {
+                        name: profile.displayName,
+                        email: profile.emails[0].value,
+                        photo: profile.photos && profile.photos.length > 0 ? profile.photos[0].value : undefined,
+                        google: {
+                            id: profile.id,
+                            token,
+                            name: profile.displayName,
+                            email: profile.emails[0].value
                         }
-                    });
-                });
+                    };
 
-            })*/
+                    let usersCount = await store.users.count();
+                    if (usersCount === 0) {
+                        user.roles = ["owner"];
+                    }
+
+                    try {
+                        await store.users.save(user);
+                        logger.info("New user registered with google");
+                        return done(null, user);
+                    } catch (err) {
+                        logger.error(err);
+                        return done(null, false, { message: "Unknown error" });
+                    }
+                });
+            })
     };
 
 module.exports = function (express) {
@@ -285,20 +209,13 @@ module.exports = function (express) {
     // used to deserialize the user
     passport.deserializeUser(async function (sessionUser, done) {
         logger.debug("deserializeUser " + sessionUser.email);
-        /*
-        let user = await store.getUserById(id);
-
-        if (!user) {
-            return done(null, false);
-        }*/
-
         done(null, sessionUser);
     });
 
     passport.use("local", strategies.local);
+    passport.use(strategies.google);
     //passport.use(strategies.facebook);
     //passport.use(strategies.twitter);
-    //passport.use(strategies.google);
 
     express.use(passport.initialize());
     express.use(passport.session());

@@ -1,5 +1,9 @@
 # Changelog
 
+## **2.2.0** - *2020-04-08*
+* authenticate with Google;
+* authentication forms appearance adjusted;
+
 ## **2.1.1** - *2020-04-08*
 * `Dashboard` - browsers list adjusted (IE support dropped);
 * `Facade`:
