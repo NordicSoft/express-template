@@ -1,5 +1,5 @@
-// Thanks, Chris Sevilleja 
-// Init http://scotch.io/tutorials/javascript/easy-node-authentication-setup-and-local 
+// Thanks, Chris Sevilleja
+// Init http://scotch.io/tutorials/javascript/easy-node-authentication-setup-and-local
 // Facebook http://scotch.io/tutorials/javascript/easy-node-authentication-facebook
 // Twitter http://scotch.io/tutorials/javascript/easy-node-authentication-twitter
 // Google http://scotch.io/tutorials/javascript/easy-node-authentication-google
@@ -17,64 +17,94 @@ var security = require("./security"),
     logger = require("@logger"),
     store = require("@store"),
     strategies = {
-        local: new LocalStrategy({
-            // by default, local strategy uses username and password, we will override with email
-            usernameField: "username",
-            passwordField: "password",
-            passReqToCallback: true // allows us to pass back the entire request to the callback
-        },
-        async function (req, username, password, done) {
-            logger.info(username);
-            logger.info(password);
-            // asynchronous
-            process.nextTick(async function () {
-                // find a user
-                let user;
-                try {
-                    user = await store.users[username.includes("@") ? "getByEmail": "getByUsername"](username);
-                    logger.dir(user);
-                } catch (err) {
-                    logger.error(err);
-                    return done(null, false, { message: "Unknown error" });
-                }
+        local: new LocalStrategy(
+            {
+                // by default, local strategy uses username and password, we will override with email
+                usernameField: "username",
+                passwordField: "password",
+                passReqToCallback: true, // allows us to pass back the entire request to the callback
+            },
+            async function (req, username, password, done) {
+                logger.info(username);
+                logger.info(password);
+                // asynchronous
+                process.nextTick(async function () {
+                    // find a user
+                    let user;
+                    try {
+                        user = await store.users[
+                            username.includes("@")
+                                ? "getByEmail"
+                                : "getByUsername"
+                        ](username);
+                        logger.dir(user);
+                    } catch (err) {
+                        logger.error(err);
+                        return done(null, false, { message: "Unknown error" });
+                    }
 
-                // if no user is found or password is wrong return error
-                if (!user) {
-                    logger.info("User not found");
-                    return done(null, false, { message: "User was not found or password is incorrect" });
-                }
+                    // if no user is found or password is wrong return error
+                    if (!user) {
+                        logger.info("User not found");
+                        return done(null, false, {
+                            message:
+                                "User was not found or password is incorrect",
+                        });
+                    }
 
-                switch (config.passwordHashAlgorithm) {
-                    case "md5":
-                        if (md5(password) !== user.password) {
-                            return done(null, false, { message: "User was not found or password is incorrect" });
-                        }
-                        // all is well, return successful user
-                        logger.info("Signin successful");
-                        return done(null, user);
-                    case "bcrypt":
-                        security.bcryptCheck(password, user.password, function (err, result) {
-                            if (err) {
-                                logger.error("password check failed", err);
-                                return done(null, false, { message: "Unknown error" });
+                    switch (config.passwordHashAlgorithm) {
+                        case "md5":
+                            if (md5(password) !== user.password) {
+                                return done(null, false, {
+                                    message:
+                                        "User was not found or password is incorrect",
+                                });
                             }
-                            if (!result) {
-                                logger.info(!user ? "User not found" : "Password is incorrect");
-                                return done(null, false, { message: "User was not found or password is incorrect" });
-                            }
-
                             // all is well, return successful user
                             logger.info("Signin successful");
-
                             return done(null, user);
-                        });
-                        break;
-                    default:
-                        logger.error("Incorrect passwordHashAlgorithm specified in config.json");
-                        break;
-                }
-            });
-        }),
+                        case "bcrypt":
+                            security.bcryptCheck(
+                                password,
+                                user.password,
+                                function (err, result) {
+                                    if (err) {
+                                        logger.error(
+                                            "password check failed",
+                                            err
+                                        );
+                                        return done(null, false, {
+                                            message: "Unknown error",
+                                        });
+                                    }
+                                    if (!result) {
+                                        logger.info(
+                                            !user
+                                                ? "User not found"
+                                                : "Password is incorrect"
+                                        );
+                                        return done(null, false, {
+                                            message:
+                                                "User was not found or password is incorrect",
+                                        });
+                                    }
+
+                                    // all is well, return successful user
+                                    logger.info("Signin successful");
+
+                                    return done(null, user);
+                                }
+                            );
+                            break;
+                        default:
+                            logger.error(
+                                "Incorrect passwordHashAlgorithm specified in config.json"
+                            );
+                            break;
+                    }
+                });
+            }
+        ),
         /*
         required configuration:
         "configAuth": {
@@ -234,15 +264,21 @@ module.exports = function (express) {
     if (config.registrationMode === "open") {
         express.set("registration-enabled", true);
     } else {
-        store.users.count().then(count => {
+        store.users.count().then((count) => {
             express.set("registration-enabled", count === 0);
         });
     }
-    
+
     // used to serialize the user for the session
     passport.serializeUser(function (user, done) {
         logger.debug("serializeUser " + user.email);
-        var sessionUser = { _id: user._id, name: user.name, email: user.email, roles: user.roles };
+        var sessionUser = {
+            _id: user._id,
+            name: user.name,
+            username: user.username,
+            email: user.email,
+            roles: user.roles,
+        };
         done(null, sessionUser);
     });
 
@@ -268,7 +304,6 @@ module.exports = function (express) {
     express.use(passport.session());
 
     express.use(function (req, res, next) {
-
         req.signin = function (callback) {
             passport.authenticate("local", function (err, user, info) {
                 if (user) {

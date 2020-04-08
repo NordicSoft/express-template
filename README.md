@@ -12,9 +12,9 @@ Basic website template (boilerplate, skeleton, starter kit) based on Express.js 
     * About
     * Contacts
     * Policies
+* Dashboard Pages
     * Sign In
     * Register
-* Dashboard Pages
     * Homepage
     * Profile
     * ~~Users~~

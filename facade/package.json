@@ -51,7 +51,6 @@
     "express-hbs": "^2.3.1",
     "express-session": "1.x.x",
     "jquery": "^3.4.1",
-    "jquery-validation": "^1.19.1",
     "justifiedGallery": "^3.7.0",
     "lodash": "^4.17.15",
     "method-override": "3.x.x",
