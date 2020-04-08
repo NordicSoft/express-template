@@ -1,10 +1,11 @@
 # Changelog
 
-## **2.1.1** - *2020-xx-xx*
+## **2.1.1** - *2020-04-08*
 * `Dashboard` - browsers list adjusted (IE support dropped);
 * `Facade`:
     * `Sign In` and `Register` dropped;
     * `Privacy Policy` and `Terms and Conditions` pages added;
+    * `About` page changed;
 
 ## **2.1.0** - *2020-04-07*
 * `API` - `REGISTRATION_MODE` option added (possible values are `open` and `invite`);
