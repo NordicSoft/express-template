@@ -129,6 +129,23 @@ router.get(
     })
 );
 
+// route for facebook authentication and login
+router.get(
+    "/facebook",
+    passport.authenticate("facebook", {
+        scope: ["email"],
+    })
+);
+
+// handle the callback after facebook has authenticated the user
+router.get(
+    "/facebook/callback",
+    passport.authenticate("facebook", {
+        successRedirect: "/dashboard",
+        failureRedirect: "/dashboard/auth",
+    })
+);
+
 router.get("/signout", function (req, res) {
     req.signout();
     req.session.destroy();

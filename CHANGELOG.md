@@ -1,5 +1,8 @@
 # Changelog
 
+## **2.3.0** - *2020-04-xx*
+* authenticate with Facebook;
+
 ## **2.2.0** - *2020-04-08*
 * authenticate with Google;
 * authentication forms appearance adjusted;

@@ -9,7 +9,7 @@ var security = require("./security"),
     md5 = security.md5,
     passport = require("passport"),
     LocalStrategy = require("passport-local").Strategy,
-    //FacebookStrategy = require('passport-facebook').Strategy,
+    FacebookStrategy = require("passport-facebook").Strategy,
     //TwitterStrategy = require('passport-twitter').Strategy,
     GoogleStrategy = require("passport-google-oauth").OAuth2Strategy,
     //User = require('./../models/user'),
@@ -108,7 +108,7 @@ var security = require("./security"),
         google: new GoogleStrategy(config.auth.google,
             function(token, refreshToken, profile, done) {
                 logger.info("GoogleStrategy");
-                logger.dir(profile);
+                console.log(profile);
                 // asynchronous
                 process.nextTick(async function() {
                     // find a user
@@ -179,6 +179,89 @@ var security = require("./security"),
                         return done(null, false, { message: "Unknown error" });
                     }
                 });
+            }),
+        facebook: new FacebookStrategy(config.auth.facebook,
+            function(token, refreshToken, profile, done) {
+                logger.info("FacebookStrategy");
+                console.log(profile);
+                // asynchronous
+                process.nextTick(async function() {
+                    // find a user
+                    let user,
+                        name = profile.displayName,
+                        email = profile.emails[0].value;
+
+                    if (!name && profile.name) {
+                        name = profile.name.givenName + " " + profile.name.familyName;
+                        name = name.trim();
+                    }
+                    
+                    try {
+                        user = await store.users.findOne({ "facebook.id" : profile.id });
+
+                        // if not found by facebook.id
+                        if (!user) {
+                            // try to find by facebook email
+                            user = await store.users.getByEmail(email);
+                        }
+
+                        logger.dir(user);
+                    } catch (err) {
+                        logger.error(err);
+                        return done(null, false, { message: "Unknown error" });
+                    }
+
+                    // if a user is found, log in
+                    if (user) {
+
+                        try {
+                        // update user info
+                            user.name = user.name || name;
+                            user.email = user.email || email;
+                            if (!user.photo && profile.photos && profile.photos.length) {
+                                user.photo = profile.photos[0].value;
+                            }
+                            user.facebook = user.facebook || {};
+                            user.facebook.id = profile.id;
+                            user.facebook.token = token;
+                            user.facebook.name = name;
+                            user.facebook.email = email;
+
+                            await store.users.save(user);
+                        } catch (err) {
+                            // silent
+                        }
+                        logger.info("Facebook signin successful");
+                        return done(null, user);
+                    }
+
+                    // if the user isn't in database - create a new user
+                    user = {
+                        name,
+                        email: email,
+                        photo: profile.photos && profile.photos.length > 0 ? profile.photos[0].value : undefined,
+                        facebook: {
+                            id: profile.id,
+                            token,
+                            name: name,
+                            email: email
+                        }
+                    };
+
+                    let usersCount = await store.users.count();
+                    if (usersCount === 0) {
+                        user.roles = ["owner"];
+                    }
+
+                    try {
+                        await store.users.save(user);
+                        logger.info("New user registered with facebook");
+                        return done(null, user);
+                    } catch (err) {
+                        logger.error(err);
+                        return done(null, false, { message: "Unknown error" });
+                    }
+                });
             })
     };
 
@@ -214,7 +297,7 @@ module.exports = function (express) {
 
     passport.use("local", strategies.local);
     passport.use(strategies.google);
-    //passport.use(strategies.facebook);
+    passport.use(strategies.facebook);
     //passport.use(strategies.twitter);
 
     express.use(passport.initialize());

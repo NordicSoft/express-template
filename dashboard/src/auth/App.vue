@@ -18,6 +18,17 @@
                                         </v-icon>
                                         Google
                                     </v-btn>
+                                    <v-btn
+                                        outlined
+                                        color="indigo"
+                                        @click="facebook"
+                                        class="ml-3"
+                                    >
+                                        <v-icon left>
+                                            mdi-facebook
+                                        </v-icon>
+                                        Facebook
+                                    </v-btn>
                                 </div>
                                 <div class="text-center pt-5">
                                     <v-btn text small :href="facadeUrl">
@@ -45,8 +56,12 @@ export default {
         };
     },
     methods: {
-        async google() {
+        google() {
             window.location = process.env.VUE_APP_API_BASE_URL + "/auth/google";
+        },
+        facebook() {
+            window.location =
+                process.env.VUE_APP_API_BASE_URL + "/auth/facebook";
         }
     }
 };
