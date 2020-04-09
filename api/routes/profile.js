@@ -30,9 +30,7 @@ router.post("/", async function (req, res) {
 
     // update current user info in session
     // see https://github.com/jaredhanson/passport/issues/208
-    req.login(Object.assign(req.user, changes), function () {
-        res.sendStatus(200);
-    });
+    req.login(Object.assign(req.user, changes), () => res.sendStatus(200));
 });
 
 router.post("/change-password", async function (req, res) {
@@ -51,7 +49,7 @@ router.post("/change-password", async function (req, res) {
     const security = require("@lib/security"),
         user = await store.users.getById(req.user._id);
 
-    switch (config.passwordHashAlgorithm) {
+    switch (config.auth.passwordHashAlgorithm) {
         case "md5": {
             if (security.md5(password) !== user.password) {
                 return res.status(400).send("Current password is incorrect");
@@ -82,7 +80,7 @@ router.post("/change-password", async function (req, res) {
             break;
         }
         default:
-            logger.error("Incorrect passwordHashAlgorithm specified in config.json");
+            logger.error("Incorrect passwordHashAlgorithm specified");
             return res.sendStatus(500);
     }
 });

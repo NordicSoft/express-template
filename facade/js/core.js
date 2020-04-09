@@ -16,16 +16,6 @@ export function debug (object) {
     return undefined;
 }
 
-export function getQueryParam (name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return "";
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
 export let loader = {
     show () {
         document.getElementById("loader").style.display = "block";
@@ -38,6 +28,5 @@ export let loader = {
 export default {
     log,
     debug,
-    getQueryParam,
     loader
 };

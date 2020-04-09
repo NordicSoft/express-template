@@ -1,273 +1,281 @@
-// Thanks, Chris Sevilleja
-// Init http://scotch.io/tutorials/javascript/easy-node-authentication-setup-and-local
-// Facebook http://scotch.io/tutorials/javascript/easy-node-authentication-facebook
-// Twitter http://scotch.io/tutorials/javascript/easy-node-authentication-twitter
-// Google http://scotch.io/tutorials/javascript/easy-node-authentication-google
-// Linking All Accounts Together http://scotch.io/tutorials/javascript/easy-node-authentication-linking-all-accounts-together
-
-var security = require("./security"),
-    md5 = security.md5,
-    passport = require("passport"),
-    LocalStrategy = require("passport-local").Strategy,
-    FacebookStrategy = require("passport-facebook").Strategy,
-    //TwitterStrategy = require('passport-twitter').Strategy,
-    GoogleStrategy = require("passport-google-oauth").OAuth2Strategy,
-    //User = require('./../models/user'),
+const security = require("@lib/security"),
     config = require("@config"),
     logger = require("@logger"),
     store = require("@store"),
+    passport = require("passport"),
+    LocalStrategy = require("passport-local").Strategy,
+    FacebookStrategy = require("passport-facebook").Strategy,
+    GoogleStrategy = require("passport-google-oauth").OAuth2Strategy,
     strategies = {
-        local: new LocalStrategy(
-            {
-                // by default, local strategy uses username and password, we will override with email
-                usernameField: "username",
-                passwordField: "password",
-                passReqToCallback: true, // allows us to pass back the entire request to the callback
-            },
-            async function (req, username, password, done) {
-                logger.info(username);
-                logger.info(password);
-                // asynchronous
-                process.nextTick(async function () {
-                    // find a user
-                    let user;
-                    try {
-                        user = await store.users[
-                            username.includes("@")
-                                ? "getByEmail"
-                                : "getByUsername"
-                        ](username);
-                        logger.dir(user);
-                    } catch (err) {
-                        logger.error(err);
-                        return done(null, false, { message: "Unknown error" });
-                    }
+        signin: new LocalStrategy(signinCallback),
+        register: new LocalStrategy(
+            { passReqToCallback: true },
+            registerCallback
+        ),
+        google: new GoogleStrategy(
+            config.auth.google,
+            providerCallback("google")
+        ),
+        facebook: new FacebookStrategy(
+            config.auth.facebook,
+            providerCallback("facebook")
+        ),
+    };
 
-                    // if no user is found or password is wrong return error
-                    if (!user) {
-                        logger.info("User not found");
+function signinCallback(username, password, done) {
+    logger.info("Signin", username);
+    // asynchronous
+    process.nextTick(async function () {
+        // find a user
+        let user;
+        try {
+            user = await store.users[
+                username.includes("@") ? "getByEmail" : "getByUsername"
+            ](username);
+        } catch (err) {
+            logger.error(err);
+            return done(null, false, { message: "Unknown error" });
+        }
+
+        // if no user is found or password is wrong return error
+        if (!user) {
+            logger.info("User not found");
+            return done(null, false, {
+                message: "User was not found or password is incorrect",
+            });
+        }
+
+        switch (config.auth.passwordHashAlgorithm) {
+            case "md5":
+                if (security.md5(password) !== user.password) {
+                    return done(null, false, {
+                        message: "User was not found or password is incorrect",
+                    });
+                }
+                // all is well, return successful user
+                logger.info("Signin successful");
+                return done(null, user);
+            case "bcrypt":
+                security.bcryptCheck(password, user.password, function (
+                    err,
+                    result
+                ) {
+                    if (err) {
+                        logger.error("password check failed", err);
+                        return done(null, false, {
+                            message: "Unknown error",
+                        });
+                    }
+                    if (!result) {
+                        logger.info(
+                            !user ? "User not found" : "Password is incorrect"
+                        );
                         return done(null, false, {
                             message:
                                 "User was not found or password is incorrect",
                         });
                     }
 
-                    switch (config.passwordHashAlgorithm) {
-                        case "md5":
-                            if (md5(password) !== user.password) {
-                                return done(null, false, {
-                                    message:
-                                        "User was not found or password is incorrect",
-                                });
-                            }
-                            // all is well, return successful user
-                            logger.info("Signin successful");
-                            return done(null, user);
-                        case "bcrypt":
-                            security.bcryptCheck(
-                                password,
-                                user.password,
-                                function (err, result) {
-                                    if (err) {
-                                        logger.error(
-                                            "password check failed",
-                                            err
-                                        );
-                                        return done(null, false, {
-                                            message: "Unknown error",
-                                        });
-                                    }
-                                    if (!result) {
-                                        logger.info(
-                                            !user
-                                                ? "User not found"
-                                                : "Password is incorrect"
-                                        );
-                                        return done(null, false, {
-                                            message:
-                                                "User was not found or password is incorrect",
-                                        });
-                                    }
+                    // all is well, return successful user
+                    logger.info("Signin successful");
 
-                                    // all is well, return successful user
-                                    logger.info("Signin successful");
-
-                                    return done(null, user);
-                                }
-                            );
-                            break;
-                        default:
-                            logger.error(
-                                "Incorrect passwordHashAlgorithm specified in config.json"
-                            );
-                            break;
-                    }
+                    return done(null, user);
                 });
+                break;
+            default:
+                logger.error("Incorrect passwordHashAlgorithm");
+                break;
+        }
+    });
+}
+
+function registerCallback(req, username, password, done) {
+    logger.info("Register", username);
+    // asynchronous
+    process.nextTick(async function () {
+        if (req.isAuthenticated()) {
+            return done(null, false, {
+                message: "User is authenticated",
+            });
+        }
+
+        if (!req.app.get("registration-enabled")) {
+            return done(null, false, {
+                message: "Registration disabled",
+            });
+        }
+
+        let name = req.body.name,
+            email = req.body.email,
+            username = req.body.username,
+            password = req.body.password,
+            passwordConfirm = req.body.passwordConfirm;
+
+        logger.info(`Register new user ${name} (${email})`);
+
+        if (password !== passwordConfirm) {
+            return done(null, false, {
+                message: "Password and confirm password does not match",
+            });
+        }
+
+        // check username
+        if (await store.users.getByUsername(username)) {
+            return done(null, false, {
+                message: "This username is already taken",
+            });
+        }
+
+        // check email
+        if (await store.users.getByEmail(email)) {
+            return done(null, false, {
+                message: "This email is already taken",
+            });
+        }
+
+        let user = {
+            name,
+            email,
+            username,
+        };
+
+        let usersCount = await store.users.count();
+        if (usersCount === 0) {
+            user.roles = ["owner"];
+        }
+
+        switch (config.auth.passwordHashAlgorithm) {
+            case "md5":
+                user.password = security.md5(password);
+                await store.users.insert(user);
+                refreshRegistrationEnabled(req.app);
+                return done(null, user);
+            case "bcrypt":
+                security.bcryptHash(password, async function (
+                    err,
+                    passwordHash
+                ) {
+                    user.password = passwordHash;
+                    await store.users.insert(user);
+                    refreshRegistrationEnabled(req.app);
+                    return done(null, user);
+                });
+                break;
+            default:
+                logger.error("Incorrect passwordHashAlgorithm specified");
+                return done(null, false, {
+                    message: "Unknown error",
+                });
+        }
+    });
+}
+
+async function refreshRegistrationEnabled(app) {
+    let usersCount = await store.users.count();
+    app.set(
+        "registration-enabled",
+        config.registrationMode === "open" || usersCount === 0
+    );
+}
+
+function providerCallback(provider) {
+    return function (token, refreshToken, profile, done) {
+        logger.info("Strategy " + provider);
+        $DEBUG$ && console.log(profile);
+        // asynchronous
+        process.nextTick(async function () {
+            // find a user
+            let user,
+                name = profile.displayName,
+                email =
+                    profile.emails && profile.emails.length > 0
+                        ? profile.emails[0].value
+                        : undefined,
+                photo =
+                    profile.photos && profile.photos.length > 0
+                        ? profile.photos[0].value
+                        : undefined;
+
+            if (!name && profile.name) {
+                name = profile.name.givenName + " " + profile.name.familyName;
+                name = name.trim();
             }
-        ),
-        google: new GoogleStrategy(config.auth.google,
-            function(token, refreshToken, profile, done) {
-                logger.info("GoogleStrategy");
-                console.log(profile);
-                // asynchronous
-                process.nextTick(async function() {
-                    // find a user
-                    let user;
-                    try {
-                        user = await store.users.findOne({ "google.id" : profile.id });
 
-                        // if not found by google.id
-                        if (!user) {
-                            // try to find by google email
-                            user = await store.users.getByEmail(profile.emails[0].value);
-                        }
-
-                        logger.dir(user);
-                    } catch (err) {
-                        logger.error(err);
-                        return done(null, false, { message: "Unknown error" });
-                    }
-
-                    // if a user is found, log in
-                    if (user) {
-
-                        try {
-                        // update user info
-                            user.name = user.name || profile.displayName;
-                            user.email = user.email || profile.emails[0].value;
-                            if (!user.photo && profile.photos && profile.photos.length) {
-                                user.photo = profile.photos[0].value;
-                            }
-                            user.google = user.google || {};
-                            user.google.id = profile.id;
-                            user.google.token = token;
-                            user.google.name = profile.displayName;
-                            user.google.email = profile.emails[0].value;
-
-                            await store.users.save(user);
-                        } catch (err) {
-                            // silent
-                        }
-                        logger.info("Google signin successful");
-                        return done(null, user);
-                    }
-
-                    // if the user isn't in database - create a new user
-                    user = {
-                        name: profile.displayName,
-                        email: profile.emails[0].value,
-                        photo: profile.photos && profile.photos.length > 0 ? profile.photos[0].value : undefined,
-                        google: {
-                            id: profile.id,
-                            token,
-                            name: profile.displayName,
-                            email: profile.emails[0].value
-                        }
-                    };
-
-                    let usersCount = await store.users.count();
-                    if (usersCount === 0) {
-                        user.roles = ["owner"];
-                    }
-
-                    try {
-                        await store.users.save(user);
-                        logger.info("New user registered with google");
-                        return done(null, user);
-                    } catch (err) {
-                        logger.error(err);
-                        return done(null, false, { message: "Unknown error" });
-                    }
+            try {
+                user = await store.users.findOne({
+                    [provider + ".id"]: profile.id,
                 });
-            }),
-        facebook: new FacebookStrategy(config.auth.facebook,
-            function(token, refreshToken, profile, done) {
-                logger.info("FacebookStrategy");
-                console.log(profile);
-                // asynchronous
-                process.nextTick(async function() {
-                    // find a user
-                    let user,
-                        name = profile.displayName,
-                        email = profile.emails[0].value;
 
-                    if (!name && profile.name) {
-                        name = profile.name.givenName + " " + profile.name.familyName;
-                        name = name.trim();
-                    }
-                    
-                    try {
-                        user = await store.users.findOne({ "facebook.id" : profile.id });
+                // if not found by `provider`.id
+                if (!user && email) {
+                    // try to find by `provider` email
+                    user = await store.users.getByEmail(email);
+                }
 
-                        // if not found by facebook.id
-                        if (!user) {
-                            // try to find by facebook email
-                            user = await store.users.getByEmail(email);
-                        }
+                $DEBUG$ && console.log(user);
+            } catch (err) {
+                logger.error(err);
+                return done(null, false, { message: "Unknown error" });
+            }
 
-                        logger.dir(user);
-                    } catch (err) {
-                        logger.error(err);
-                        return done(null, false, { message: "Unknown error" });
-                    }
+            // if a user is found, log in
+            if (user) {
+                try {
+                    // update user info
+                    user.name = user.name || name;
+                    user.email = user.email || email;
+                    user.photo = user.photo || photo;
+                    user[provider] = user[provider] || {};
+                    user[provider].id = profile.id;
+                    user[provider].token = token;
+                    user[provider].name = name;
+                    user[provider].email = email;
+                    user[provider].photo = photo;
 
-                    // if a user is found, log in
-                    if (user) {
+                    await store.users.save(user);
+                } catch (err) {
+                    // silent
+                }
+                logger.info(provider + " signin successful");
+                return done(null, user);
+            }
 
-                        try {
-                        // update user info
-                            user.name = user.name || name;
-                            user.email = user.email || email;
-                            if (!user.photo && profile.photos && profile.photos.length) {
-                                user.photo = profile.photos[0].value;
-                            }
-                            user.facebook = user.facebook || {};
-                            user.facebook.id = profile.id;
-                            user.facebook.token = token;
-                            user.facebook.name = name;
-                            user.facebook.email = email;
+            // if the user isn't in database - create a new user
+            user = {
+                name,
+                email: email,
+                photo:
+                    profile.photos && profile.photos.length > 0
+                        ? profile.photos[0].value
+                        : undefined,
+                [provider]: {
+                    id: profile.id,
+                    token,
+                    name: name,
+                    email: email,
+                },
+            };
 
-                            await store.users.save(user);
-                        } catch (err) {
-                            // silent
-                        }
-                        logger.info("Facebook signin successful");
-                        return done(null, user);
-                    }
+            let usersCount = await store.users.count();
+            if (usersCount === 0) {
+                user.roles = ["owner"];
+            }
 
-                    // if the user isn't in database - create a new user
-                    user = {
-                        name,
-                        email: email,
-                        photo: profile.photos && profile.photos.length > 0 ? profile.photos[0].value : undefined,
-                        facebook: {
-                            id: profile.id,
-                            token,
-                            name: name,
-                            email: email
-                        }
-                    };
-
-                    let usersCount = await store.users.count();
-                    if (usersCount === 0) {
-                        user.roles = ["owner"];
-                    }
-
-                    try {
-                        await store.users.save(user);
-                        logger.info("New user registered with facebook");
-                        return done(null, user);
-                    } catch (err) {
-                        logger.error(err);
-                        return done(null, false, { message: "Unknown error" });
-                    }
-                });
-            })
+            try {
+                await store.users.save(user);
+                logger.info("New user registered with " + provider);
+                return done(null, user);
+            } catch (err) {
+                logger.error(err);
+                return done(null, false, { message: "Unknown error" });
+            }
+        });
     };
+}
 
 module.exports = function (express) {
     logger.info("Init Authentication");
-
+    
     if (config.registrationMode === "open") {
         express.set("registration-enabled", true);
     } else {
@@ -295,32 +303,11 @@ module.exports = function (express) {
         done(null, sessionUser);
     });
 
-    passport.use("local", strategies.local);
+    passport.use("signin", strategies.signin);
+    passport.use("register", strategies.register);
     passport.use(strategies.google);
     passport.use(strategies.facebook);
-    //passport.use(strategies.twitter);
 
     express.use(passport.initialize());
     express.use(passport.session());
-
-    express.use(function (req, res, next) {
-        req.signin = function (callback) {
-            passport.authenticate("local", function (err, user, info) {
-                if (user) {
-                    req.login(user, function (err) {
-                        if (err) {
-                            callback(err);
-                        }
-                        callback(err, user, info);
-                    });
-                } else {
-                    callback(err, user, info);
-                }
-            })(this);
-        };
-
-        req.signout = req.logout;
-
-        next();
-    });
 };

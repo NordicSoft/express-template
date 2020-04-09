@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import { getQueryParam } from "@/util";
+
 export default {
     data() {
         return {
@@ -124,6 +126,13 @@ export default {
                 password: this.password,
                 passwordConfirm: this.passwordConfirm
             });
+
+            let returnUrl = getQueryParam("return");
+            if (returnUrl) {
+                window.location = returnUrl;
+                return;
+            }
+
             window.location = process.env.BASE_URL.slice(0, -1);
         }
     }

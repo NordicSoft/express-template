@@ -37,12 +37,13 @@ const config = {
 
     facadeToken: process.env.FACADE_TOKEN,
 
+    dashboardUrl: process.env.DASHBOARD_URL,
+
     registrationMode: process.env.REGISTRATION_MODE,
 
-    //password hashing algorithm (md5 or bcrypt; for bcrypt install https://www.npmjs.com/package/bcrypt)
-    passwordHashAlgorithm: process.env.PASSWORD_HASH_ALGORITHM,
-
     auth: {
+        //password hashing algorithm (md5 or bcrypt; for bcrypt install https://www.npmjs.com/package/bcrypt)
+        passwordHashAlgorithm: process.env.AUTH_PASSWORD_HASH_ALGORITHM,
         google: {
             clientID: process.env.AUTH_GOOGLE_CLIENT_ID,
             clientSecret: process.env.AUTH_GOOGLE_CLIENT_SECRET,
@@ -52,7 +53,7 @@ const config = {
             clientID: process.env.AUTH_FACEBOOK_CLIENT_ID,
             clientSecret: process.env.AUTH_FACEBOOK_CLIENT_SECRET,
             callbackURL: process.env.AUTH_FACEBOOK_CALLBACK_URL,
-            profileFields: ["id", "email", "name", "picture"]
+            profileFields: ["id", "email", "name", "picture.type(large)"],
         },
     },
 

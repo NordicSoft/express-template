@@ -7,6 +7,9 @@ require("dotenv-defaults").config();
 // init module-alias
 require("module-alias/register");
 
+// globals
+global.$DEBUG$ = process.env.DEBUG === "true";
+
 const path = require("path"),
     config = require("@config"),
     // init logger
