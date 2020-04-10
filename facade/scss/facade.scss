@@ -41,14 +41,11 @@ $fa-font-path: "../fonts/fontawesome";
 @import "layout/header";
 @import "layout/main";
 @import "layout/footer";
-@import "layout/sidebar";
 
 /*
 /* Components
 /*************************************************************/
 @import "components/loader";
-@import "components/signin";
-@import "components/register";
 
 /*
 /* Pages

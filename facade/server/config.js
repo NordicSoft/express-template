@@ -37,8 +37,7 @@ module.exports = {
 
     // not used? can be removed?
     logger: {
-        logEnabled: process.env.LOG_ENABLED.toLowerCase() === "true",
-        debugEnabled: process.env.DEBUG_ENABLED.toLowerCase() === "true",
+        level: process.env.LOG_LEVEL,
         logsPath: process.env.LOG_FILE_PATH,
         consolePrefix: process.env.LOG_CONSOLE_PREFIX,
         consoleFgColor: process.env.LOG_CONSOLE_FG_COLOR,

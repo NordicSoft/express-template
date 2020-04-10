@@ -68,21 +68,6 @@ select {
     cursor: pointer;
 }
 
-.error-sign {
-    display: none;
-    position: absolute;
-    font-size: 1.25rem;
-    top: 10px;
-    right: 8px;
-    z-index: 100;
-    color: #C43C36;
-    opacity: 0.85;
-}
-
-.has-error .error-sign {
-    display: inline;
-}
-
 hr {
     border: 0;
     height: 1px;
@@ -103,12 +88,4 @@ a {
     opacity: 0;
     position: relative;
     top: -10px;
-}
-
-.container,
-.container-fluid {
-    @include media-breakpoint-down(sm) {
-        padding-left: 5px;
-        padding-right: 5px;
-    }
 }

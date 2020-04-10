@@ -1,5 +1,15 @@
 # Changelog
 
+## **2.3.1** - *2020-04-10*
+* readme updated;
+* `Facade`:
+    * js refactored (`options` dropped, `core` split into `logger`, `loader`);
+    * `Homepage` changed;
+    * consider `LOG_LEVEL` environment variable;
+    * cleanup;
+* `API`:
+    * consider `LOG_LEVEL` environment variable;
+
 ## **2.3.0** - *2020-04-10*
 * authentication refactored (DRYing);
 * authenticate with Facebook;

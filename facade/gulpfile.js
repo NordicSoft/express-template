@@ -110,6 +110,7 @@ async function rollup(input, output, watch, callback) {
             }),
             replace({
                 "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+                "process.env.LOG_LEVEL": JSON.stringify(process.env.LOG_LEVEL),
                 "process.env.GALLERY_PHOTOSET_COVER_SIZES": JSON.stringify(process.env.GALLERY_PHOTOSET_COVER_SIZES),
                 "process.env.GALLERY_IMAGE_SIZES": JSON.stringify(process.env.GALLERY_IMAGE_SIZES)
             }),
@@ -117,8 +118,8 @@ async function rollup(input, output, watch, callback) {
                 entries: {
                     "axios": require.resolve("axios/dist/axios"),
                     "babel-polyfill": require.resolve("@babel/polyfill/lib"),
-                    "core": "js/core.js",
-                    "options": "js/options.js"
+                    "logger": "js/logger.js",
+                    "loader": "js/loader.js"
                 }
             }),
             noderesolve({ extensions: [".js", ".json", ".vue"] }),

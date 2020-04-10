@@ -1,33 +1,3 @@
 ﻿/*
 /* Variables
 /*************************************************************/
-
-$debug: false;
-
-$img-path: "https://xxx.cloudfront.net";
-
-@if ($debug==true) {
-    $img-path: "/img"
-}
-
-// xxs
-$xxs-max:  399px;
-
-// xs
-$xs-min:  400px;
-$xs-max:  575px;
-
-// sm
-$sm-min:  576px;
-$sm-max:  767px;
-
-// md
-$md-min:  768px;
-$md-max:  991px;
-
-// lg
-$lg-min:  992px;
-$lg-max:  1199px;
-
-// xl
-$xl-min:  1200px;

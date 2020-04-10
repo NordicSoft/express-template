@@ -1,11 +1,10 @@
-﻿import { log } from "core";
-import options from "options";
+﻿import log  from "logger";
 import page from "page";
 import pages from "./pages";
 import $ from "jquery";
 import "bootstrap";
 import AOS from "aos";
-log("Welcome to NordicSoft Express 4 Template! Environment: " + options.env);
+log("Welcome to NordicSoft Express 4 Template! Environment: " + process.env.NODE_ENV);
 
 page("/", pages.homepage);
 page("/about", pages.about);
@@ -29,3 +28,6 @@ $.ajaxSetup({
 
 // setup AOS
 AOS.init({ once: true });
+
+// make logger global
+window.logger = log;
