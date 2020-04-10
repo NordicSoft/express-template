@@ -16,7 +16,7 @@ const chalk = require("chalk"),
     logPrefix = chalk
         .keyword(config.logger.consoleFgColor)
         .bgKeyword(config.logger.consoleBgColor)(` ${config.logger.consolePrefix} `),
-    logger = require("@logger").init(path.resolve(config.logger.logsPath), logPrefix);
+    logger = require("@logger").init(path.resolve(config.logger.logsPath), logPrefix, config.logger.level);
 
 logger.info("Express Template Facade v%s started%s. Path: %s", config.version, process.env.RUNNING_FOREVER ? " as daemon" : "", process.cwd());
 logger.info("Environment: " + config.env);
