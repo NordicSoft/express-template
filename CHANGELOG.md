@@ -1,9 +1,10 @@
 # Changelog
 
-## **2.3.0** - *2020-04-09*
+## **2.3.0** - *2020-04-10*
 * authentication refactored (DRYing);
 * authenticate with Facebook;
 * proper redirection after sign in;
+* architecture diagram added;
 
 ## **2.2.0** - *2020-04-08*
 * authenticate with Google;
