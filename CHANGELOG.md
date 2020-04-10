@@ -1,8 +1,10 @@
 # Changelog
 
 ## **2.3.1** - *2020-xx-xx*
+* readme updated;
 * `Facade`:
     * js refactored (`options` dropped, `core` split into `logger`, `loader`);
+    * `Homepage` changed;
     * cleanup;
 
 ## **2.3.0** - *2020-04-10*

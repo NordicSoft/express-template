@@ -23,6 +23,10 @@
         }
     }
 
+    .architecture {
+        margin-bottom: 50px;
+    }
+
     .features {
         //text-align: center;
         
@@ -122,11 +126,11 @@
             @include features-sprite(-750px);
         }
 
-        .feature-fastify {
+        .feature-vue {
             @include features-sprite(-800px);
         }
 
-        .feature-vue {
+        .feature-vuex {
             @include features-sprite(-850px);
         }
 
@@ -156,6 +160,10 @@
 
         .feature-animate {
             @include features-sprite(-1200px);
+        }
+
+        .feature-webpack {
+            @include features-sprite(-1250px);
         }
     }
 }

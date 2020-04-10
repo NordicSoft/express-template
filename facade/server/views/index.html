@@ -29,20 +29,33 @@
         </div>
     </div>
 
+    <h2>Architecture</h2>
+    <div class="text-center architecture">
+        <img src="/img/architecture.svg" alt="Express Template Architecture" class="img-fluid" />
+    </div>
 
-    <h2>Structure</h2>
-    <ul>
-        <li>Facade Pages:
+    <h2>Pages</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Facade</h4>
             <ul>
                 <li>Homepage</li>
-                <li>Gallery</li>
+                <li>
+                    Gallery
+                    <ul>
+                        <li>Main Page</li>
+                        <li>Photo Set</li>
+                        <li>Photo</li>
+                    </ul>
+                </li>
                 <li>About</li>
                 <li>Contacts</li>
                 <li>Privacy Policies</li>
                 <li>Terms and Conditions</li>
             </ul>
-        </li>
-        <li>Dashboard Pages
+        </div>
+        <div class="col-md-6">
+            <h4>Dashboard</h4>
             <ul>
                 <li>Sign In</li>
                 <li>Register</li>
@@ -55,23 +68,15 @@
                 <li>Gallery</li>
                 <li>Files</li>
             </ul>
-        </li>
-    </ul>
+        </div>
+    </div>
 
     <div class="features">
 
-        <h2>Features</h2>
-
-        <h3>Backend</h3>
+        <h3>Facade</h3>
         <ul>
             <li>
                 <a href="https://nodejs.org" target="_blank" rel="nofollow" title="Node.js" class="feature feature-node">Node.js</a>
-            </li>
-            <li>
-                <a href="https://www.mongodb.com" target="_blank" rel="nofollow" title="MongoDB" class="feature feature-mongodb">MongoDB</a>
-            </li>
-            <li>
-                <a href="https://aws.amazon.com" target="_blank" rel="nofollow" title="AWS - Amazon Web Services" class="feature feature-aws">AWS - Amazon Web Services</a>
             </li>
             <li>
                 <a href="https://expressjs.com" target="_blank" rel="nofollow" title="Express.js 4" class="feature feature-express">Express.js 4</a>
@@ -94,11 +99,19 @@
                 <a href="https://www.npmjs.com/package/morgan" target="_blank" rel="nofollow" title="Morgan"
                     class="feature feature-morgan">Morgan</a>
             </li>
-        </ul>
-
-        <h3>Frontend</h3>
-
-        <ul>
+            <li>
+                <a href="https://gulpjs.com" target="_blank" rel="nofollow" title="Gulp" class="feature feature-gulp">Gulp</a>
+            </li>
+            <li>
+                <a href="https://babeljs.io" target="_blank" rel="nofollow" title="Babel" class="feature feature-babel">Babel</a>
+            </li>
+            <li>
+                <a href="https://rollupjs.org" target="_blank" rel="nofollow" title="Rollup" class="feature feature-rollup">Rollup</a>
+            </li>
+            <li>
+                <a href="https://html5boilerplate.com" target="_blank" rel="nofollow" title="HTML5 Boilerplate"
+                    class="feature feature-html5-boilerplate">HTML5 Boilerplate</a>
+            </li>
             <li>
                 <a href="https://sass-lang.com" target="_blank" rel="nofollow" title="SASS skeleton"
                     class="feature feature-sass-skeleton">SASS skeleton</a>
@@ -106,18 +119,6 @@
             <li>
                 <a href="https://en.wikipedia.org/wiki/JavaScript" target="_blank" rel="nofollow" title="JS skeleton"
                     class="feature feature-js-skeleton">JS skeleton</a>
-            </li>
-            <li>
-                <a href="https://developers.google.com/speed/docs/insights/MinifyResources" rel="nofollow"
-                    title="JS &amp; CSS minification" class="feature feature-js-css-minification">JS &amp; CSS minification</a>
-            </li>
-        </ul>
-
-        <h3>Facade</h3>
-        <ul>
-            <li>
-                <a href="https://html5boilerplate.com" target="_blank" rel="nofollow" title="HTML5 Boilerplate"
-                    class="feature feature-html5-boilerplate">HTML5 Boilerplate</a>
             </li>
             <li>
                 <a href="https://jquery.com" target="_blank" rel="nofollow" title="jQuery 3" class="feature feature-jquery">jQuery 3</a>
@@ -141,32 +142,60 @@
                 <a href="https://fontawesome.com" target="_blank" rel="nofollow" title="Font Awesome 5"
                     class="feature feature-font-awesome">Font Awesome 5</a>
             </li>
+            <li>
+                <a href="https://developers.google.com/speed/docs/insights/MinifyResources" rel="nofollow"
+                    title="JS &amp; CSS minification" class="feature feature-js-css-minification">JS &amp; CSS minification</a>
+            </li>
         </ul>
 
         <h3>Dashboard</h3>
         <ul>
-            {{!<li>
-                <a href="https://www.fastify.io" target="_blank" rel="nofollow" title="Fastify" class="feature feature-fastify">Fastify</a>
-            </li>}}
             <li>
                 <a href="https://vuejs.org" target="_blank" rel="nofollow" title="Vue.js" class="feature feature-vue">Vue.js</a>
             </li>
             <li>
-                <a href="https://vuetifyjs.com" target="_blank" rel="nofollow" title="Vuetify" class="feature feature-vuetify">Vuetify</a>
+                <a href="https://vuex.vuejs.org" target="_blank" rel="nofollow" title="Vuex" class="feature feature-vuex">Vuex</a>
             </li>
-        </ul>
-
-        <h3>Other Tools</h3>
-        <ul>
             <li>
-                <a href="https://gulpjs.com" target="_blank" rel="nofollow" title="Gulp" class="feature feature-gulp">Gulp</a>
+                <a href="https://vuetifyjs.com" target="_blank" rel="nofollow" title="Vuetify" class="feature feature-vuetify">Vuetify</a>
             </li>
             <li>
                 <a href="https://babeljs.io" target="_blank" rel="nofollow" title="Babel" class="feature feature-babel">Babel</a>
             </li>
             <li>
-                <a href="https://rollupjs.org" target="_blank" rel="nofollow" title="Rollup" class="feature feature-rollup">Rollup</a>
+                <a href="https://webpack.js.org" target="_blank" rel="nofollow" title="Webpack" class="feature feature-webpack">Webpack</a>
             </li>
         </ul>
+
+        <h3>API</h3>
+        <ul>
+            <li>
+                <a href="https://nodejs.org" target="_blank" rel="nofollow" title="Node.js" class="feature feature-node">Node.js</a>
+            </li>
+            <li>
+                <a href="https://expressjs.com" target="_blank" rel="nofollow" title="Express.js 4" class="feature feature-express">Express.js 4</a>
+            </li>
+            <li>
+                <a href="https://www.mongodb.com" target="_blank" rel="nofollow" title="MongoDB" class="feature feature-mongodb">MongoDB</a>
+            </li>
+            <li>
+                <a href="https://aws.amazon.com" target="_blank" rel="nofollow" title="AWS - Amazon Web Services" class="feature feature-aws">AWS - Amazon Web Services</a>
+            </li>
+            <li>
+                <a href="https://socket.io" target="_blank" rel="nofollow" title="Socket.io" class="feature feature-socketio">Socket.io</a>
+            </li>
+            <li>
+                <a href="http://www.passportjs.org" target="_blank" rel="nofollow" title="Passport" class="feature feature-passport">Passport</a>
+            </li>
+            <li>
+                <a href="https://www.npmjs.com/package/winston" target="_blank" rel="nofollow" title="Winston"
+                    class="feature feature-winston">Winston</a>
+            </li>
+            <li>
+                <a href="https://www.npmjs.com/package/morgan" target="_blank" rel="nofollow" title="Morgan"
+                    class="feature feature-morgan">Morgan</a>
+            </li>
+        </ul>
+
     </div>
 </div>
