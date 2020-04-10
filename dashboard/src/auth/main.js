@@ -22,12 +22,14 @@ Vue.axios = Vue.prototype.$http = axios.create({
 
 Vue.axios("/auth")
     .then(response => {
-        let { isAuthenticated } = response.data;
+        let { isAuthenticated, registrationEnabled } = response.data;
 
         if (isAuthenticated) {
             window.location = process.env.BASE_URL.slice(0, -1);
             return;
         }
+
+        Vue.prototype.$registrationEnabled = registrationEnabled;
 
         // register Toast plugin
         Vue.use(Toast);

@@ -25,7 +25,7 @@
             required
             class="mb-1"
         />
-        <div class="text-center">
+        <div class="text-center pb-5">
             <v-btn color="success" depressed x-large type="submit">
                 <v-icon left>
                     mdi-account-check-outline
@@ -33,7 +33,7 @@
                 Sign In
             </v-btn>
         </div>
-        <div class="text-center py-5">
+        <div class="text-center pb-5" v-if="$registrationEnabled">
             Don't have an account?
             <router-link to="/register">Register</router-link>
         </div>
@@ -75,6 +75,12 @@ export default {
             }
 
             window.location = process.env.BASE_URL.slice(0, -1);
+        }
+    },
+    mounted() {
+        let error = getQueryParam("error");
+        if (error) {
+            this.$toast.warning(error);
         }
     }
 };

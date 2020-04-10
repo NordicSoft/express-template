@@ -51,15 +51,6 @@ router.get(
     passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-// the callback after google has authenticated the user
-router.get(
-    "/google/callback",
-    passport.authenticate("google", {
-        successRedirect: config.dashboardUrl,
-        failureRedirect: config.dashboardUrl + "/auth",
-    })
-);
-
 // redirect to Facebook to authenticate
 router.get(
     "/facebook",
@@ -68,14 +59,37 @@ router.get(
     })
 );
 
-// the callback after facebook has authenticated the user
-router.get(
-    "/facebook/callback",
-    passport.authenticate("facebook", {
-        successRedirect: config.dashboardUrl,
-        failureRedirect: config.dashboardUrl + "/auth",
-    })
-);
+// the callback after google/facebook has authenticated the user
+router.get(["/google/callback", "/facebook/callback"], (req, res, next) => {
+    let provider = req.url.split("/")[1],
+        unknownError = encodeURIComponent("Unknown error");
+
+    $DEBUG$ && console.log("OAuth callback", provider, "URL:", req.url);
+
+    passport.authenticate(provider, function (err, user, info) {
+        if (err) {
+            logger.error(err);
+            return res.redirect(
+                `${config.dashboardUrl}/auth?error=${unknownError}`
+            );
+        }
+        if (!user) {
+            let errorMessage = encodeURIComponent(info.message);
+            return res.redirect(
+                `${config.dashboardUrl}/auth?error=${errorMessage}`
+            );
+        }
+        req.login(user, function (err) {
+            if (err) {
+                logger.error(err);
+                return res.redirect(
+                    `${config.dashboardUrl}/auth?error=${unknownError}`
+                );
+            }
+            return res.redirect(config.dashboardUrl);
+        });
+    })(req, res, next);
+});
 
 router.get("/signout", function (req, res) {
     req.logout();
