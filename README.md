@@ -1,8 +1,15 @@
-# Express 4 Template
+<p align="center"><img width="128" src="doc/logo.png" alt="xmp-js logo"></a></p>
 
-Basic website template (boilerplate, skeleton, starter kit) based on Express.js 4, Vue.js and Vuetify 2 with some preconfigured useful tools and libraries.
+<h1 align="center">Express Template</h1>
 
-[💣 Demo](https://nordicsoft-express-template.herokuapp.com/)
+<p align="center">Basic website template (boilerplate, skeleton, starter kit)<br/>
+based on Express.js 4, Vue.js and Vuetify 2 with some preconfigured useful tools and libraries.</p>
+
+<p align="center">💣 <a href="https://nordicsoft-express-template.herokuapp.com">Demo on Heroku</a> 💣</p>
+
+
+<h2 align="center">Architecture Overview</h2>
+<p align="center"><img src="doc/architecture.svg" alt="xmp-js logo"></a></p>
 
 ## Structure
 

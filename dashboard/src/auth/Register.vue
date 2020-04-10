@@ -65,7 +65,7 @@
             required
             class="mb-1"
         />
-        <div class="text-center">
+        <div class="text-center pb-5">
             <v-btn color="success" depressed x-large type="submit">
                 <v-icon left>
                     mdi-account-plus-outline
@@ -73,7 +73,7 @@
                 Register
             </v-btn>
         </div>
-        <div class="text-center py-5">
+        <div class="text-center pb-5">
             Already have an account?
             <router-link to="/">Sign In</router-link>
         </div>
@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import { getQueryParam } from "@/util";
+
 export default {
     data() {
         return {
@@ -124,7 +126,19 @@ export default {
                 password: this.password,
                 passwordConfirm: this.passwordConfirm
             });
+
+            let returnUrl = getQueryParam("return");
+            if (returnUrl) {
+                window.location = returnUrl;
+                return;
+            }
+
             window.location = process.env.BASE_URL.slice(0, -1);
+        }
+    },
+    beforeCreate() {
+        if (!this.$registrationEnabled) {
+            this.$router.replace("/");
         }
     }
 };

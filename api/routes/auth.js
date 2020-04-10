@@ -6,21 +6,6 @@ const express = require("express"),
     store = require("@store"),
     { xhrOnly } = require("@lib/filters");
 
-function signin(req, res) {
-    req.signin(function (err, user, info) {
-        if (user) {
-            return res.json({});
-        }
-        return res.status(400).json(info);
-    });
-}
-
-async function refreshRegistrationEnabled(app) {
-    let registrationEnabled =
-        config.registrationMode === "open" || (await store.users.count()) === 0;
-    app.set("registration-enabled", registrationEnabled);
-}
-
 router.get("/", xhrOnly, function (req, res) {
     return res.json({
         isAuthenticated: req.isAuthenticated(),
@@ -40,97 +25,74 @@ router.get("/check-username/:username", xhrOnly, async function (req, res) {
     return res.json(!user);
 });
 
-router.post("/signin", xhrOnly, signin);
-
-router.post("/register", xhrOnly, async function (req, res) {
-    if (req.isAuthenticated()) {
-        return res.status(400).json({ message: "User is authenticated" });
-    }
-
-    if (!req.app.get("registration-enabled")) {
-        return res.sendStatus(404);
-    }
-
-    let name = req.body.name,
-        email = req.body.email,
-        username = req.body.username,
-        password = req.body.password,
-        passwordConfirm = req.body.passwordConfirm;
-
-    logger.info(`Register new user ${name} (${email})`);
-
-    if (password !== passwordConfirm) {
-        return res.status(400).json({
-            message: "Password and confirm password does not match",
+router.post(["/signin", "/register"], xhrOnly, function (req, res, next) {
+    let action = req.url.slice(1);
+    passport.authenticate(action, function (err, user, info) {
+        if (err) {
+            logger.error(err);
+            return res.status(400).json({ message: "Unknown error" });
+        }
+        if (!user) {
+            return res.status(400).json(info);
+        }
+        req.login(user, function (err) {
+            if (err) {
+                logger.error(err);
+                return res.status(400).json({ message: "Unknown error" });
+            }
+            return res.end();
         });
-    }
-
-    // check username
-    if (await store.users.getByUsername(username)) {
-        return res
-            .status(400)
-            .json({ message: "This username is already taken" });
-    }
-
-    // check email
-    if (await store.users.getByEmail(email)) {
-        return res.status(400).json({ message: "This email is already taken" });
-    }
-
-    let security = require("@lib/security");
-    let user = {
-        name,
-        email,
-        username,
-    };
-
-    let usersCount = await store.users.count();
-    if (usersCount === 0) {
-        user.roles = ["owner"];
-    }
-
-    switch (config.passwordHashAlgorithm) {
-        case "md5":
-            user.password = security.md5(password);
-            await store.users.insert(user);
-            refreshRegistrationEnabled(req.app);
-            signin(req, res);
-            break;
-        case "bcrypt":
-            security.bcryptHash(password, async function (err, passwordHash) {
-                user.password = passwordHash;
-                await store.users.insert(user);
-                refreshRegistrationEnabled(req.app);
-                signin(req, res);
-            });
-            break;
-        default:
-            logger.error(
-                "Incorrect passwordHashAlgorithm specified in config.json"
-            );
-            break;
-    }
+    })(req, res, next);
 });
 
-// send to google to do the authentication
-// profile gets us their basic information including their name
-// email gets their emails
+// redirect to Google to authenticate
 router.get(
     "/google",
     passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-// the callback after google has authenticated the user
+// redirect to Facebook to authenticate
 router.get(
-    "/google/callback",
-    passport.authenticate("google", {
-        successRedirect: "/dashboard",
-        failureRedirect: "/dashboard/auth",
+    "/facebook",
+    passport.authenticate("facebook", {
+        scope: ["email"],
     })
 );
 
+// the callback after google/facebook has authenticated the user
+router.get(["/google/callback", "/facebook/callback"], (req, res, next) => {
+    let provider = req.url.split("/")[1],
+        unknownError = encodeURIComponent("Unknown error");
+
+    $DEBUG$ && console.log("OAuth callback", provider, "URL:", req.url);
+
+    passport.authenticate(provider, function (err, user, info) {
+        if (err) {
+            logger.error(err);
+            return res.redirect(
+                `${config.dashboardUrl}/auth?error=${unknownError}`
+            );
+        }
+        if (!user) {
+            let errorMessage = encodeURIComponent(info.message);
+            return res.redirect(
+                `${config.dashboardUrl}/auth?error=${errorMessage}`
+            );
+        }
+        req.login(user, function (err) {
+            if (err) {
+                logger.error(err);
+                return res.redirect(
+                    `${config.dashboardUrl}/auth?error=${unknownError}`
+                );
+            }
+            return res.redirect(config.dashboardUrl);
+        });
+    })(req, res, next);
+});
+
 router.get("/signout", function (req, res) {
-    req.signout();
+    req.logout();
     req.session.destroy();
     if (req.xhr) {
         return res.json(true);

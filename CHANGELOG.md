@@ -1,5 +1,13 @@
 # Changelog
 
+## **2.3.0** - *2020-04-10*
+* authentication refactored (DRYing);
+* authenticate with Facebook;
+* proper redirection after sign in;
+* consider `REGISTRATION_MODE` option in new auth pages;
+* handle errors when using Google and Facebook auth;
+* architecture diagram added;
+
 ## **2.2.0** - *2020-04-08*
 * authenticate with Google;
 * authentication forms appearance adjusted;

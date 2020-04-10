@@ -25,7 +25,7 @@
             required
             class="mb-1"
         />
-        <div class="text-center">
+        <div class="text-center pb-5">
             <v-btn color="success" depressed x-large type="submit">
                 <v-icon left>
                     mdi-account-check-outline
@@ -33,7 +33,7 @@
                 Sign In
             </v-btn>
         </div>
-        <div class="text-center py-5">
+        <div class="text-center pb-5" v-if="$registrationEnabled">
             Don't have an account?
             <router-link to="/register">Register</router-link>
         </div>
@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { getQueryParam } from "@/util";
+
 export default {
     data() {
         return {
@@ -65,8 +67,20 @@ export default {
                 username: this.username,
                 password: this.password
             });
-            // TODO: consider `return` query param
+
+            let returnUrl = getQueryParam("return");
+            if (returnUrl) {
+                window.location = returnUrl;
+                return;
+            }
+
             window.location = process.env.BASE_URL.slice(0, -1);
+        }
+    },
+    mounted() {
+        let error = getQueryParam("error");
+        if (error) {
+            this.$toast.warning(error);
         }
     }
 };
