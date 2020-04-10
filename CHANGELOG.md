@@ -1,5 +1,10 @@
 # Changelog
 
+## **2.3.1** - *2020-xx-xx*
+* `Facade`:
+    * js refactored (`options` dropped, `core` split into `logger`, `loader`);
+    * cleanup;
+
 ## **2.3.0** - *2020-04-10*
 * authentication refactored (DRYing);
 * authenticate with Facebook;

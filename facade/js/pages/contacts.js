@@ -1,4 +1,5 @@
-import { log, loader } from "core";
+import log from "logger";
+import loader from "loader";
 import $ from "jquery";
 
 function renderMap() {

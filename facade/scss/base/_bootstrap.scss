@@ -2,6 +2,14 @@
 /* Bootstrap Customization
 /*************************************************************/
 
+.container,
+.container-fluid {
+    @include media-breakpoint-down(sm) {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
+
 .modal-footer {
     margin-top: 0;
 }
@@ -18,40 +26,6 @@
 @media (min-width: 768px) {
     .form-group.row > .col-form-label {
         text-align: right;
-    }
-}
-
-.form-text.error {
-    margin: 0;
-    font-size: 0.8rem;
-}
-
-.card-header {
-    padding: 5px 10px;
-
-    .card-title {
-        float: left;
-        padding: 5px 0;
-        margin: 0;
-    }
-
-    .btn {
-        padding: 2px 12px;
-        margin: 0 5px;
-        border: 1px solid #ddd;
-        background: #fff;
-    }
-    
-    .btn-group {
-        margin: 0 5px;
-
-        .btn {
-            margin: 0;
-
-            &.active {
-                background: #d4d4d4;
-            }
-        }
     }
 }
 

@@ -2,7 +2,7 @@
 /* Mixins
 /*************************************************************/
 
-@function rem($pixels, $context: $mainFontSize) {
+@function rem($pixels, $context: $font-size-base) {
     @if (unitless($pixels)) {
         $pixels: $pixels * 1px;
     }
@@ -17,6 +17,11 @@
 @mixin size($width, $height: $width) {
     width: $width;
     height: $height;
+}
+
+@mixin circle($size) {
+    @include size($size, $size);
+    border-radius: $size / 2;
 }
 
 @mixin placeholder {
