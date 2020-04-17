@@ -59,7 +59,7 @@
         <v-navigation-drawer
             v-model="drawer"
             fixed
-            :clipped="$vuetify.breakpoint.lgAndUp"
+            :clipped="$vuetify.breakpoint.mdAndUp"
             app
         >
             <v-subheader class="mt-2 grey--text text--darken-1">
@@ -72,6 +72,30 @@
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title>Users</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item to="/content">
+                    <v-list-item-action>
+                        <v-icon>mdi-square-edit-outline</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Content</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item to="/gallery">
+                    <v-list-item-action>
+                        <v-icon>mdi-image-multiple</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Gallery</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item to="/files">
+                    <v-list-item-action>
+                        <v-icon>mdi-folder-multiple-outline</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Files</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -100,22 +124,6 @@
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title>Chat</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item to="/gallery">
-                    <v-list-item-action>
-                        <v-icon>mdi-image-multiple</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>Gallery</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item to="/files">
-                    <v-list-item-action>
-                        <v-icon>mdi-folder-multiple-outline</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>Files</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>

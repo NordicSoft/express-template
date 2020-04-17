@@ -37,6 +37,15 @@ router.post("/user", async function (req, res) {
     return res.sendStatus(404);
 });
 
+router.get("/content/:code", async function (req, res) { 
+    let content = await store.content.getByCode(req.params.code);
+
+    if (content) {
+        return res.json(content);
+    }
+
+    return res.sendStatus(404);
+});
 
 router.get("/gallery/photosets", async function (req, res) {
     let sortStr = req.query.sort,

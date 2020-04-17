@@ -5,10 +5,12 @@ module.exports = function (express) {
     logger.info("Init Router");
 
     express.use("/profile", xhrOnly, signinRequired, require("./routes/profile"));
+    express.use("/content", xhrOnly, signinRequired, require("./routes/content"));
     express.use("/gallery", xhrOnly, signinRequired, require("./routes/gallery"));
+    express.use("/storage", xhrOnly, signinRequired, require("./routes/storage"));
     express.use("/facade", facadeOnly, require("./routes/facade"));
     express.use("/auth", require("./routes/auth"));
-    express.use("/", signinRequired, require("./routes"));
+    express.use("/", xhrOnly, signinRequired, require("./routes"));
 
     // handle 404
     express.use(function (req, res) {

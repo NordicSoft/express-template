@@ -29,8 +29,8 @@ module.exports = {
     pages,
 
     transpileDependencies: ["vuetify"],
-    
-    lintOnSave: process.env.NODE_ENV !== 'production',
+
+    lintOnSave: process.env.NODE_ENV !== "production",
 
     devServer: {
         historyApiFallback: {

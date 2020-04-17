@@ -3,7 +3,7 @@
 ## **3.0.0** - *2020-xx-xx*
 * `Dashboard` - app toolbar made responsive;
 * readme updated;
-
+* dynamic content blocks with Quill WYSIWYG editor in `Dashboard`;
 
 ## **2.3.1** - *2020-04-10*
 * readme updated;
