@@ -53,6 +53,6 @@ Vue.axios("/auth")
         );
     })
     .catch(err => {
-        // TODO: redirect to `error` page
         console.error(err);
+        window.location = process.env.BASE_URL + "error";
     });

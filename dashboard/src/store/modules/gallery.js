@@ -191,17 +191,6 @@ const mutations = {
     reorderPhotos(state, payload) {
         let photoSet = state.photoSets.find(x => x.code === payload.photoSet);
         photoSet.photos = payload.photos;
-        /*
-        // TODO: sort within payload.photoSet
-        payload.photos.forEach((id, newIndex)=> {
-            let currentIndex = state.photos.findIndex(photo=>photo._id === id);
-            if (currentIndex === newIndex) {
-                return;
-            }
-
-            // move from currentIndex -> newIndex
-            state.photos.splice(newIndex, 0, state.photos.splice(currentIndex, 1)[0]);
-        });*/
     }
 };
 

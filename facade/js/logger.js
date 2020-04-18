@@ -2,7 +2,7 @@ function createLogger(level) {
     const logLevels = ["debug", "log", "info", "warn", "error"];
     if (logLevels.indexOf(level) >= logLevels.indexOf(process.env.LOG_LEVEL)) {
         if (process.env.NODE_ENV === "production") {
-            window.log = window.log || [];
+            window.__log = window.__log || [];
             return function () {
                 let data = [...arguments].map(x => {
                     if (typeof x === "object") {
@@ -13,7 +13,7 @@ function createLogger(level) {
                     }
                     return x;
                 });
-                window.log.unshift(`[${level.toUpperCase()}] ${data.join(" ")}`);
+                window.__log.unshift(`[${level.toUpperCase()}] ${data.join(" ")}`);
             };
         }
         return function () {
