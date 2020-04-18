@@ -5,7 +5,7 @@
             color="primary"
             dense
             fixed
-            :clipped-left="$vuetify.breakpoint.lgAndUp"
+            :clipped-left="$vuetify.breakpoint.mdAndUp"
             app
             class="elevation-2"
         >

@@ -5,6 +5,7 @@
 * `Dashboard`:
     * app toolbar made responsive;
     * redirect to `error` page when initial auth request failed;
+* `Facade` - SCSS themes support initialized;
 * readme updated;
 
 ## **2.3.1** - *2020-04-10*

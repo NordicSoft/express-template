@@ -1,0 +1,16 @@
+$primary-color: #ECEFF1;
+$primary-bg-color: #222;
+
+$themes: map-merge($themes, (
+    dark: (
+        font-size: 16px,
+        bg: $primary-bg-color,
+        color: $primary-color,
+        link: (
+            color: #ccc,
+            hover-color: #fafafa,
+        ),
+        footer: (
+        )
+    )
+));
