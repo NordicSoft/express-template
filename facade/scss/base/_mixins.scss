@@ -60,3 +60,36 @@
     @include background-2x("/img/features", $y: $y);
 }
 
+@function map-deep-get($map, $keys...) {
+    @each $key in $keys {
+        $map: map-get($map, $key);
+    }
+    @return $map;
+}
+
+// inspired by https://medium.com/@dmitriy.borodiy/easy-color-theming-with-scss-bc38fd5734d1
+// with some improvements
+
+@mixin the($themes: $themes) {
+    @each $theme, $map in $themes {
+        .theme-#{$theme} & {
+            $theme-map: () !global;
+            @each $key, $submap in $map {
+                $value: map-get(map-get($themes, $theme), "#{$key}");
+                $theme-map: map-merge(
+                    $theme-map,
+                    (
+                        $key: $value
+                    )
+                ) !global;
+            }
+
+            @content;
+            $theme-map: null !global;
+        }
+    }
+}
+
+@function the($keys...) {
+    @return map-deep-get($theme-map, $keys...);
+}

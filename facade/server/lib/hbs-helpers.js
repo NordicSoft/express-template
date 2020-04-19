@@ -1,3 +1,5 @@
+const logger = require("@logger");
+
 module.exports = function (hbs) {
     // https://stackoverflow.com/a/12397602/2550004
     hbs.registerHelper("breaklines", function(text) {
@@ -32,5 +34,20 @@ module.exports = function (hbs) {
         or: function () {
             return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
         }
+    });
+
+    hbs.registerAsyncHelper("content", function(code, cb) {
+        const api = require("@api");
+        api.content.get(code)
+            .then(content => {
+                if (content) {
+                    return cb(new hbs.SafeString(content.text));
+                }
+                cb(new hbs.SafeString(""));
+            })
+            .catch(err => {
+                logger.error(err);
+                cb(new hbs.SafeString("ERROR"));
+            });
     });
 };

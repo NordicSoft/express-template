@@ -1,5 +1,13 @@
 # Changelog
 
+## **3.0.0** - *2020-xx-xx*
+* dynamic content blocks with Quill WYSIWYG editor in `Dashboard`;
+* `Dashboard`:
+    * app toolbar made responsive;
+    * redirect to `error` page when initial auth request failed;
+* `Facade` - SCSS themes support initialized;
+* readme updated;
+
 ## **2.3.1** - *2020-04-10*
 * readme updated;
 * `Facade`:

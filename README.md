@@ -13,6 +13,8 @@ based on Express.js 4, Vue.js and Vuetify 2 with some preconfigured useful tools
 
 ## Structure
 
+### Pages
+
 * Facade Pages:
     * Homepage
     * Gallery
@@ -64,7 +66,7 @@ based on Express.js 4, Vue.js and Vuetify 2 with some preconfigured useful tools
 * [Vuetify](https://vuetifyjs.com/)
 * [Webpack](https://webpack.js.org)
 
-## API
+### API
 
 * [Node.js](https://nodejs.org/)
 * [Express.js 4](https://expressjs.com/)

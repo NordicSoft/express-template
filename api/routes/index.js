@@ -1,7 +1,5 @@
 const express = require("express"),
-    router = express.Router(),
-    config = require("@config"),
-    vuetifyFileBrowserSDK = require("vuetify-file-browser-server/sdk");
+    router = express.Router();
 
 router.post("/send-email", async (req, res) => {
     let subject = req.body.subject,
@@ -11,16 +9,5 @@ router.post("/send-email", async (req, res) => {
     await mailer.send(req.user.email, subject, message);
     return res.sendStatus(200);
 });
-
-// get AWS configuration from process.env
-const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_S3_BUCKET } = process.env;
- 
-// setup routes
-router.use("/storage", vuetifyFileBrowserSDK.Router([
-    new vuetifyFileBrowserSDK.LocalStorage(config.fileBrowser.rootPath),
-    new vuetifyFileBrowserSDK.S3Storage(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_S3_BUCKET)
-], {
-    uploadPath: config.fileBrowser.uploadPath
-}));
 
 module.exports = router;

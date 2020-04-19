@@ -5,7 +5,7 @@
             color="primary"
             dense
             fixed
-            :clipped-left="$vuetify.breakpoint.lgAndUp"
+            :clipped-left="$vuetify.breakpoint.mdAndUp"
             app
             class="elevation-2"
         >
@@ -13,30 +13,53 @@
                 @click.stop="drawer = !drawer"
                 class="mr-0"
             ></v-app-bar-nav-icon>
-            <v-toolbar-title class="mr-5 ml-0">
-                <v-btn text to="/">
+            <v-toolbar-title class="ml-0 pl-2">
+                <v-btn text to="/" class="px-3">
                     <v-icon class="mr-2">mdi-view-dashboard</v-icon>
                     <span class="title">Dashboard</span>
                 </v-btn>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn text :href="facadeUrl" target="_blank">
+            <v-btn
+                icon
+                :href="facadeUrl"
+                target="_blank"
+                v-if="$vuetify.breakpoint.xsOnly"
+            >
+                <v-icon>mdi-feature-search-outline</v-icon>
+            </v-btn>
+            <v-btn text :href="facadeUrl" target="_blank" v-else>
                 <v-icon class="mr-2">mdi-feature-search-outline</v-icon>
                 Facade
             </v-btn>
-            <v-btn text to="/profile">
-                <v-icon class="mr-2">mdi-account-box-outline</v-icon>
-                Profile
-            </v-btn>
-            <v-btn text @click="signOut">
-                <v-icon class="mr-2">mdi-exit-to-app</v-icon>
-                Sign Out
-            </v-btn>
+            <v-menu offset-y left>
+                <template v-slot:activator="{ on }">
+                    <v-btn color="primary" dark v-on="on" icon>
+                        <v-avatar color="teal lighten-5" size="36">
+                            <v-icon dark>mdi-account-circle</v-icon>
+                        </v-avatar>
+                    </v-btn>
+                </template>
+                <v-list>
+                    <v-list-item to="/profile" class="pr-10">
+                        <v-list-item-icon>
+                            <v-icon>mdi-account-box-outline</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Profile</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item @click="signOut" class="pr-10">
+                        <v-list-item-icon>
+                            <v-icon>mdi-exit-to-app</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Sign Out</v-list-item-title>
+                    </v-list-item>
+                </v-list>
+            </v-menu>
         </v-app-bar>
         <v-navigation-drawer
             v-model="drawer"
             fixed
-            :clipped="$vuetify.breakpoint.lgAndUp"
+            :clipped="$vuetify.breakpoint.mdAndUp"
             app
         >
             <v-subheader class="mt-2 grey--text text--darken-1">
@@ -49,6 +72,30 @@
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title>Users</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item to="/content">
+                    <v-list-item-action>
+                        <v-icon>mdi-square-edit-outline</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Content</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item to="/gallery">
+                    <v-list-item-action>
+                        <v-icon>mdi-image-multiple</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Gallery</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item to="/files">
+                    <v-list-item-action>
+                        <v-icon>mdi-folder-multiple-outline</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Files</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -79,22 +126,6 @@
                         <v-list-item-title>Chat</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item to="/gallery">
-                    <v-list-item-action>
-                        <v-icon>mdi-image-multiple</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>Gallery</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item to="/files">
-                    <v-list-item-action>
-                        <v-icon>mdi-folder-multiple-outline</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>Files</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
             </v-list>
         </v-navigation-drawer>
     </div>
@@ -115,4 +146,8 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.v-toolbar__title {
+    font-size: 1.1rem !important;
+}
+</style>

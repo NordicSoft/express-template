@@ -75,10 +75,14 @@ hr {
 }
 
 a {
-    color: #3333aa;
+    @include the {
+        color: the(link, color);
+    }
 
     &:hover {
-        color: #0000cc;
+        @include the {
+            color: the(link, hover-color);
+        }
         text-decoration: none;
     }
 }
