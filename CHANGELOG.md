@@ -3,6 +3,7 @@
 ## **3.0.1** - *2020-xx-xx*
 * example deploy shell scripts added;
 * example [pm2](https://www.npmjs.com/package/pm2) configs added;
+* `Facade/Gallery` - go to prev/next photo with swipe;
 
 ## **3.0.0** - *2020-04-19*
 * dynamic content blocks with Quill WYSIWYG editor in `Dashboard`;

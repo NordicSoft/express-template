@@ -1,9 +1,24 @@
 import log from "logger";
+import loader from "loader";
 import $ from "jquery";
 import justifiedGallery from "justifiedGallery";
+import "jquery-touchswipe";
 
 // register justifiedGallery as jQuery plugin
 justifiedGallery();
+
+function getGalleryRowHeight() {
+    let galleryWidth = $(window).width();
+
+    if (galleryWidth <= 414) {
+        return 96;
+    } else if (galleryWidth <= 768) {
+        return 128;
+    } else if (galleryWidth <= 1024) {
+        return 192;
+    }
+    return 300;
+}
 
 function parseImageSizes(value) {
     return value.split(",").reduce((acc, x) => { 
@@ -25,7 +40,7 @@ export function gallery() {
     });
     
     $(".photos").justifiedGallery({
-        rowHeight : 250,
+        rowHeight : Math.max(getGalleryRowHeight() * 0.5, 96),
         lastRow : "center",
         margins : 3,
         sizeRangeSuffixes: parseImageSizes(process.env.GALLERY_IMAGE_SIZES),
@@ -35,12 +50,16 @@ export function gallery() {
             nonVisibleOpacity: 0.0
         }
     });
+
+    $(window).resize(() => {
+        $(".photos").justifiedGallery({ rowHeight : getGalleryRowHeight() });
+    });
 }
 
 export function photoSet() {
     log("Gallery PhotoSet");
     $(".photos").justifiedGallery({
-        rowHeight : 250,
+        rowHeight : getGalleryRowHeight(),
         lastRow : "center",
         margins : 3,
         sizeRangeSuffixes: parseImageSizes(process.env.GALLERY_IMAGE_SIZES),
@@ -49,6 +68,10 @@ export function photoSet() {
             visibleOpacity: 1.0,
             nonVisibleOpacity: 0.0
         }
+    });
+
+    $(window).resize(() => {
+        $(".photos").justifiedGallery({ rowHeight : getGalleryRowHeight() });
     });
 }
 
@@ -93,6 +116,28 @@ export function photo() {
 
     window.onresize = fitHeight;
     fitHeight();
+
+    
+    function prevPhoto() {
+        loader.show();
+        $(".photo-nav .prev")[0].click();
+    }
+
+    function nextPhoto() {
+        loader.show();
+        $(".photo-nav .next")[0].click();
+    }
+
+    // setup touch events
+    // http://labs.rampinteractive.co.uk/touchSwipe/docs/$.fn.swipe.html#event:swipe
+    $(".photo-wrapper").swipe({
+        swipeLeft: nextPhoto,
+        swipeRight: prevPhoto,
+        threshold: 50,
+    });
+
+    $(".photo-nav a").click(() => { loader.show(); });
+
 }
 
 export default {
