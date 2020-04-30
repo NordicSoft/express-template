@@ -1,6 +1,6 @@
 {
   "name": "express-template-facade",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Website template (skeleton) based on Express.js 4, Vue.js and Vuetify 2",
   "author": "NordicSoft",
   "license": "MIT",
@@ -84,6 +84,7 @@
     "gulp-touch-fd": "^2.0.0",
     "gulp-uglify-es": "^2.0.0",
     "jquery": "~3.4.1",
+    "jquery-touchswipe": "^1.6.19",
     "justifiedGallery": "^3.7.0",
     "minimist": "^1.2.0",
     "popper.js": "^1.16.1",
