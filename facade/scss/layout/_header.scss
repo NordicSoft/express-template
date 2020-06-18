@@ -18,7 +18,7 @@ header {
 
     nav {
         box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
-        background: linear-gradient(to bottom, rgba(50, 81, 153, 0.95), rgba(75, 107, 183, 0.95));
+        background: #283952;
         padding: 0;
 
         // to make it on top of absolute-positioned .slideshow on small devices
@@ -118,9 +118,14 @@ header {
     .navbar-brand {
         color: $gray-200;
         padding-left: 3.3rem;
-        font-size: 1.5rem;
+        //    
         margin-left: 15px;
-
+        font-family: 'Rubik', sans-serif;
+        text-transform: uppercase;
+font-style: normal;
+font-weight: bold;
+font-size: 24px;
+line-height: 28px;
         img {
             position: absolute;
             top: 5px;
@@ -216,7 +221,7 @@ header {
         }
 
         .slide-1 {
-            background-image: url(/img/header.jpg);
+            background-image: url(/img/header.png);
             display: block;
         }
 

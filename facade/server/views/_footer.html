@@ -1,5 +1,7 @@
 <footer>
-    <div class="container logo">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap"
+    rel="stylesheet">
+    <!-- <div class="container logo">
         <a class="fade-in" href="/">
             <picture>
                 <source srcset="/img/logo-2x.png"
@@ -8,10 +10,10 @@
                 <img src="/img/logo.png" alt="Express.js Template" title="Home" />
             </picture>
         </a>
-    </div>
+    </div> -->
 
     <div class="container menu">
-        <hr>
+        <p class="nordictext">nordicsoft</p>
         <nav class="navbar navbar-expand navbar-light" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
@@ -28,12 +30,12 @@
                 </li>
             </ul>
         </nav>
-        <hr>
+        <div class="container">
+            {{> _social-links}}
+        </div>     
     </div>
 
-    <div class="container">
-        {{> _social-links}}
-    </div>
+
 
     <div class="container copyright">
         <div>
