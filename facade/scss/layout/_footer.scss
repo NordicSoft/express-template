@@ -14,11 +14,13 @@ footer {
         position: absolute;
         font-family: Rubik;
         font-style: normal;
-        font-weight: normal;
+        font-weight: bold;
         font-size: 24px;
         line-height: 28px;
         text-transform: uppercase;
         color: #244258;
+        margin-top: 33px;
+        margin-left: 20px;
     }
     .logo {
         padding: 1rem 0;
@@ -69,8 +71,8 @@ footer {
         padding: 0.3rem 0;
 
         a {
-            font-size: 1.5rem;
-            color: $white;
+            font-size: 3.0rem;
+            color: #244258;
             margin: 0 0.3rem;
 
             i {
@@ -84,7 +86,8 @@ footer {
     }
 
     .copyright {
-        padding-bottom: 0.5rem;
+        padding-bottom: 1.5rem;
+        padding-top: 1.0rem;
         color: $gray-600;
 
         a {

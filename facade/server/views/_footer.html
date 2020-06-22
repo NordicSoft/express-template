@@ -1,6 +1,6 @@
 <footer>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap"
-    rel="stylesheet">
+        rel="stylesheet">
     <!-- <div class="container logo">
         <a class="fade-in" href="/">
             <picture>
@@ -13,36 +13,43 @@
     </div> -->
 
     <div class="container menu">
-        <p class="nordictext">nordicsoft</p>
-        <nav class="navbar navbar-expand navbar-light" itemscope="" itemtype="http://schema.org/SiteNavigationElement">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <a href="/about" class="nav-link" itemprop="url"><span itemprop="name">About</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/contacts" class="nav-link" itemprop="url"><span itemprop="name">Contacts</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/privacy" class="nav-link" itemprop="url"><span itemprop="name">Privacy</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/terms" class="nav-link" itemprop="url"><span itemprop="name">Terms</span> </a>
-                </li>
-            </ul>
-        </nav>
-        <div class="container">
-            {{> _social-links}}
-        </div>     
-    </div>
-
-
-
-    <div class="container copyright">
-        <div>
-            <i class="far fa-heart" aria-hidden="true"></i>
-            Created with love by
-            <a href="http://ysemeniuk.com" target="_blank">Yurii Semeniuk</a> in
-            <a href="https://nordicsoft.net" target="_blank">NordicSoft</a>
+        <div class="row">
+            <div class="benefit col-md-4">
+                <p class="nordictext">nordicsoft</p>
+            </div>
+            <div class="benefit col-md-4">
+                <nav class="navbar navbar-expand navbar-light" itemscope=""
+                    itemtype="http://schema.org/SiteNavigationElement">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a href="/about" class="nav-link" itemprop="url"><span itemprop="name">About</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/contacts" class="nav-link" itemprop="url"><span itemprop="name">Contacts</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/privacy" class="nav-link" itemprop="url"><span itemprop="name">Privacy</span> </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/terms" class="nav-link" itemprop="url"><span itemprop="name">Terms</span> </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="benefit col-md-4">
+                <div class="container">
+                    {{> _social-links}}
+                </div>
+            </div>
         </div>
-    </div>
+
+
+        <div class="container copyright">
+            <div>
+                2020, Created with love by
+                <a href="http://ysemeniuk.com" target="_blank">Yurii Semeniuk</a> in
+                <a href="https://nordicsoft.net" target="_blank">NordicSoft</a>
+            </div>
+        </div>
 </footer>

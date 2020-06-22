@@ -3,7 +3,6 @@
 /*************************************************************/
 
 header {
-
     .homepage & {
         min-height: 601px;
         position: relative;
@@ -35,13 +34,17 @@ header {
                 color: $white;
             }
         }
+        li {
+            display: flex;
+            align-items: center;
+        }
     }
 
     .container {
         padding-left: 0;
         padding-right: 15px;
         position: relative;
-        
+
         @include media-breakpoint-down(sm) {
             max-width: 100%;
         }
@@ -57,7 +60,6 @@ header {
                 padding: 1rem 2rem;
             }
         }
-
         .dropdown-menu {
             background: rgba(75, 107, 183, 0.95);
             border: none;
@@ -73,7 +75,7 @@ header {
             }
 
             .dropdown-divider {
-                border-top-color: rgba(255,255,255,0.2);
+                border-top-color: rgba(255, 255, 255, 0.2);
                 margin: 0;
                 @include media-breakpoint-down(sm) {
                     display: none;
@@ -92,7 +94,10 @@ header {
                 }
             }
         }
-
+        .nav-item > .btn {
+            margin-left: 4rem;
+            line-height: 1.25;
+        }
         .nav-item.dropdown {
             position: relative;
             left: -3px;
@@ -106,7 +111,7 @@ header {
                     transition: ease 100ms transform;
                 }
             }
-            
+
             &.show .nav-link {
                 .fa-chevron-down {
                     transform: rotate(180deg);
@@ -118,14 +123,14 @@ header {
     .navbar-brand {
         color: $gray-200;
         padding-left: 3.3rem;
-        //    
+        //
         margin-left: 15px;
-        font-family: 'Rubik', sans-serif;
+        font-family: "Rubik", sans-serif;
         text-transform: uppercase;
-font-style: normal;
-font-weight: bold;
-font-size: 24px;
-line-height: 28px;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 28px;
         img {
             position: absolute;
             top: 5px;
@@ -162,28 +167,32 @@ line-height: 28px;
         right: 0;
         text-align: center;
 
-        .h1, .h2 {
+        .h1,
+        .h2 {
             font-weight: bold;
             text-align: center;
-            color: rgba(255, 255, 255, 0.9);
-            background: rgba(0, 0, 0, 0.3);
+            color: #ffffff;
+            // background: rgba(0, 0, 0, 0.3);
             display: inline-block;
             width: auto;
             padding: 0 1rem;
         }
 
         .h1 {
-            font-size: 8rem;
-            line-height: 10rem;
+            font-family: Rubik;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 72px;
+            line-height: 85px;
 
             @include media-breakpoint-down(sm) {
-                font-size: 5rem;
-                line-height: 7rem;
+                font-size: 42px;
+                line-height: 35px;
             }
 
             @media (max-width: 449px) {
-                font-size: 3.3rem;
-                line-height: 5rem;
+                font-size: 42px;
+                line-height: 35px;
             }
         }
 
@@ -207,7 +216,7 @@ line-height: 28px;
             background-position: center center;
             background-size: cover;
             height: 600px;
-            padding-top: 120px;
+            padding-top: 253px;
             display: none;
 
             @include media-breakpoint-down(sm) {
@@ -226,7 +235,7 @@ line-height: 28px;
         }
 
         .slide-2 {
-            background-image: url(/img/header-2.jpg);
+            background-image: url(/img/header-2.png);
 
             @media (max-width: 449px) {
                 padding-top: 100px;
@@ -234,7 +243,7 @@ line-height: 28px;
         }
 
         .slide-3 {
-            background-image: url(/img/header-3.jpg);
+            background-image: url(/img/header-3.png);
         }
     }
 
@@ -250,12 +259,12 @@ line-height: 28px;
         }
 
         a {
-            font-size: 1.5rem;
+            font-size: 3rem;
             margin: 0.7rem;
             color: $white;
             opacity: 0.75;
             transition: opacity 250ms;
-
+            color: #244258;
             i {
                 transition: transform 250ms;
             }

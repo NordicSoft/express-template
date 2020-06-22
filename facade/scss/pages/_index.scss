@@ -29,14 +29,31 @@
         color: #1e3648;
         padding-bottom: 60px;
     }
+    ul{
+        list-style-type:none;
+        padding-left: 0px;
+        ul{
+            padding-left: 20px;
+        }
+    }
     li {
         font-family: Rubik;
         font-style: normal;
         font-weight: normal;
         font-size: 36px;
         line-height: 43px;
-
+        padding-bottom: 26px;
         color: #244258;
+        ul{
+            padding-top: 26px;
+        }
+        ul li{
+            font-size: 30px;
+            line-height: 36px;
+        }
+        ul li:last-child{
+            padding-bottom: 0px;
+        }
     }
     h2{
         padding-bottom: 60px;
