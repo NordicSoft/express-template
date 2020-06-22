@@ -24,6 +24,7 @@ header {
         position: relative;
         z-index: 1000;
 
+
         .nav-link {
             padding: 1.1rem 1.2rem;
             font-size: 1.1rem;
@@ -54,7 +55,8 @@ header {
         padding-top: 0;
         padding-bottom: 0;
         padding: 0;
-
+        position: fixed;
+        width: 100%;
         .nav-link {
             @include media-breakpoint-down(md) {
                 padding: 1rem 2rem;
@@ -160,8 +162,8 @@ header {
     }
 
     .slideshow {
-        position: absolute;
-        top: 0;
+        // position: absolute;
+        top: 60px;
         bottom: 1px;
         left: 0;
         right: 0;
@@ -251,7 +253,7 @@ header {
         position: absolute;
         left: 0;
         right: 0;
-        bottom: 22px;
+        bottom: -50px;
         text-align: center;
 
         @include media-breakpoint-down(sm) {
@@ -264,7 +266,7 @@ header {
             color: $white;
             opacity: 0.75;
             transition: opacity 250ms;
-            color: #244258;
+            color: #ffffff;
             i {
                 transition: transform 250ms;
             }
