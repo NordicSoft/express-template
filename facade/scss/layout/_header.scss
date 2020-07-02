@@ -99,6 +99,14 @@ header {
         .nav-item > .btn {
             margin-left: 4rem;
             line-height: 1.25;
+            @include media-breakpoint-down(sm) {
+                margin-left: 1.5rem;
+                margin-bottom: 2rem;
+            }
+            @include media-breakpoint-down(md) {
+                margin-left: 1.5rem;
+                
+            }
         }
         .nav-item.dropdown {
             position: relative;

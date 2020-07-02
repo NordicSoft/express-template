@@ -4,7 +4,7 @@
 #pages {
     background-color: #e9f2ff;
     padding-top: 70px;
-    .container{
+    .container {
         padding-bottom: 40px;
     }
     h4 {
@@ -20,6 +20,14 @@
     .flex {
         display: flex;
         justify-content: center;
+        .row {
+            justify-content: center;
+            @include media-breakpoint-down(lg) {
+                .pages-col {
+                    max-width: 250px;
+                }
+            }
+        }
     }
     h4 {
         font-family: Rubik;
@@ -32,11 +40,11 @@
         color: #1e3648;
         padding-bottom: 60px;
     }
-    ul{
-        list-style-type:none;
+    ul {
+        list-style-type: none;
         padding-left: 0px;
-        ul{
-            li{
+        ul {
+            li {
                 padding-bottom: 35px;
             }
             padding-left: 20px;
@@ -50,26 +58,26 @@
         line-height: 43px;
         padding-bottom: 26px;
         color: #244258;
-        ul{
+        ul {
             padding-top: 26px;
         }
-        ul li{
+        ul li {
             font-size: 30px;
             line-height: 36px;
         }
-        ul li:last-child{
+        ul li:last-child {
             padding-bottom: 0px;
         }
     }
-    h2{
+    h2 {
         padding-bottom: 60px;
     }
-    .col-md-6{
-position: unset;
-width: unset;
-flex: unset;
-max-width: unset;
-padding: 0px 35px;
+    .col-md-6 {
+        position: unset;
+        width: 260px;
+        flex: unset;
+        max-width: unset;
+        padding: 0px 35px;
     }
 }
 #dashboard {
@@ -159,6 +167,10 @@ padding: 0px 35px;
 
         .pad {
             padding-bottom: 55px;
+            @include media-breakpoint-down(sm) {
+                display: flex;
+                justify-content: center;
+            }
         }
         .feature {
             display: block;

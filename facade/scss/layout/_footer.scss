@@ -10,6 +10,11 @@ footer {
     width: 100%;
     flex-shrink: 0;
     text-align: center;
+    .benefit{
+        display: flex;
+        justify-content: center;
+        height: 60px;
+    }
     .nordictext {
         position: absolute;
         font-family: Rubik;
