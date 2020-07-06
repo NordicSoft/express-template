@@ -1,6 +1,7 @@
 /*
 /* Home page
 /*************************************************************/
+
 #pages {
     background-color: #e9f2ff;
     padding-top: 70px;
@@ -21,10 +22,21 @@
         display: flex;
         justify-content: center;
         .row {
-            justify-content: center;
-            @include media-breakpoint-down(lg) {
-                .pages-col {
-                    max-width: 250px;
+            justify-content: left;
+            // @include media-breakpoint-down(lg) {
+            //     .pages-col {
+            //         max-width: 250px;
+            //     }
+            // }
+            @include media-breakpoint-up(md) {
+                .col-md-6:last-child {
+                    padding-left: 160px;
+                }
+            }
+            @include media-breakpoint-up(md) {
+                .col-md-6:first-child {
+                    padding-right: 160px;
+                    max-width: 50%;
                 }
             }
         }
@@ -74,9 +86,8 @@
     }
     .col-md-6 {
         position: unset;
-        width: 260px;
+        max-width: 260px;
         flex: unset;
-        max-width: unset;
         padding: 0px 35px;
     }
 }

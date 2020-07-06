@@ -171,7 +171,7 @@ header {
 
     .slideshow {
         // position: absolute;
-        top: 60px;
+        top: 58px;
         bottom: 1px;
         left: 0;
         right: 0;
@@ -265,7 +265,7 @@ header {
         text-align: center;
 
         @include media-breakpoint-down(sm) {
-            bottom: 10px;
+            bottom: -50px;
         }
 
         a {
