@@ -2,22 +2,123 @@
 /* Home page
 /*************************************************************/
 
+#pages {
+    background-color: #e9f2ff;
+    padding-top: 70px;
+    .container {
+        padding-bottom: 40px;
+    }
+    h4 {
+        text-align: center;
+    }
+    .ul-center {
+        display: flex;
+        justify-content: left;
+    }
+    .row {
+        max-width: 748px;
+    }
+    .flex {
+        display: flex;
+        justify-content: center;
+        .row {
+            justify-content: left;
+            // @include media-breakpoint-down(lg) {
+            //     .pages-col {
+            //         max-width: 250px;
+            //     }
+            // }
+            @include media-breakpoint-up(md) {
+                .col-md-6:last-child {
+                    padding-left: 160px;
+                }
+            }
+            @include media-breakpoint-up(md) {
+                .col-md-6:first-child {
+                    padding-right: 160px;
+                    max-width: 50%;
+                }
+            }
+        }
+    }
+    h4 {
+        font-family: Rubik;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 44px;
+        line-height: 52px;
+
+        text-align: left;
+        color: #1e3648;
+        padding-bottom: 60px;
+    }
+    ul {
+        list-style-type: none;
+        padding-left: 0px;
+        ul {
+            li {
+                padding-bottom: 35px;
+            }
+            padding-left: 20px;
+        }
+    }
+    li {
+        font-family: Rubik;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 36px;
+        line-height: 43px;
+        padding-bottom: 26px;
+        color: #244258;
+        ul {
+            padding-top: 26px;
+        }
+        ul li {
+            font-size: 30px;
+            line-height: 36px;
+        }
+        ul li:last-child {
+            padding-bottom: 0px;
+        }
+    }
+    h2 {
+        padding-bottom: 60px;
+    }
+    .col-md-6 {
+        position: unset;
+        max-width: 260px;
+        flex: unset;
+        padding: 0px 35px;
+    }
+}
+#dashboard {
+    background-color: #e9f2ff;
+}
 .homepage {
     .benefits {
         margin: 1rem 0;
-
+        padding: 125px 0;
         .benefit-icon {
             i {
                 font-size: 4rem;
                 color: $gray-600;
             }
         }
-
-        .benefit-title {
-            font-size: 1.2rem;
-            padding-top: 1rem;
+        .benefit-icon {
+            display: flex;
+            justify-content: center;
         }
-
+        .benefit-title {
+            font-family: Rubik;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 30px;
+            line-height: 36px;
+            opacity: 0.8;
+            color: #244258;
+            text-align: center;
+            margin-top: 23px;
+        }
         .benefit-details {
             color: $gray-600;
         }
@@ -26,17 +127,37 @@
     .architecture {
         margin-bottom: 50px;
     }
+    h2 {
+        font-family: Rubik;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 60px;
+        line-height: 71px;
+
+        color: #1e3648;
+    }
+    .text-center {
+        .text-wrapper {
+            font-family: Rubik;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 30px;
+            line-height: 140%;
+            padding: 66px 0px 43px 0px;
+            color: #1e3648;
+        }
+    }
 
     .features {
-        //text-align: center;
-        
         h3 {
-            font-size: 1.5rem;
-            margin: 1.5rem 0 1rem;
-            padding: 0.7rem 2rem;
-            background: rgba(30, 160, 240, 0.2);
-            color: $gray-800;
-            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+            font-family: Rubik;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 60px;
+            line-height: 71px;
+            text-align: center;
+            color: #1e3648;
+            padding: 75px;
         }
 
         ul {
@@ -55,6 +176,13 @@
             }
         }
 
+        .pad {
+            padding-bottom: 55px;
+            @include media-breakpoint-down(sm) {
+                display: flex;
+                justify-content: center;
+            }
+        }
         .feature {
             display: block;
             height: 50px;

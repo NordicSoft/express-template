@@ -3,14 +3,30 @@
 /*************************************************************/
 
 footer {
-    background: linear-gradient(to bottom, #cce7f7, #a2ddf8);
+    background: #e9f2ff;
 
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
     border-top: 1px solid $white;
     width: 100%;
     flex-shrink: 0;
     text-align: center;
-
+    .benefit{
+        display: flex;
+        justify-content: center;
+        height: 60px;
+    }
+    .nordictext {
+        position: absolute;
+        font-family: Rubik;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 28px;
+        text-transform: uppercase;
+        color: #244258;
+        margin-top: 33px;
+        margin-left: 20px;
+    }
     .logo {
         padding: 1rem 0;
 
@@ -35,11 +51,19 @@ footer {
 
         .navbar {
             padding: 0;
+            padding-top: 20px;
 
             .nav-link {
-                font-size: 1rem;
-                padding: 0.5rem 1rem;
+                // font-size: 1rem;
+                // padding: 0.5rem 1rem;
 
+                font-family: Rubik;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 24px;
+                line-height: 28px;
+                
+                color: #244258;
                 &:hover {
                     background: rgba(255, 255, 255, 0.3);
                     border-radius: 5px;
@@ -52,8 +76,8 @@ footer {
         padding: 0.3rem 0;
 
         a {
-            font-size: 1.5rem;
-            color: $white;
+            font-size: 3.0rem;
+            color: #6a6d94;
             margin: 0 0.3rem;
 
             i {
@@ -67,7 +91,8 @@ footer {
     }
 
     .copyright {
-        padding-bottom: 0.5rem;
+        padding-bottom: 1.5rem;
+        padding-top: 1.0rem;
         color: $gray-600;
 
         a {

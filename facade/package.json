@@ -14,7 +14,7 @@
     "forever-stop": "npx forever stop express-template-facade",
     "build": "npx gulp build",
     "deploy": "npx gulp deploy",
-    "dev": "npx concurrently npm:lint \"npx nodemon\" gulp --raw --kill-others-on-fail",
+    "dev": "npx concurrently npm:lint \"nodemon\" gulp --raw --kill-others-on-fail",
     "start": "node server/index.js"
   },
   "_moduleAliases": {
